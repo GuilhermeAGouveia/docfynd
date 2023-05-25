@@ -1,13 +1,16 @@
 import ToogleTheme from '@/components/ToogleTheme';
 import TopBar from '@/components/TopBar';
 import { useTheme } from '@/context/Theme';
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 export default function SearchPage() {
     const {theme} = useTheme();
 
   return (
-    <SearchPageRoot bg={theme?.colors.bg}>
+    <SearchPageRoot animate={{
+        backgroundColor: theme?.colors.bg
+    }}>
       <TopBar/> 
       <SearchInput placeholder="Search for a movie, tv show, person..." />
     </SearchPageRoot>
@@ -15,19 +18,20 @@ export default function SearchPage() {
     )
 }
 
-const SearchPageRoot = styled.div<
-    { bg: string }>`
+const SearchPageRoot = styled(motion.div)<
+    { bg?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   padding: 50px;
-  background-color: ${({ bg }) => bg}};
+
   min-height: 100vh;
 `;
 
 const SearchInput = styled.input`
-  width: 500px;
+  max-width: 500px;
+  width: 80%;
   height: 50px;
   border-radius: 25px;
   border: none;
