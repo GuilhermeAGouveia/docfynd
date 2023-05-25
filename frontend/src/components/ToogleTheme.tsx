@@ -7,24 +7,7 @@ import cloud1SVG from "../assets/svg/cloud1.svg";
 import cloud2SVG from "../assets/svg/cloud2.svg"; //src/assets/svg/cloud2.svg
 import starSVG from "../assets/svg/star.svg";
 import Image from "next/image";
-const themes = {
-  light: {
-    colors: {
-      bg: "#fff",
-    },
-  },
-  dark: {
-    colors: {
-      bg: "#292929",
-    },
-  },
-};
 
-const spring = {
-  type: "spring",
-  stiffness: 700,
-  damping: 30,
-};
 
 export default function ToogleTheme() {
   const { theme, toogleTheme } = useTheme();
