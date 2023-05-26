@@ -16,14 +16,15 @@ const Dictaphone = ({setTranscript}: DictaphoneProps) => {
     browserSupportsSpeechRecognition
   } = useSpeechRecognition();
 
-  if (!browserSupportsSpeechRecognition) {
-    return null;
-  }
-
   useEffect(() => {
     setTranscript(transcript);
     console.log(transcript)
   }, [transcript]);
+
+
+  if (!browserSupportsSpeechRecognition) {
+    return null;
+  }
 
   return (
     <motion.div onClick={() => !listening ? SpeechRecognition.startListening({ language: "pt-BR" }) : SpeechRecognition.stopListening()} style={{
