@@ -35,7 +35,7 @@ export default function SearchBar() {
           style={{ width: "100%", height: "100%" }}
           x="0"
           y="0"
-          rx="25"
+          rx="20"
           stroke="#CF39E8"
           fill="transparent"
           strokeWidth={2}
@@ -64,12 +64,12 @@ export default function SearchBar() {
 
 const SearchInputBox = styled.div`
   position: relative;
-  max-width: 500px;
+  max-width: 400px;
   width: 80%;
-  height: 50px;
+  height: 40px;
   border-radius: 25px;
   border: none;
-  font-size: 20px;
+  font-size: 18px;
   outline: none;
   margin-bottom: 50px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);

@@ -52,7 +52,7 @@ export default function ToogleTheme() {
         }}
       >
         <ThemeCircle
-          style={{ position: "absolute", width: "30px", height: "30px" }}
+          style={{ position: "absolute", width: "20px", height: "20px" }}
           animate={{
             backgroundColor: active ? "transparent" : "#292929",
             left: active ? "-40px" : "0%",
@@ -93,7 +93,7 @@ export default function ToogleTheme() {
           </CloudBackground>
         ) : (
           <SkyBackground>
-            {getRandomStars(25  , 80, 50).map((star, index) => (
+            {getRandomStars(25 , 60, 40).map((star, index) => (
               <StarImage
                 
                 src={starSVG}
@@ -140,8 +140,8 @@ const ThemeContainer = styled.div<{ islight: boolean }>`
   display: flex;
 
   align-items: center;
-  width: 110px;
-  height: 50px;
+  width: 90px;
+  height: 40px;
   border-radius: 25px;
   background-color: transparent;
   overflow: hidden;
@@ -153,8 +153,8 @@ const ThemeContainer = styled.div<{ islight: boolean }>`
 
 const ThemeCircle = styled(motion.div)`
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   z-index: 1;
   overflow: hidden;
