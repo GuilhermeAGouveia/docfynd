@@ -2,8 +2,8 @@ import { useTheme } from "@/context/Theme";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import styled from "styled-components";
-import SearchIcon from '@mui/icons-material/Search';
-import MicIcon from '@mui/icons-material/Mic';
+import SearchIcon from "@mui/icons-material/Search";
+import MicIcon from "@mui/icons-material/Mic";
 import Dictaphone from "./Mic";
 
 export default function SearchBar() {
@@ -45,7 +45,9 @@ export default function SearchBar() {
           custom={0}
         />
       </motion.svg>
-      <SearchIcon  style={{ position: "relative", left: "10px", color: "#CF39E8" }} />
+      <SearchIcon
+        style={{ position: "relative", left: "10px", color: "#CF39E8" }}
+      />
       <SearchInput
         value={search}
         onChange={(e) => setSearch(e.target.value)}
@@ -56,8 +58,9 @@ export default function SearchBar() {
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
       />
-      <Dictaphone setTranscript={(transcript: string) => setSearch(transcript)}/>
-
+      <Dictaphone
+        setTranscript={(transcript: string) => setSearch(transcript)}
+      />
     </SearchInputBox>
   );
 }
@@ -65,21 +68,22 @@ export default function SearchBar() {
 const SearchInputBox = styled.div`
   position: relative;
   max-width: 400px;
-  width: 80%;
+  min-width: 320px;
+  width: 100%;
   height: 40px;
   border-radius: 25px;
   border: none;
   margin-bottom: 50px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   display: flex;
-    align-items: center;   
-    justify-content: center;
+  align-items: center;
+  justify-content: center;
 `;
 
 const SearchInput = styled.input`
   position: relative;
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 
   padding: 0px 20px;
   border: none;
