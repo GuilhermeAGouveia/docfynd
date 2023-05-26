@@ -69,8 +69,6 @@ const SearchInputBox = styled.div`
   height: 40px;
   border-radius: 25px;
   border: none;
-  font-size: 18px;
-  outline: none;
   margin-bottom: 50px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   display: flex;
@@ -85,7 +83,8 @@ const SearchInput = styled.input`
 
   padding: 0px 20px;
   border: none;
-  font-size: 20px;
+  font-size: 18px;
+  font-family: "Poppins", sans-serif;
   outline: none;
   background-color: transparent;
 `;
