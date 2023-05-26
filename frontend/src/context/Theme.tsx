@@ -9,7 +9,7 @@ import {
 interface ThemeMain {
   colors: {
     bg: string;
-    fg: string;
+    text: string;
   };
   theme_name: string;
 }
@@ -18,14 +18,14 @@ const themes = {
   light: {
     colors: {
       bg: "#fff",
-      fg: "#000",
+      text: "#000",
     },
     theme_name: "light",
   },
   dark: {
     colors: {
       bg: "#292929",
-      fg: "#fff",
+      text: "#fff",
     },
     theme_name: "dark",
   },
