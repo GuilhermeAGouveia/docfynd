@@ -5,10 +5,10 @@ import { motion } from 'framer-motion';
 
 interface DictaphoneProps {
     setTranscript: (transcript: string) => void;
-    listening?: boolean;
+    setListening: (listening: boolean) => void;
 }
 
-const Dictaphone = ({setTranscript}: DictaphoneProps) => {
+const Dictaphone = ({setTranscript, setListening}: DictaphoneProps) => {
   const {
     transcript,
     listening,
@@ -18,13 +18,11 @@ const Dictaphone = ({setTranscript}: DictaphoneProps) => {
 
   useEffect(() => {
     setTranscript(transcript);
-    console.log(transcript)
   }, [transcript]);
 
-
-  if (!browserSupportsSpeechRecognition) {
-    return null;
-  }
+  useEffect(() => {
+    setListening(listening);
+  }, [listening]);
 
   return (
     <motion.div onClick={() => !listening ? SpeechRecognition.startListening({ language: "pt-BR" }) : SpeechRecognition.stopListening()} style={{
@@ -37,7 +35,7 @@ const Dictaphone = ({setTranscript}: DictaphoneProps) => {
         cursor: "pointer",
 
     }}>
-       <MicIcon  style={{ position: "relative", right: "10px", color: "#CF39E8" }} />
+       <MicIcon  style={{ position: "relative", right: "10px", color: !browserSupportsSpeechRecognition ? "red" : "#CF39E8" }} />
     </motion.div>
   );
 };

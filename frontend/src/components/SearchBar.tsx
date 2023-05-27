@@ -1,6 +1,6 @@
 import { useTheme } from "@/context/Theme";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import MicIcon from "@mui/icons-material/Mic";
@@ -9,6 +9,9 @@ import Dictaphone from "./Mic";
 export default function SearchBar() {
   const { theme } = useTheme();
   const [focus, setFocus] = useState(false);
+  const [mic, setMic] = useState(false);
+
+  useEffect(() => { mic ? setSearch("Ouvindo...") : setSearch("")}, [mic]);
   const [search, setSearch] = useState("");
   const draw = {
     hidden: { pathLength: 0, opacity: 0 },
@@ -25,7 +28,25 @@ export default function SearchBar() {
     },
   };
   return (
-    <SearchInputBox>
+    <SearchInputBox
+      initial={{
+        boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
+      }}
+      animate={
+        mic
+          ? {
+              boxShadow: ["0 0 60px 0 #DA3D3D", "0 0 70px 0px #CF39E8"],
+              transition: {
+                duration: .5,
+                repeat: Infinity,
+                repeatType: "reverse",
+              },
+            }
+          : {
+              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
+            }
+      }
+    >
       <motion.svg
         style={{ position: "absolute", width: "100%", height: "100%" }}
         initial="hidden"
@@ -60,12 +81,13 @@ export default function SearchBar() {
       />
       <Dictaphone
         setTranscript={(transcript: string) => setSearch(transcript)}
+        setListening={(listening: boolean) => setMic(listening)}
       />
     </SearchInputBox>
   );
 }
 
-const SearchInputBox = styled.div`
+const SearchInputBox = styled(motion.div)`
   position: relative;
   max-width: 400px;
   min-width: 320px;
@@ -74,10 +96,10 @@ const SearchInputBox = styled.div`
   border-radius: 25px;
   border: none;
   margin-bottom: 50px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 `;
 
 const SearchInput = styled.input`
