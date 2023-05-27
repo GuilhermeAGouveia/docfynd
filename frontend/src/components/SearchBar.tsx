@@ -2,18 +2,23 @@ import { useTheme } from "@/context/Theme";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import SearchIcon from "@mui/icons-material/Search";
-import MicIcon from "@mui/icons-material/Mic";
 import Dictaphone from "./Mic";
+import SearchIcon from "@mui/icons-material/Search";
 
-export default function SearchBar() {
+interface SearchBarProps {
+  searchState: [string, (search: string) => void];
+}
+
+export default function SearchBar({ searchState }: SearchBarProps) {
   const { theme } = useTheme();
   const [focus, setFocus] = useState(false);
   const [mic, setMic] = useState(false);
+  const [search, setSearch] = searchState;
 
-  useEffect(() => { mic ? setSearch("Ouvindo...") : ("Ouvindo..." === search && setSearch(""))}, [mic]);
-  
-  const [search, setSearch] = useState("");
+  useEffect(() => {
+    mic ? setSearch("Ouvindo...") : "Ouvindo..." === search && setSearch("");
+  }, [mic]);
+
   const draw = {
     hidden: { pathLength: 0, opacity: 0 },
     visible: (i: number) => {
@@ -28,17 +33,15 @@ export default function SearchBar() {
       };
     },
   };
+
   return (
-    <SearchInputBox
-      initial={{
-        boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
-      }}
+    <SearchInputBar
       animate={
         mic
           ? {
               boxShadow: ["0 0 60px 0 #DA3D3D", "0 0 70px 0px #CF39E8"],
               transition: {
-                duration: .5,
+                duration: 0.5,
                 repeat: Infinity,
                 repeatType: "reverse",
               },
@@ -84,13 +87,13 @@ export default function SearchBar() {
         setTranscript={(transcript: string) => setSearch(transcript)}
         setListening={(listening: boolean) => setMic(listening)}
       />
-    </SearchInputBox>
+    </SearchInputBar>
   );
 }
 
-const SearchInputBox = styled(motion.div)`
+const SearchInputBar = styled(motion.div)`
   position: relative;
-  max-width: 400px;
+  max-width: 500px;
   min-width: 320px;
   width: 100%;
   height: 40px;
@@ -107,10 +110,9 @@ const SearchInput = styled.input`
   position: relative;
   width: 100%;
   height: 100%;
-
   padding: 0px 20px;
   border: none;
-  font-size: 18px;
+  font-size: 16px;
   font-family: "Poppins", sans-serif;
   outline: none;
   background-color: transparent;

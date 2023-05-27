@@ -1,15 +1,18 @@
-import 'regenerator-runtime/runtime';
+import "regenerator-runtime/runtime";
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "../context/Theme";
 import GlobalStyle from "../styles/Global";
+import { SearchProvider } from "@/context/Search";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <GlobalStyle />
-      <ThemeProvider>
+      <SearchProvider>
+        <ThemeProvider>
           <Component {...pageProps} />
-      </ThemeProvider>
+        </ThemeProvider>
+      </SearchProvider>
     </>
   );
 }

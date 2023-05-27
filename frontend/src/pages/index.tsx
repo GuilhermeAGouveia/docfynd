@@ -1,4 +1,4 @@
-import SearchBar from '@/components/SearchBar';
+import SearchBox from '@/components/SearchBox';
 import ToogleTheme from '@/components/ToogleTheme';
 import TopBar from '@/components/TopBar';
 import { useTheme } from '@/context/Theme';
@@ -13,7 +13,7 @@ export default function SearchPage() {
         backgroundColor: theme?.colors.bg
     }}>
       <TopBar/> 
-      <SearchBar/>
+      <SearchBox/>
     </SearchPageRoot>
 
     )
