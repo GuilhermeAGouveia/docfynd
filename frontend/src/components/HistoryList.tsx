@@ -25,7 +25,7 @@ export default function HistoryList() {
   return (
     <List sx={{ position: "relative" ,width: "100", bgcolor: theme.colors.bg, color: theme.colors.text, margin: 0 }}>
       {history.map((history_item) => (
-        <ListItem>
+        <ListItem key={history_item.query + history_item.searched_at.toDateString()}>
           <ListItemAvatar>
             <Avatar>
               <HistoryIcon />
