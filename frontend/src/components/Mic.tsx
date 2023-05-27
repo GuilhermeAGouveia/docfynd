@@ -35,7 +35,7 @@ const Dictaphone = ({setTranscript, setListening}: DictaphoneProps) => {
         cursor: "pointer",
 
     }}>
-       <MicIcon  style={{ position: "relative", right: "10px", color: !browserSupportsSpeechRecognition ? "red" : "#CF39E8" }} />
+       <MicIcon  style={{ position: "relative", right: "10px", color: "#CF39E8" }} />
     </motion.div>
   );
 };

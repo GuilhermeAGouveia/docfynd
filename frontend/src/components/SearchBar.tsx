@@ -11,7 +11,8 @@ export default function SearchBar() {
   const [focus, setFocus] = useState(false);
   const [mic, setMic] = useState(false);
 
-  useEffect(() => { mic ? setSearch("Ouvindo...") : setSearch("")}, [mic]);
+  useEffect(() => { mic ? setSearch("Ouvindo...") : ("Ouvindo..." === search && setSearch(""))}, [mic]);
+  
   const [search, setSearch] = useState("");
   const draw = {
     hidden: { pathLength: 0, opacity: 0 },
