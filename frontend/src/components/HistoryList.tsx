@@ -36,7 +36,7 @@ export default function HistoryList() {
         boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.2)"
       }}
     >
-      {history.map((history_item) => (
+      {history.reverse().map((history_item) => (
         <ListItem
           key={history_item.query + history_item.searched_at}
         >

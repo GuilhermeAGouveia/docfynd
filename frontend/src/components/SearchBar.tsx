@@ -93,7 +93,7 @@ export default function SearchBar({ searchState }: SearchBarProps) {
 
 const SearchInputBar = styled(motion.div)`
   position: relative;
-  max-width: 500px;
+  max-width: 600px;
   min-width: 320px;
   width: 100%;
   height: 40px;
