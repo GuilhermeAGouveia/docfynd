@@ -1,9 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface Search {
   query: string;
@@ -23,24 +18,27 @@ export function SearchProvider({ children }: any) {
   const [history, setHistory] = useState<Search[]>([]);
 
   const addSearch = (search: string) => {
-    setHistory((old) => [...old, {
+    const newHistory = [
+      ...history,
+      {
         query: search,
-        searched_at: new Date()
-    }]);
-
-    localStorage.setItem("history_search", JSON.stringify(history))
+        searched_at: new Date(),
+      },
+    ];
+    localStorage.setItem("history_search", JSON.stringify(newHistory));
+    setHistory(newHistory);
   };
 
   useEffect(() => {
-    let history_save = localStorage.getItem("history_search")
-    if (history_save) setHistory(JSON.parse(history_save))
-  }, [])
+    let history_save = localStorage.getItem("history_search");
+    if (history_save) setHistory(JSON.parse(history_save));
+  }, []);
 
   return (
     <SearchContext.Provider
       value={{
         history,
-        addSearch
+        addSearch,
       }}
     >
       {children}

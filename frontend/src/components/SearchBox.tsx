@@ -24,11 +24,11 @@ export default function SearchBox() {
 
   return (
     <SearchInputBox onSubmit={onSubmit} animate={{
-      border: focus ? "1px solid rgba(0, 0, 0, 0.5)" : "1px solid rgba(0, 0, 0, 0)",
-      boxShadow: focus ? "0px 0px 10px 0px rgba(0, 0, 0, 0.2)" : "0px 0px 10px 0px rgba(0, 0, 0, 0)",
+      border: focus && history.length ? "1px solid rgba(0, 0, 0, 0.5)" : "1px solid rgba(0, 0, 0, 0)",
+      boxShadow: focus && history.length ? "0px 0px 10px 0px rgba(0, 0, 0, 0.2)" : "0px 0px 10px 0px rgba(0, 0, 0, 0)",
     }}>
       <SearchBar searchState={[search, setSearch]} onFocusInputText={() => setFocus(true)} onBlurInputText={() => setFocus(false)}/>
-      <HistoryList show={focus}/>
+      <HistoryList show={focus} filter={search}/>
     </SearchInputBox>
   );
 }
@@ -36,6 +36,7 @@ export default function SearchBox() {
 const SearchInputBox = styled(motion.form)`
   position: relative;
   width: auto;
+  height: auto;
   padding: 30px;
   border-radius: 5px;
 `;

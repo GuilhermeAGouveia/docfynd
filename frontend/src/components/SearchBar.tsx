@@ -101,7 +101,6 @@ const SearchInputBar = styled(motion.div)`
   height: 40px;
   border-radius: 25px;
   border: none;
-  margin-bottom: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
