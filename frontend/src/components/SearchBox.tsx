@@ -4,11 +4,10 @@ import styled from "styled-components";
 import { useSearch } from "@/context/Search";
 import SearchBar from "./SearchBar";
 import HistoryList from "./HistoryList";
+import { motion } from "framer-motion";
 
 export default function SearchBox() {
-  const { theme } = useTheme();
   const [focus, setFocus] = useState(false);
-  const [mic, setMic] = useState(false);
 
   const { history, addSearch } = useSearch();
 
@@ -24,15 +23,20 @@ export default function SearchBox() {
   };
 
   return (
-    <SearchInputBox onSubmit={onSubmit}>
-      <SearchBar searchState={[search, setSearch]}/>
-      <HistoryList/>
+    <SearchInputBox onSubmit={onSubmit} animate={{
+      border: focus ? "1px solid rgba(0, 0, 0, 0.5)" : "1px solid rgba(0, 0, 0, 0)",
+      boxShadow: focus ? "0px 0px 10px 0px rgba(0, 0, 0, 0.2)" : "0px 0px 10px 0px rgba(0, 0, 0, 0)",
+    }}>
+      <SearchBar searchState={[search, setSearch]} onFocusInputText={() => setFocus(true)} onBlurInputText={() => setFocus(false)}/>
+      <HistoryList show={focus}/>
     </SearchInputBox>
   );
 }
 
-const SearchInputBox = styled("form")`
+const SearchInputBox = styled(motion.form)`
   position: relative;
   width: auto;
+  padding: 30px;
+  border-radius: 5px;
 `;
 

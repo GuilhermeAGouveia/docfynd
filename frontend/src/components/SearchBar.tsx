@@ -7,9 +7,11 @@ import SearchIcon from "@mui/icons-material/Search";
 
 interface SearchBarProps {
   searchState: [string, (search: string) => void];
+  onFocusInputText: () => void;
+  onBlurInputText: () => void;
 }
 
-export default function SearchBar({ searchState }: SearchBarProps) {
+export default function SearchBar({ searchState, onFocusInputText, onBlurInputText }: SearchBarProps) {
   const { theme } = useTheme();
   const [focus, setFocus] = useState(false);
   const [mic, setMic] = useState(false);
@@ -39,16 +41,16 @@ export default function SearchBar({ searchState }: SearchBarProps) {
       animate={
         mic
           ? {
-              boxShadow: ["0 0 60px 0 #DA3D3D", "0 0 70px 0px #CF39E8"],
-              transition: {
-                duration: 0.5,
-                repeat: Infinity,
-                repeatType: "reverse",
-              },
-            }
+            boxShadow: ["0 0 60px 0 #DA3D3D", "0 0 70px 0px #CF39E8"],
+            transition: {
+              duration: 0.5,
+              repeat: Infinity,
+              repeatType: "reverse",
+            },
+          }
           : {
-              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
-            }
+            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
+          }
       }
     >
       <motion.svg
@@ -80,8 +82,8 @@ export default function SearchBar({ searchState }: SearchBarProps) {
         style={{
           color: theme?.colors.text,
         }}
-        onFocus={() => setFocus(true)}
-        onBlur={() => setFocus(false)}
+        onFocus={() => { setFocus(true); onFocusInputText() }}
+        onBlur={() => { setFocus(false); onBlurInputText() }}
       />
       <Dictaphone
         setTranscript={(transcript: string) => setSearch(transcript)}

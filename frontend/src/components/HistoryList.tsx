@@ -10,8 +10,13 @@ import HistoryIcon from "@mui/icons-material/History";
 import styled from "styled-components";
 import { Search } from "@mui/icons-material";
 import { useTheme } from "@/context/Theme";
+import { AnimatePresence, motion } from "framer-motion";
 
-export default function HistoryList() {
+interface HistoryProps {
+  show: boolean;
+}
+
+export default function HistoryList({ show }: HistoryProps) {
   const { history } = useSearch();
 
   const { theme } = useTheme();
@@ -22,37 +27,58 @@ export default function HistoryList() {
     day: "numeric",
   });
 
+
   return (
-    <List
-      sx={{
-        position: "relative",
-        width: "100",
-        bgcolor: theme.colors.bg,
-        color: theme.colors.text,
-        margin: 0,
-        maxHeight: "200px",
-        overflow: "hidden",
-        border: "solid 1px rgba(0, 0, 0, 0.2)",
-        boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.2)"
+    <AnimatePresence>
+      {show && <HistoryListBox initial={{
+        height: "0px",
       }}
-    >
-      {history.reverse().map((history_item) => (
-        <ListItem
-          key={history_item.query + history_item.searched_at}
+
+        animate={{
+          height: "auto"
+        }}
+
+        exit={{
+          height: "0px"
+        }}
+      >
+        <List
+          sx={{
+            position: "relative",
+            width: "100",
+            bgcolor: theme.colors.bg,
+            color: theme.colors.text,
+            marginTop: "-20px",
+            overflow: "hidden",
+          }}
         >
-          <ListItemAvatar>
-            <Avatar sx={{background: "transparent"}}>
-              <HistoryIcon sx={{
-                color: "#CF39E8"
-              }}/>
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary={history_item.query}
-            secondary={formatter.format(new Date(history_item.searched_at))}
-          />
-        </ListItem>
-      ))}
-    </List>
+          {history.reverse().slice(0, 5).map((history_item) => (
+            <ListItem
+              onClick={() => {}}
+              key={history_item.query + history_item.searched_at}
+            >
+              <ListItemAvatar>
+                <Avatar sx={{ background: "transparent" }}>
+                  <HistoryIcon sx={{
+                    color: "#CF39E8",
+                    width: 20
+                  }} />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={history_item.query}
+                
+              />
+            </ListItem>
+          ))}
+        </List>
+      </HistoryListBox>}
+    </AnimatePresence>
   );
 }
+
+
+const HistoryListBox = styled(motion.div)`
+  position: relative;
+  overflow: hidden;
+`
