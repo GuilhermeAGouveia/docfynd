@@ -12,6 +12,48 @@
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <elasticsearch-rest-client>8.8.0</elasticsearch-rest-client>
+        <elasticsearch-java>8.8.0</elasticsearch-java>
+        <jackson-databind>2.15.1</jackson-databind>
+        <sslcontext-kickstart>7.4.11</sslcontext-kickstart>
+        <slf4j-simple>2.0.5</slf4j-simple>
+
     </properties>
+
+    <dependencies>
+        <!-- Elasticsearch -->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-client</artifactId>
+            <version>${elasticsearch-rest-client}</version>
+        </dependency>
+        <dependency>
+            <groupId>co.elastic.clients</groupId>
+            <artifactId>elasticsearch-java</artifactId>
+            <version>${elasticsearch-java}</version>
+        </dependency>
+
+        <!-- SSL -->
+        <dependency>
+            <groupId>io.github.hakky54</groupId>
+            <artifactId>sslcontext-kickstart</artifactId>
+            <version>${sslcontext-kickstart}</version>
+        </dependency>
+
+        <!-- Elasticsearch Response -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind}</version>
+        </dependency>
+
+        <!-- Logs -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j-simple}</version>
+        </dependency>
+    </dependencies>
+
 
 </project>
