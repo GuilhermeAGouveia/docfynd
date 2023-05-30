@@ -1,0 +1,53 @@
+openapi: '3.0.0'
+info:
+  version: '1.0.0'
+  title: 'Sample API'
+  description: Initial example to submit Elasticsearch queries
+
+paths:
+  /search:
+    get:
+      summary: 'Submits a query to Elasticsearch'
+      operationId: search
+      tags:
+        - search
+      parameters:
+        - name: query
+          in: query
+          description: Query to be submitted
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Result'
+        500:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Result:
+      type: object
+      properties:
+        title:
+          type: string
+        url:
+          type: string
+        abs:
+          type: string
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          description: A human readable error message
+          type: string

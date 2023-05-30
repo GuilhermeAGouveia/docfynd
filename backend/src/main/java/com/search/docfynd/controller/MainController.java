@@ -1,4 +1,4 @@
-package com.search.docfynd.rest;
+package com.search.docfynd.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -11,6 +11,6 @@ public class MainController {
     @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public String getHelloWord() {
-        return "Hello";
+        return "Hello Word";
     }
 }
