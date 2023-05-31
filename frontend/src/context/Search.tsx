@@ -18,6 +18,7 @@ export function SearchProvider({ children }: any) {
   const [history, setHistory] = useState<Search[]>([]);
 
   const addSearch = (search: string) => {
+    if (history.some((item) => item.query === search)) return;
     const newHistory = [
       ...history,
       {
