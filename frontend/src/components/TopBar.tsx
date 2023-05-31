@@ -24,7 +24,7 @@ export default function TopBar() {
 const TopBarRoot = styled.div<{
   bg: string;
 }>`
-  position: absolute;
+  position: relative;
   top: 0px;
   display: flex;
   justify-content: space-between;

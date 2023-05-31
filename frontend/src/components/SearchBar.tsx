@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Dictaphone from "./Mic";
 import SearchIcon from "@mui/icons-material/Search";
 
+
 interface SearchBarProps {
   searchState: [string, (search: string) => void];
   onFocusInputText: () => void;
@@ -95,9 +96,7 @@ export default function SearchBar({ searchState, onFocusInputText, onBlurInputTe
 
 const SearchInputBar = styled(motion.div)`
   position: relative;
-  max-width: 600px;
-  min-width: 320px;
-  width: 100%;
+  width: 500px;
   height: 40px;
   border-radius: 25px;
   border: none;
@@ -105,6 +104,10 @@ const SearchInputBar = styled(motion.div)`
   align-items: center;
   justify-content: center;
   z-index: 1;
+
+  @media (max-width: 600px) {
+    width: 300px;
+  }
 `;
 
 const SearchInput = styled.input`
