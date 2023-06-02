@@ -41,7 +41,7 @@ export default function LuckyBox({ show, desactive }: LuckyProps) {
             bounce: 0.5,
             stiffness: 100,
           },
-          opacity: { delay: 1 + i * 0.2, duration: 0.01 },
+          opacity: { delay: i * 0.2, duration: 0.01 },
         },
       };
     },
