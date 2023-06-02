@@ -14,6 +14,7 @@ import { useTheme } from "@/context/Theme";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { on } from "events";
+import { isNullOrUndefined } from "util";
 
 interface HistoryProps {
   show: boolean;
@@ -65,7 +66,7 @@ export default function HistoryList({ show, filter }: HistoryProps) {
                 <ListItem
 
                   secondaryAction={
-                    index === mouseOverItem && (
+                    (index + 1) === mouseOverItem && (
                       <OpenInNewIcon
                         sx={{
                           color: "#CF39E8",
@@ -76,7 +77,7 @@ export default function HistoryList({ show, filter }: HistoryProps) {
                   }
                   onClick={() => onSearch(history_item.query)}
                   key={history_item.query + history_item.searched_at}
-                  onMouseOver={() => setMouseOverItem(index)} // [1
+                  onMouseOver={() => setMouseOverItem(index + 1)} // [1
                   onMouseLeave={() => setMouseOverItem(null)} // [1
                   sx={{
                     height: "45px",
