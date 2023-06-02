@@ -29,13 +29,13 @@ export default function LuckyBox({ show, desactive }: LuckyProps) {
       },
     }),
     visible: (i: number) => {
-      const delay = i;
+
       return {
         x: 0,
         opacity: 1,
         transition: {
           x: {
-            delay: 1 + i * 0.2,
+            delay: i * 0.2,
             type: "spring",
             duration: 0.3,
             bounce: 0.5,

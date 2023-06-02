@@ -43,7 +43,7 @@ export function SearchProvider({ children }: any) {
 
   const onSearch = (searchWord?: Search) => {
     if (!searchWord?.query && !search.query) {
-      setSearch({query: "Escreva ou diga algo, imbecil!"});
+      setSearch({query: "Escreve, imbecil!"});
       return;
     }
     if (!searchWord) searchWord = search;
