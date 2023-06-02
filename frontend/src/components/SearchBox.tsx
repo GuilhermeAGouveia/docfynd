@@ -7,7 +7,12 @@ import HistoryList from "./HistoryList";
 import { motion } from "framer-motion";
 import { Router, useRouter } from "next/router";
 
-export default function SearchBox() {
+interface SearchBoxProps {
+  searched?: string;
+  isResultPage?: boolean;
+}
+
+export default function SearchBox({ searched, isResultPage }: SearchBoxProps) {
   const [focus, setFocus] = useState(false);
 
   const {
@@ -15,6 +20,12 @@ export default function SearchBox() {
     onSearch,
     searchState: [search, setSearch],
   } = useSearch();
+
+  useEffect(() => {
+    if (searched) {
+      setSearch(searched);
+    }
+  }, [searched]);
 
   return (
     <SearchInputBox
@@ -35,6 +46,7 @@ export default function SearchBox() {
       }}
     >
       <SearchBar
+        isResultPage={!!isResultPage}
         onFocusInputText={() => setFocus(true)}
         onBlurInputText={() => setFocus(false)}
       />

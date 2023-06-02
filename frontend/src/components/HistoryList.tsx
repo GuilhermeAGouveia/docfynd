@@ -13,6 +13,7 @@ import { Search } from "@mui/icons-material";
 import { useTheme } from "@/context/Theme";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import { on } from "events";
 
 interface HistoryProps {
   show: boolean;
@@ -20,7 +21,7 @@ interface HistoryProps {
 }
 
 export default function HistoryList({ show, filter }: HistoryProps) {
-  const { history } = useSearch();
+  const { history, onSearch } = useSearch();
   let historyNotRerender = history;
   const [mouseOverItem, setMouseOverItem] = useState<number | null>(null); // [1
   const { theme } = useTheme();
@@ -33,7 +34,7 @@ export default function HistoryList({ show, filter }: HistoryProps) {
 
   return (
     <AnimatePresence>
-      {show && (
+      {(show || mouseOverItem) && (
         <HistoryListBox
           initial={{
             height: "0px",
@@ -62,6 +63,7 @@ export default function HistoryList({ show, filter }: HistoryProps) {
               .reverse()
               .map((history_item, index) => (
                 <ListItem
+
                   secondaryAction={
                     index === mouseOverItem && (
                       <OpenInNewIcon
@@ -72,7 +74,7 @@ export default function HistoryList({ show, filter }: HistoryProps) {
                       />
                     )
                   }
-                  onClick={() => {}}
+                  onClick={() => onSearch(history_item.query)}
                   key={history_item.query + history_item.searched_at}
                   onMouseOver={() => setMouseOverItem(index)} // [1
                   onMouseLeave={() => setMouseOverItem(null)} // [1

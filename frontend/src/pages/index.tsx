@@ -8,7 +8,7 @@ import { useTheme } from "@/context/Theme";
 import { Button } from "@mui/material";
 import { motion } from "framer-motion";
 import router from "next/router";
-import { FormEvent, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import styled from "styled-components";
 
 export default function SearchPage() {
@@ -27,7 +27,6 @@ export default function SearchPage() {
       }}
     >
       <TopBar />
-
       <SearchBody>
         <LuckyBox show={showLucky} desactive={() => setShowLucky(0)} />
         <SearchBox />

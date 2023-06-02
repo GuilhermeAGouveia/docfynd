@@ -6,6 +6,7 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import CloseIcon from "@mui/icons-material/Close";
 import { useTheme } from "@/context/Theme";
 import { useSearch } from "@/context/Search";
+import { useMemo } from "react";
 
 interface LuckyProps {
   show: number;
@@ -31,58 +32,62 @@ export default function LuckyBox({ show, desactive }: LuckyProps) {
             stiffness: 100,
           },
           opacity: { delay: 1 + i * 0.2, duration: 0.01 },
-          
         },
       };
     },
   };
-  return (
-    <AnimatePresence>
-      {show && (
-        <LuckyBoxRoot>
-          {!!desactive && (
-            <IconButton onClick={desactive}>
-              <CloseIcon sx={{
-                color: theme.colors.text,
-              }}/>
-            </IconButton>
-          )}
-          <ListAnimated
-            sx={{
-              padding: "10px",
-            }}
-          >
-            {randomWords({ wordsPerString: 2, min: 2, max: 4 })
-              .concat(randomWords({ min: 5, max: 7 }))
-              .sort(() => Math.random() - 0.5)
-              .map((word, index) => (
-                <ListItemAnimated
-                  key={word + index}
+  return useMemo(
+    () => (
+      <AnimatePresence>
+        {show && (
+          <LuckyBoxRoot>
+            {!!desactive && (
+              <IconButton onClick={desactive}>
+                <CloseIcon
                   sx={{
-                    backgroundColor: "#CF39E8",
-                    color: "#fff",
-                    borderRadius: "3px",
-                    marginBottom: "5px",
-                    width: "fit-content",
+                    color: "#CF39E8",
                   }}
-                  custom={index}
-                  variants={draw}
-                  initial="hidden"
-                  animate="visible"
-                  exit={"hidden"}
-                  secondaryAction={
-                    <IconButton onClick={() => onSearch(word)}>
-                      <OpenInNewIcon />
-                    </IconButton>
-                  }
-                >
-                  <ListItemText primary={word} sx={{ marginRight: "10px" }} />
-                </ListItemAnimated>
-              ))}
-          </ListAnimated>
-        </LuckyBoxRoot>
-      )}
-    </AnimatePresence>
+                />
+              </IconButton>
+            )}
+            <ListAnimated
+              sx={{
+                padding: "10px",
+              }}
+            >
+              {randomWords({ wordsPerString: 2, min: 2, max: 4 })
+                .concat(randomWords({ min: 5, max: 7 }))
+                .sort(() => Math.random() - 0.5)
+                .map((word, index) => (
+                  <ListItemAnimated
+                    key={word + index}
+                    sx={{
+                      backgroundColor: "#CF39E8",
+                      color: "#fff",
+                      borderRadius: "3px",
+                      marginBottom: "5px",
+                      width: "fit-content",
+                    }}
+                    custom={index}
+                    variants={draw}
+                    initial="hidden"
+                    animate="visible"
+                    exit={"hidden"}
+                    secondaryAction={
+                      <IconButton onClick={() => onSearch(word)}>
+                        <OpenInNewIcon />
+                      </IconButton>
+                    }
+                  >
+                    <ListItemText primary={word} sx={{ marginRight: "10px" }} />
+                  </ListItemAnimated>
+                ))}
+            </ListAnimated>
+          </LuckyBoxRoot>
+        )}
+      </AnimatePresence>
+    ),
+    [show]
   );
 }
 

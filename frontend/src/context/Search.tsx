@@ -1,5 +1,11 @@
 import router from "next/router";
-import { FormEvent, createContext, useContext, useEffect, useState } from "react";
+import {
+  FormEvent,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface Search {
   query: string;
@@ -33,15 +39,18 @@ export function SearchProvider({ children }: any) {
   };
 
   const onSearch = (searchWord?: string) => {
+    if (!searchWord && !search) {
+      setSearch("Escreva ou diga algo, imbecil!");
+      return;
+    }
     if (!searchWord) searchWord = search;
     addSearch(searchWord);
     console.log(searchWord);
     router.push({
       pathname: "/results",
       query: { search: searchWord },
-    })
+    });
   };
-
 
   useEffect(() => {
     let history_save = localStorage.getItem("history_search");

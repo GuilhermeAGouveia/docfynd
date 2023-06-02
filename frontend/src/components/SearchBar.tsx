@@ -6,17 +6,21 @@ import Dictaphone from "./Mic";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSearch } from "@/context/Search";
 
-
 interface SearchBarProps {
   onFocusInputText: () => void;
   onBlurInputText: () => void;
+  isResultPage: boolean;
 }
 
-export default function SearchBar({ onFocusInputText, onBlurInputText }: SearchBarProps) {
+export default function SearchBar({
+  onFocusInputText,
+  onBlurInputText,
+  isResultPage,
+}: SearchBarProps) {
   const { theme } = useTheme();
   const [focus, setFocus] = useState(false);
   const [mic, setMic] = useState(false);
-  
+
   const {
     searchState: [search, setSearch],
   } = useSearch();
@@ -45,17 +49,18 @@ export default function SearchBar({ onFocusInputText, onBlurInputText }: SearchB
       animate={
         mic
           ? {
-            boxShadow: ["0 0 60px 0 #DA3D3D", "0 0 70px 0px #CF39E8"],
-            transition: {
-              duration: 0.5,
-              repeat: Infinity,
-              repeatType: "reverse",
-            },
-          }
+              boxShadow: ["0 0 60px 0 #DA3D3D", "0 0 70px 0px #CF39E8"],
+              transition: {
+                duration: 0.5,
+                repeat: Infinity,
+                repeatType: "reverse",
+              },
+            }
           : {
-            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
-          }
+              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
+            }
       }
+      isresultpage={isResultPage}
     >
       <motion.svg
         style={{ position: "absolute", width: "100%", height: "100%" }}
@@ -86,8 +91,14 @@ export default function SearchBar({ onFocusInputText, onBlurInputText }: SearchB
         style={{
           color: theme?.colors.text,
         }}
-        onFocus={() => { setFocus(true); onFocusInputText() }}
-        onBlur={() => { setFocus(false); onBlurInputText() }}
+        onFocus={() => {
+          setFocus(true);
+          onFocusInputText();
+        }}
+        onBlur={() => {
+          setFocus(false);
+          onBlurInputText();
+        }}
       />
       <Dictaphone
         setTranscript={(transcript: string) => setSearch(transcript)}
@@ -97,9 +108,11 @@ export default function SearchBar({ onFocusInputText, onBlurInputText }: SearchB
   );
 }
 
-const SearchInputBar = styled(motion.div)`
+const SearchInputBar = styled(motion.div)<{
+  isresultpage?: boolean;
+}>`
   position: relative;
-  width: 500px;
+  width: ${(props) => (props.isresultpage ? "600px" : "500px")}};
   height: 40px;
   border-radius: 25px;
   border: none;
