@@ -5,6 +5,7 @@ import styled from "styled-components";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import CloseIcon from "@mui/icons-material/Close";
 import { useTheme } from "@/context/Theme";
+import { useSearch } from "@/context/Search";
 
 interface LuckyProps {
   show: number;
@@ -13,6 +14,7 @@ interface LuckyProps {
 
 export default function LuckyBox({ show, desactive }: LuckyProps) {
   const { theme } = useTheme();
+  const { onSearch } = useSearch();
   const draw = {
     hidden: (i: number) => ({ x: i % 2 == 0 ? -200 : 200, opacity: 0 }),
     visible: (i: number) => {
@@ -69,7 +71,7 @@ export default function LuckyBox({ show, desactive }: LuckyProps) {
                   animate="visible"
                   exit={"hidden"}
                   secondaryAction={
-                    <IconButton>
+                    <IconButton onClick={() => onSearch(word)}>
                       <OpenInNewIcon />
                     </IconButton>
                   }

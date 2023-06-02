@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import router from "next/router";
+import { FormEvent, createContext, useContext, useEffect, useState } from "react";
 
 interface Search {
   query: string;
@@ -7,8 +8,9 @@ interface Search {
 
 const SearchContext = createContext(
   {} as {
-    addSearch: (search: string) => void;
+    onSearch: (searchWord?: string) => void;
     history: Search[];
+    searchState: [string, (search: string) => void];
   }
 );
 
@@ -16,7 +18,7 @@ export default SearchContext;
 
 export function SearchProvider({ children }: any) {
   const [history, setHistory] = useState<Search[]>([]);
-
+  const [search, setSearch] = useState("");
   const addSearch = (search: string) => {
     if (history.some((item) => item.query === search)) return;
     const newHistory = [
@@ -30,6 +32,17 @@ export function SearchProvider({ children }: any) {
     setHistory(newHistory);
   };
 
+  const onSearch = (searchWord?: string) => {
+    if (!searchWord) searchWord = search;
+    addSearch(searchWord);
+    console.log(searchWord);
+    router.push({
+      pathname: "/results",
+      query: { search: searchWord },
+    })
+  };
+
+
   useEffect(() => {
     let history_save = localStorage.getItem("history_search");
     if (history_save) setHistory(JSON.parse(history_save));
@@ -39,7 +52,8 @@ export function SearchProvider({ children }: any) {
     <SearchContext.Provider
       value={{
         history,
-        addSearch,
+        onSearch,
+        searchState: [search, setSearch],
       }}
     >
       {children}

@@ -4,19 +4,22 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Dictaphone from "./Mic";
 import SearchIcon from "@mui/icons-material/Search";
+import { useSearch } from "@/context/Search";
 
 
 interface SearchBarProps {
-  searchState: [string, (search: string) => void];
   onFocusInputText: () => void;
   onBlurInputText: () => void;
 }
 
-export default function SearchBar({ searchState, onFocusInputText, onBlurInputText }: SearchBarProps) {
+export default function SearchBar({ onFocusInputText, onBlurInputText }: SearchBarProps) {
   const { theme } = useTheme();
   const [focus, setFocus] = useState(false);
   const [mic, setMic] = useState(false);
-  const [search, setSearch] = searchState;
+  
+  const {
+    searchState: [search, setSearch],
+  } = useSearch();
 
   useEffect(() => {
     mic ? setSearch("Ouvindo...") : "Ouvindo..." === search && setSearch("");

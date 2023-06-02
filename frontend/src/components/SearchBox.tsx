@@ -5,23 +5,23 @@ import { useSearch } from "@/context/Search";
 import SearchBar from "./SearchBar";
 import HistoryList from "./HistoryList";
 import { motion } from "framer-motion";
+import { Router, useRouter } from "next/router";
 
 export default function SearchBox() {
   const [focus, setFocus] = useState(false);
 
-  const { history, addSearch } = useSearch();
-
-  const [search, setSearch] = useState("");
-
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    addSearch(search);
-    console.log(search);
-  };
+  const {
+    history,
+    onSearch,
+    searchState: [search, setSearch],
+  } = useSearch();
 
   return (
     <SearchInputBox
-      onSubmit={onSubmit}
+      onSubmit={(e: FormEvent) => {
+        e.preventDefault();
+        onSearch();
+      }}
       animate={{
         border:
           focus && history.length
@@ -32,11 +32,9 @@ export default function SearchBox() {
             ? "0px 0px 10px 0px rgba(0, 0, 0, 0.2)"
             : "0px 0px 10px 0px rgba(0, 0, 0, 0)",
         marginBottom: focus && history.length ? "0px" : "-30px",
-       
       }}
     >
       <SearchBar
-        searchState={[search, setSearch]}
         onFocusInputText={() => setFocus(true)}
         onBlurInputText={() => setFocus(false)}
       />
