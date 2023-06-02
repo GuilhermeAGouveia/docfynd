@@ -13,8 +13,6 @@ import { Search } from "@mui/icons-material";
 import { useTheme } from "@/context/Theme";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { on } from "events";
-import { isNullOrUndefined } from "util";
 
 interface HistoryProps {
   show: boolean;
@@ -75,7 +73,7 @@ export default function HistoryList({ show, filter }: HistoryProps) {
                       />
                     )
                   }
-                  onClick={() => onSearch(history_item.query)}
+                  onClick={() => onSearch(history_item)}
                   key={history_item.query + history_item.searched_at}
                   onMouseOver={() => setMouseOverItem(index + 1)} // [1
                   onMouseLeave={() => setMouseOverItem(null)} // [1

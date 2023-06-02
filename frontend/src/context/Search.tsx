@@ -7,16 +7,17 @@ import {
   useState,
 } from "react";
 
-interface Search {
+export interface Search {
   query: string;
-  searched_at: Date;
+  searched_at?: Date;
+  source?: "mic" | "text";
 }
 
 const SearchContext = createContext(
   {} as {
-    onSearch: (searchWord?: string) => void;
+    onSearch: (searchWord?: Search) => void;
     history: Search[];
-    searchState: [string, (search: string) => void];
+    searchState: [Search, (search: Search) => void];
   }
 );
 
@@ -24,13 +25,15 @@ export default SearchContext;
 
 export function SearchProvider({ children }: any) {
   const [history, setHistory] = useState<Search[]>([]);
-  const [search, setSearch] = useState("");
-  const addSearch = (search: string) => {
-    if (history.some((item) => item.query === search)) return;
+  const [search, setSearch] = useState<Search>({
+    query: "",
+  });
+  const addSearch = (search: Search) => {
+    if (history.some((item) => item.query === search.query)) return;
     const newHistory = [
       ...history,
       {
-        query: search,
+        ...search,
         searched_at: new Date(),
       },
     ];
@@ -38,17 +41,18 @@ export function SearchProvider({ children }: any) {
     setHistory(newHistory);
   };
 
-  const onSearch = (searchWord?: string) => {
-    if (!searchWord && !search) {
-      setSearch("Escreva ou diga algo, imbecil!");
+  const onSearch = (searchWord?: Search) => {
+    if (!searchWord?.query && !search.query) {
+      setSearch({query: "Escreva ou diga algo, imbecil!"});
       return;
     }
     if (!searchWord) searchWord = search;
+
     addSearch(searchWord);
     console.log(searchWord);
     router.push({
       pathname: "/results",
-      query: { search: searchWord },
+      query: { search: searchWord.query },
     });
   };
 

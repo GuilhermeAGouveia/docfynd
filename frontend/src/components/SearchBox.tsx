@@ -23,7 +23,7 @@ export default function SearchBox({ searched, isResultPage }: SearchBoxProps) {
 
   useEffect(() => {
     if (searched) {
-      setSearch(searched);
+      setSearch({query: searched});
     }
   }, [searched]);
 
@@ -50,7 +50,7 @@ export default function SearchBox({ searched, isResultPage }: SearchBoxProps) {
         onFocusInputText={() => setFocus(true)}
         onBlurInputText={() => setFocus(false)}
       />
-      <HistoryList show={focus} filter={search} />
+      <HistoryList show={focus} filter={search.query} />
     </SearchInputBox>
   );
 }

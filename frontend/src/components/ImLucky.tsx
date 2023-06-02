@@ -84,7 +84,7 @@ export default function LuckyBox({ show, desactive }: LuckyProps) {
                     animate="visible"
                     exit={"hidden"}
                     secondaryAction={
-                      <IconButton onClick={() => onSearch(word)}>
+                      <IconButton onClick={() => onSearch({query: word})}>
                         <OpenInNewIcon />
                       </IconButton>
                     }

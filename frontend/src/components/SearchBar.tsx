@@ -27,7 +27,11 @@ export default function SearchBar({
   } = useSearch();
 
   useEffect(() => {
-    mic ? setSearch("Ouvindo...") : ("Ouvindo..." === search) ? setSearch("") : onSearch();
+    mic ? setSearch({query: "Ouvindo..."}) : ("Ouvindo..." === search.query) && setSearch({query:""});
+    if (!mic && search?.source === "mic") {
+      onSearch();
+    }
+
     
   }, [mic]);
 
@@ -87,8 +91,8 @@ export default function SearchBar({
         style={{ position: "relative", left: "10px", color: "#CF39E8" }}
       />
       <SearchInput
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        value={search.query}
+        onChange={(e) => setSearch({query: e.target.value})}
         placeholder="Search"
         style={{
           color: theme?.colors.text,
@@ -103,7 +107,7 @@ export default function SearchBar({
         }}
       />
       <Dictaphone
-        setTranscript={(transcript: string) => setSearch(transcript)}
+        setTranscript={(transcript: string) => setSearch({query: transcript, source: "mic"})}
         setListening={(listening: boolean) => {
           setMic(listening);
         }}
