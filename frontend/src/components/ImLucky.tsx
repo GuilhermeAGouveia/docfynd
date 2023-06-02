@@ -17,7 +17,17 @@ export default function LuckyBox({ show, desactive }: LuckyProps) {
   const { theme } = useTheme();
   const { onSearch } = useSearch();
   const draw = {
-    hidden: (i: number) => ({ x: i % 2 == 0 ? -200 : 200, opacity: 0 }),
+    hidden: (i: number) => ({
+      x: -200,
+      opacity: 0,
+      transition: {
+        x: {
+          delay: i * 0.05,
+          type: "spring",
+        },
+        opacity: { delay: i * 0.05, duration: 0.2 },
+      },
+    }),
     visible: (i: number) => {
       const delay = i;
       return {
@@ -56,7 +66,7 @@ export default function LuckyBox({ show, desactive }: LuckyProps) {
               }}
             >
               {randomWords({ wordsPerString: 2, min: 2, max: 4 })
-                .concat(randomWords({ min: 5, max: 7 }))
+                .concat(randomWords({ min: 5, max: 6 }))
                 .sort(() => Math.random() - 0.5)
                 .map((word, index) => (
                   <ListItemAnimated
