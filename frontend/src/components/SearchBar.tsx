@@ -23,10 +23,12 @@ export default function SearchBar({
 
   const {
     searchState: [search, setSearch],
+    onSearch,
   } = useSearch();
 
   useEffect(() => {
-    mic ? setSearch("Ouvindo...") : "Ouvindo..." === search && setSearch("");
+    mic ? setSearch("Ouvindo...") : ("Ouvindo..." === search) ? setSearch("") : onSearch();
+    
   }, [mic]);
 
   const draw = {
@@ -102,7 +104,9 @@ export default function SearchBar({
       />
       <Dictaphone
         setTranscript={(transcript: string) => setSearch(transcript)}
-        setListening={(listening: boolean) => setMic(listening)}
+        setListening={(listening: boolean) => {
+          setMic(listening);
+        }}
       />
     </SearchInputBar>
   );
