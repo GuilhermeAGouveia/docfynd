@@ -1,3 +1,4 @@
+import SelectOption from "@/components/FloatSelect";
 import GeneralTitle from "@/components/GeneralTitle";
 import SearchBox from "@/components/SearchBox";
 import ToogleTheme from "@/components/ToogleTheme";
@@ -21,7 +22,7 @@ export default function ResutlsPage() {
       {!isMobileView ? (
         <TopBarResults>
           <GeneralTitle
-            variant="h5"
+            variant="h4"
             style={{
               height: "100%",
               display: "flex",
@@ -45,6 +46,33 @@ export default function ResutlsPage() {
           <SearchBox searched={search as string} isResultPage />
         </TopBarResults>
       )}
+      <SelectOption
+        buttons={[
+          {
+            content: {
+              label: "Todos", 
+            },
+            onClick: (num) => console.log(num),
+          },
+          {
+            content: {
+              label: "Formulas",
+            },
+            onClick: (num) => console.log(num),
+          },
+          {
+            content: {
+              label: "Imagens",
+            },
+            onClick: (num) => console.log(num),
+          },
+        ]}
+        sx={{
+          fgColor: theme?.colors.primary,
+          bgColor: "transparent",
+          lineColor: theme?.colors.primary,
+        }}
+      ></SelectOption>
     </ResultPageRoot>
   );
 }
@@ -55,7 +83,7 @@ const ResultPageRoot = styled.div`
   min-height: 100vh;
 `;
 
-const TopBarResults = styled.div`
+const TopBarResults = styled.header`
   position: relative;
   display: flex;
   width: 100%;

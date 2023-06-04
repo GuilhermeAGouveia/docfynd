@@ -10,6 +10,8 @@ interface ThemeMain {
   colors: {
     bg: string;
     text: string;
+    primary: string;
+    secondary: string;
   };
   theme_name: string;
 }
@@ -19,6 +21,9 @@ const themes = {
     colors: {
       bg: "#fff",
       text: "#000",
+      primary: "#CF39E8",
+      secondary: "#DA3D3D",
+
     },
     theme_name: "light",
   },
@@ -26,6 +31,8 @@ const themes = {
     colors: {
       bg: "#292929",
       text: "#fff",
+      primary: "#CF39E8",
+      secondary: "#DA3D3D",
     },
     theme_name: "dark",
   },

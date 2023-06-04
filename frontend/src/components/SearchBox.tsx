@@ -14,7 +14,7 @@ interface SearchBoxProps {
 
 export default function SearchBox({ searched, isResultPage }: SearchBoxProps) {
   const [focus, setFocus] = useState(false);
-
+  const {theme} = useTheme();
   const {
     history,
     onSearch,
@@ -32,6 +32,10 @@ export default function SearchBox({ searched, isResultPage }: SearchBoxProps) {
       onSubmit={(e: FormEvent) => {
         e.preventDefault();
         onSearch();
+      }}
+      style={{
+        backgroundColor: theme?.colors.bg,
+        zIndex: focus? 1 : 0,
       }}
       animate={{
         border:
