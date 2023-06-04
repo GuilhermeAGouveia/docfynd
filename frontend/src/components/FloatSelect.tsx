@@ -61,7 +61,7 @@ const SelectOption = ({
     window.addEventListener("resize", () => handleSelect(selected));
     handleSelect(selected);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isMobileView]);
 
   return (
     <SelectOptionContainer
