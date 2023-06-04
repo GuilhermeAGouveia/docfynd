@@ -115,9 +115,7 @@ export const SelectOptionContainer = styled(motion.div)`
   justify-content: center;
   align-items: center;
   z-index: 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   gap: 2rem;
-  padding: 0 10rem;
 `;
 
 export const Option = styled<any>("button")`
