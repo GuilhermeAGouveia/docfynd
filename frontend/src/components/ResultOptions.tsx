@@ -2,12 +2,15 @@ import { IconButton, Rating } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import { useTheme } from "@/context/Theme";
 
 interface ResultOptionsProps {
   show: boolean;
 }
 
 export default function ResultOptions({ show }: ResultOptionsProps) {
+
+  const { theme } = useTheme()
   const variantButton = {
     hidden: {
       opacity: 0,
@@ -21,8 +24,8 @@ export default function ResultOptions({ show }: ResultOptionsProps) {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.2,
-        delay: 0.2 + i * 0.1,
+        duration: 0.1,
+        delay: 0.2 + i * 0.05,
       },
     }),
   };
@@ -31,37 +34,30 @@ export default function ResultOptions({ show }: ResultOptionsProps) {
     <AnimatePresence>
       {show && (
         <ResultOptionsRoot
-          initial={{
-            opacity: 0,
-            x: 100,
-          }}
-          animate={{
-            opacity: 1,
-            x: 0,
-          }}
-          exit={{
-            opacity: 0,
-            x: 100,
-          }}
+    
           layout
         >
           <ResultOptionsButton
             variants={variantButton}
             initial="hidden"
             animate="visible"
+            exit="hidden"
             custom={1}
           >
             <Rating name="half-rating" defaultValue={2.5} precision={0.5} style={{
-                alignItems: "flex-start",
-            }}/>
+              alignItems: "flex-start",
+            }} />
           </ResultOptionsButton>
           <ResultOptionsButton
             variants={variantButton}
             initial="hidden"
             animate="visible"
+            exit="hidden"
             custom={2}
           >
-            <BookmarkBorderIcon />
+            <BookmarkBorderIcon sx={{
+              color: theme?.colors.text,
+            }}/>
           </ResultOptionsButton>
         </ResultOptionsRoot>
       )}
@@ -74,6 +70,10 @@ const ResultOptionsRoot = styled(motion.div)`
   width: 50px;
   height: auto;
   background-color: transparent;
+  display: flex;
+  justify-content: flex-stat;
+  align-items: flex-start;
+  flex-direction: column;
 `;
 
 const ResultOptionsButton = styled(motion(IconButton))`

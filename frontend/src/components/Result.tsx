@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Rating, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import styled from "styled-components";
@@ -6,6 +6,7 @@ import ResultOptions from "./ResultOptions";
 import { useState } from "react";
 import { Result } from "@/libs/interfaces";
 import { useTheme } from "@/context/Theme";
+import useDeviceDetect from "@/hook/useDetectDevice";
 
 interface ResultProps {
   result: Result;
@@ -14,29 +15,34 @@ interface ResultProps {
 export default function Result({ result }: ResultProps) {
   const { theme } = useTheme();
   const [mouseOver, setMouseOver] = useState(false);
+  const { isMobileView } = useDeviceDetect();
   return (
     <ResultRoot
       onMouseEnter={() => setMouseOver(true)}
       onMouseLeave={() => setMouseOver(false)}
+
     >
-      <ResultOptionsBox>
-        <ResultOptions show={mouseOver}></ResultOptions>
-      </ResultOptionsBox>
-      <ResultBox>
+      <ResultBox
+        style={{
+          background: theme.theme_name == "dark" ? "rgba(255, 255, 255, 0.02)" : "transparent",
+        }}>
         <Link href={result.url} target="_blank">
           <ResultTitle variant="h6" sx={{
             color: theme?.colors.primary,
             "&:hover": {
-                color: theme?.colors.secondary
+              color: theme?.colors.secondary
             }
           }}>
             {result.title}
           </ResultTitle>
         </Link>
         <ResultContent variant="body1" sx={{
-            color: theme?.colors.text
+          color: theme?.colors.text
         }}>{result.content}</ResultContent>
       </ResultBox>
+      <ResultOptionsBox>
+        <ResultOptions show={mouseOver}></ResultOptions>
+      </ResultOptionsBox>
     </ResultRoot>
   );
 }
@@ -44,7 +50,7 @@ export default function Result({ result }: ResultProps) {
 const ResultRoot = styled(motion.div)`
   position: relative;
   width: 100%;
-  height: 200px;
+  height: auto;
   border-radius: 10px;
   padding: 10px;
   display: flex;
