@@ -51,7 +51,7 @@ export default function Result({ result }: ResultProps) {
                   : theme?.colors.bg_secondary,
                 color: theme?.colors.primary,
               }}
-              variant="body2"
+              variant="caption"
               fontWeight={500}
             >
               {keyword}
@@ -60,7 +60,7 @@ export default function Result({ result }: ResultProps) {
         </KeyWordsBox>
         <Link href={result.url} target="_blank">
           <ResultTitle
-            variant="h5"
+            variant="h6"
             sx={{
               color: theme?.colors.text,
               "&:hover": {
@@ -72,7 +72,7 @@ export default function Result({ result }: ResultProps) {
           </ResultTitle>
         </Link>
         <ResultContent
-          variant="body1"
+          variant="body2"
           sx={{
             color: theme?.colors.text_secondary,
           }}
