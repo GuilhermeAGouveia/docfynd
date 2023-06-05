@@ -1,59 +1,154 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>org.example</groupId>
-    <artifactId>Backend</artifactId>
-    <version>1.0-SNAPSHOT</version>
-
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.1.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.elasticsearch</groupId>
+    <artifactId>search</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>search</name>
+    <description>Using Java API client</description>
     <properties>
-        <maven.compiler.source>19</maven.compiler.source>
-        <maven.compiler.target>19</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <elasticsearch-rest-client>8.8.0</elasticsearch-rest-client>
-        <elasticsearch-java>8.8.0</elasticsearch-java>
-        <jackson-databind>2.15.1</jackson-databind>
-        <sslcontext-kickstart>7.4.11</sslcontext-kickstart>
-        <slf4j-simple>2.0.5</slf4j-simple>
+        <java.version>17</java.version>
+        <springdoc-openapi-ui.version>1.6.15</springdoc-openapi-ui.version>
+        <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
+        <swagger-annotations.version>1.6.8</swagger-annotations.version>
+        <validation-api.version>2.0.1.Final</validation-api.version>
+        <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
+        <servlet-api.version>2.5</servlet-api.version>
+        <elasticsearch-rest-client.version>8.8.0</elasticsearch-rest-client.version>
+        <elasticsearch-java.version>8.8.0</elasticsearch-java.version>
+        <sslcontext-kickstart.version>7.4.11</sslcontext-kickstart.version>
+        <jackson-databind.version>2.15.1</jackson-databind.version>
 
+        <openapi-generator-maven-plugin.version>4.3.1</openapi-generator-maven-plugin.version>
+
+        <openapi-spec.file>${project.basedir}/src/main/resources/api.yml</openapi-spec.file>
+        <openapi-spec.classpath>classpath:api.yml</openapi-spec.classpath>
+        <api.path>com.elasticsearch.search</api.path>
     </properties>
-
     <dependencies>
+        <!-- Spring Boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Documentation -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc-openapi-ui.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable.version}</version>
+        </dependency>
+
+        <!-- Swagger -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotations.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${validation-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>${javax.annotation-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>${servlet-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Elasticsearch -->
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-client</artifactId>
-            <version>${elasticsearch-rest-client}</version>
+            <version>${elasticsearch-rest-client.version}</version>
         </dependency>
         <dependency>
             <groupId>co.elastic.clients</groupId>
             <artifactId>elasticsearch-java</artifactId>
-            <version>${elasticsearch-java}</version>
+            <version>${elasticsearch-java.version}</version>
         </dependency>
 
         <!-- SSL -->
         <dependency>
             <groupId>io.github.hakky54</groupId>
             <artifactId>sslcontext-kickstart</artifactId>
-            <version>${sslcontext-kickstart}</version>
+            <version>${sslcontext-kickstart.version}</version>
         </dependency>
 
         <!-- Elasticsearch Response -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind}</version>
-        </dependency>
-
-        <!-- Logs -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j-simple}</version>
+            <version>${jackson-databind.version}</version>
         </dependency>
     </dependencies>
 
-
+    <build>
+        <resources>
+            <resource>
+                <directory>target/generated-sources/openapi/src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${openapi-spec.file}</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <modelPackage>${api.path}.api.model</modelPackage>
+                            <apiPackage>${api.path}.api.facade</apiPackage>
+                            <configOptions>
+                                <interfaceOnly>true</interfaceOnly>
+                                <dateLibrary>java17</dateLibrary>
+                                <java8>true</java8>
+                                <async>true</async>
+                                <serializableModel>true</serializableModel>
+                                <configPackage>${api.path}.api.config</configPackage>
+                                <classpathTargetSpec>${openapi-spec.classpath}</classpathTargetSpec>
+                                <isCorsEnabled>true</isCorsEnabled>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

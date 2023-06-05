@@ -107,6 +107,19 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>target/generated-sources/openapi/src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.openapitools</groupId>
@@ -128,7 +141,7 @@
                                 <java8>true</java8>
                                 <async>true</async>
                                 <serializableModel>true</serializableModel>
-                                <configPackage>${api.path}.api.config</configPackage>
+<!--                                <configPackage>${api.path}.api.config</configPackage>-->
                                 <classpathTargetSpec>${openapi-spec.classpath}</classpathTargetSpec>
                                 <isCorsEnabled>true</isCorsEnabled>
                             </configOptions>
@@ -137,18 +150,5 @@
                 </executions>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>target/generated-sources/openapi/src/main/resources</directory>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>src/test/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
     </build>
 </project>
