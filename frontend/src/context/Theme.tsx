@@ -9,7 +9,9 @@ import {
 interface ThemeMain {
   colors: {
     bg: string;
+    bg_secondary: string;
     text: string;
+    text_secondary: string;
     primary: string;
     secondary: string;
   };
@@ -20,7 +22,9 @@ const themes = {
   light: {
     colors: {
       bg: "#fff",
+      bg_secondary: "#f5f5f5",
       text: "#000",
+      text_secondary: "#242424",
       primary: "#CF39E8",
       secondary: "#DA3D3D",
 
@@ -30,7 +34,9 @@ const themes = {
   dark: {
     colors: {
       bg: "#292929",
-      text: "#fff",
+      bg_secondary: "#1f1f1f",
+      text: "#fff", 
+      text_secondary: "#cacaca",
       primary: "#CF39E8",
       secondary: "#DA3D3D",
     },

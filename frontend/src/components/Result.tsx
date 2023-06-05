@@ -1,5 +1,5 @@
 import { Rating, Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { color, motion } from "framer-motion";
 import Link from "next/link";
 import styled from "styled-components";
 import ResultOptions from "./ResultOptions";
@@ -20,29 +20,71 @@ export default function Result({ result }: ResultProps) {
     <ResultRoot
       onMouseEnter={() => setMouseOver(true)}
       onMouseLeave={() => setMouseOver(false)}
-
     >
       <ResultBox
+        bgSecondary={theme?.colors.bg_secondary}
         style={{
-          background: theme.theme_name == "dark" ? "rgba(255, 255, 255, 0.02)" : "transparent",
-        }}>
+          left: isMobileView ? "0px" : "-20px",
+        }}
+        animate={{
+          backgroundColor: mouseOver
+            ? theme?.colors.bg_secondary
+            : theme?.colors.bg,
+          outline: mouseOver
+            ? "1px solid rgba(0, 0, 0, 0.5)"
+            : "1px solid rgba(0, 0, 0, 0)",
+          outlineOffset: mouseOver ? "5px" : "0px",
+          transition: {
+            outlineOffset: {
+              duration: 0.2,
+            },
+          },
+        }}
+      >
+        <KeyWordsBox>
+          {result?.keywords.map((keyword, index) => (
+            <KeyWord
+              key={index}
+              animate={{
+                backgroundColor: mouseOver
+                  ? theme?.colors.bg
+                  : theme?.colors.bg_secondary,
+                color: theme?.colors.primary,
+              }}
+              variant="body2"
+              fontWeight={500}
+            >
+              {keyword}
+            </KeyWord>
+          ))}
+        </KeyWordsBox>
         <Link href={result.url} target="_blank">
-          <ResultTitle variant="h6" sx={{
-            color: theme?.colors.primary,
-            "&:hover": {
-              color: theme?.colors.secondary
-            }
-          }}>
+          <ResultTitle
+            variant="h5"
+            sx={{
+              color: theme?.colors.text,
+              "&:hover": {
+                color: theme?.colors.secondary,
+              },
+            }}
+          >
             {result.title}
           </ResultTitle>
         </Link>
-        <ResultContent variant="body1" sx={{
-          color: theme?.colors.text
-        }}>{result.content}</ResultContent>
+        <ResultContent
+          variant="body1"
+          sx={{
+            color: theme?.colors.text_secondary,
+          }}
+        >
+          {result.content}
+        </ResultContent>
       </ResultBox>
-      <ResultOptionsBox>
-        <ResultOptions show={mouseOver}></ResultOptions>
-      </ResultOptionsBox>
+      {!isMobileView && (
+        <ResultOptionsBox>
+          <ResultOptions show={mouseOver}></ResultOptions>
+        </ResultOptionsBox>
+      )}
     </ResultRoot>
   );
 }
@@ -69,7 +111,10 @@ const ResultOptionsBox = styled(motion.div)`
   background-color: transparent;
 `;
 
-const ResultBox = styled(motion.div)`
+const ResultBox = styled(motion.div)<{
+  bgSecondary?: string;
+}>`
+  position: relative;
   width: 100%;
   height: 100%;
   border-radius: 10px;
@@ -79,6 +124,31 @@ const ResultBox = styled(motion.div)`
   justify-content: space-between;
   align-items: flex-start;
   gap: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+
+  border: 1px solid rgba(0, 0, 0, 0);
+
   cursor: pointer;
+`;
+
+const KeyWordsBox = styled(motion.div)`
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+`;
+
+const KeyWord = styled(motion(Typography))`
+  position: relative;
+  width: auto;
+  height: 24px;
+  padding: 5px 10px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 `;

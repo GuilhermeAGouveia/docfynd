@@ -24,15 +24,19 @@ export default function FilterBox({ show }: FilterBoxProps) {
         <FilterBoxRoot
           initial={{
             opacity: 0,
+            height: 0,
             y: 100,
           }}
           animate={{
             opacity: 1,
+            height: "auto",
             y: 0,
           }}
           exit={{
             opacity: 0,
+
             y: 100,
+            height: 0,
           }}
         >
           <FormControl>
@@ -112,5 +116,5 @@ const FilterBoxRoot = styled(motion.div)`
   align-items: center;
   flex-wrap: wrap;
   gap: 20px;
-  padding: 20px 10rem;
+  left: 10rem;
 `;

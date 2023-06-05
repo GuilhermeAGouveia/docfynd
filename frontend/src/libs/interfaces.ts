@@ -1,6 +1,7 @@
 export interface Result {
   title: string;
   content: string;
+  keywords: string[];
   url: string;
   createdAt: string;
   updatedAt: string;

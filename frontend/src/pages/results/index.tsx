@@ -90,7 +90,6 @@ export default function ResutlsPage() {
         {!isMobileView && (
           <ToggleButton
             sx={{
-              color: theme?.colors.primary,
               height: "40px",
             }}
             value="check"
@@ -99,16 +98,34 @@ export default function ResutlsPage() {
               setActiveFilter(!activeFilter);
             }}
           >
-            <Typography variant="body2">Filtros</Typography>
-            <FilterListIcon />
+            <Typography
+              variant="body2"
+              sx={{
+                color: !activeFilter ? theme?.colors.primary : theme?.colors.text_secondary,
+              }}
+            >
+              Filtros
+            </Typography>
+            <FilterListIcon
+              sx={{
+                color: !activeFilter ? theme?.colors.primary : theme?.colors.text_secondary,
+              }}
+            />
           </ToggleButton>
         )}
       </SelectAndFilterBox>
-      <FilterBox show={!activeFilter}/>
-      <ResultsBox style={{
-        padding: isMobileView ? "0 1rem" : "0 10rem"
-      }}>
-        <PageButtonList initialPage={initialPage} isLoadingInitialData={false} cardComponent={Result}/>
+      <FilterBox show={!activeFilter} />
+      <ResultsBox
+        style={{
+          padding: isMobileView ? "0 5px" : "0 10rem",
+          width: isMobileView ? "100%" : "70%",
+        }}
+      >
+        <PageButtonList
+          initialPage={initialPage}
+          isLoadingInitialData={false}
+          cardComponent={Result}
+        />
       </ResultsBox>
     </ResultPageRoot>
   );
@@ -135,22 +152,18 @@ const SelectAndFilterBox = styled.div`
   display: flex;
   width: 100%;
   height: auto;
-  padding: 0 30
+  margin-bottom: 20px;
   align-items: flex-start;
   justify-content: space-around;
   padding: 0 10rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);  
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
 const ResultsBox = styled(motion.div)`
   position: relative;
   display: flex;
-  width: 70%;
-
   height: auto;
-  left: -50px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
-  padding: 0 10rem;
 `;

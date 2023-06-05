@@ -37,54 +37,58 @@ export default function PageButtonList({
     setPage(initialPage);
   }, [initialPage]);
 
-  return useMemo(
-    () => (
-      <ListContainer isMobile={isMobileView}>
-        {/* <ListCards imoveis={page.data} cardComponent={CardComponent} isLoading={isLoadingItems} /> */}
-        <List
-          style={{
-            padding: "10px 20px",
-          }}
-        >
-          {page.data.map((imovel) => (
-            <CardComponent key={imovel.url} result={imovel} />
-          ))}
-        </List>
-        {isLoadingItems && (
-          <LoadingCentralContainer>
-            <CircularProgress sx={{
-                color: theme?.colors.primary
-            }}/>
-          </LoadingCentralContainer>
-        )}
-        {page.data.length && (
-          <PageCentralContainer>
-            <Pagination
-              sx={{
-                "& .MuiPaginationItem-root": {
-                  color: theme?.colors.text,
-                },
-                "& .MuiPaginationItem-root.Mui-selected": {
-                  backgroundColor: theme?.colors.primary,
-                  color: theme?.colors.text,
-                },
-                "& .MuiPaginationItem-root.Mui-selected:hover": {
-                  backgroundColor: theme?.colors.primary,
-                  color: theme?.colors.text,
-                },
-              }}
-              count={Math.ceil(page.total / 10)}
-              onChange={(e, page) => onChangePage(page)}
-              style={{
-                margin: "20px 0",
-              }}
-              page={pageNumber}
-            />
-          </PageCentralContainer>
-        )}
-      </ListContainer>
-    ),
-    [pageNumber, isLoadingItems]
+  return (
+    <ListContainer isMobile={isMobileView}>
+      {/* <ListCards imoveis={page.data} cardComponent={CardComponent} isLoading={isLoadingItems} /> */}
+      {useMemo(
+        () => (
+          <List
+            style={{
+              padding: "10px 0",
+            }}
+          >
+            {page.data.map((imovel) => (
+              <CardComponent key={imovel.url} result={imovel} />
+            ))}
+          </List>
+        ),
+        [pageNumber, isLoadingItems]
+      )}
+      {isLoadingItems && (
+        <LoadingCentralContainer>
+          <CircularProgress
+            sx={{
+              color: theme?.colors.primary,
+            }}
+          />
+        </LoadingCentralContainer>
+      )}
+      {page.data.length && (
+        <PageCentralContainer>
+          <Pagination
+            sx={{
+              "& .MuiPaginationItem-root": {
+                color: theme?.colors.text,
+              },
+              "& .MuiPaginationItem-root.Mui-selected": {
+                backgroundColor: theme?.colors.primary,
+                color: theme?.colors.text,
+              },
+              "& .MuiPaginationItem-root.Mui-selected:hover": {
+                backgroundColor: theme?.colors.primary,
+                color: theme?.colors.text,
+              },
+            }}
+            count={Math.ceil(page.total / 10)}
+            onChange={(e, page) => onChangePage(page)}
+            style={{
+              margin: "20px 0",
+            }}
+            page={pageNumber}
+          />
+        </PageCentralContainer>
+      )}
+    </ListContainer>
   );
 }
 

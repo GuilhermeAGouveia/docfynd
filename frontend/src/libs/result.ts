@@ -5,8 +5,9 @@ export function generateRandomPage(nResults: number): Page<Result> {
   const results: Result[] = [];
   for (let i = 0; i < nResults; i++) {
     results.push({
-      title: randomWords({ exactly: 3, join: " " }),
-      content: randomWords({ exactly: 30, join: " " }),
+      title: randomWords({ min: 3, max:7, join: " " }),
+      content: randomWords({ min: 30, max: 50, join: " " }),
+      keywords: randomWords({ min: 3, max: 4, join: " " }).split(" "),
       url: `Url ${i}`,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
