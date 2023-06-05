@@ -24,17 +24,14 @@ export default function FilterBox({ show }: FilterBoxProps) {
         <FilterBoxRoot
           initial={{
             opacity: 0,
-            height: 0,
             y: 100,
           }}
           animate={{
             opacity: 1,
-            height: "100%",
             y: 0,
           }}
           exit={{
             opacity: 0,
-            height: 0,
             y: 100,
           }}
         >
@@ -48,7 +45,7 @@ export default function FilterBox({ show }: FilterBoxProps) {
                 },
               }}
             >
-              Age
+              Ordenar por
             </InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -77,7 +74,7 @@ export default function FilterBox({ show }: FilterBoxProps) {
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              label="Basic date picker"
+              label="A partir de"
               sx={{
                 "& .MuiInputLabel-root": {
                   color: theme.colors.text,

@@ -10,6 +10,10 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import styled from "styled-components";
 import { useState } from "react";
 import FilterBox from "@/components/FilterBox";
+import Result from "@/components/Result";
+import PageButtonList from "@/components/PaginationList";
+import { generateRandomPage } from "@/libs/result";
+import { motion } from "framer-motion";
 
 export default function ResutlsPage() {
   const router = useRouter();
@@ -19,11 +23,14 @@ export default function ResutlsPage() {
 
   const [activeFilter, setActiveFilter] = useState(true);
 
+  const initialPage = generateRandomPage(10);
+
   return (
     <ResultPageRoot
       style={{
         backgroundColor: theme?.colors.bg,
       }}
+      layout
     >
       {!isMobileView ? (
         <TopBarResults>
@@ -98,14 +105,20 @@ export default function ResutlsPage() {
         )}
       </SelectAndFilterBox>
       <FilterBox show={!activeFilter}/>
+      <ResultsBox style={{
+        padding: isMobileView ? "0 1rem" : "0 10rem"
+      }}>
+        <PageButtonList initialPage={initialPage} isLoadingInitialData={false} cardComponent={Result}/>
+      </ResultsBox>
     </ResultPageRoot>
   );
 }
 
-const ResultPageRoot = styled.div`
+const ResultPageRoot = styled(motion.div)`
   position: relative;
   width: 100%;
   min-height: 100vh;
+  overflow: hidden;
 `;
 
 const TopBarResults = styled.header`
@@ -127,4 +140,17 @@ const SelectAndFilterBox = styled.div`
   justify-content: space-around;
   padding: 0 10rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);  
+`;
+
+const ResultsBox = styled(motion.div)`
+  position: relative;
+  display: flex;
+  width: 70%;
+
+  height: auto;
+  left: -50px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  padding: 0 10rem;
 `;
