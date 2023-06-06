@@ -9,7 +9,6 @@ import {
 import HistoryIcon from "@mui/icons-material/History";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import styled from "styled-components";
-import { Search } from "@mui/icons-material";
 import { useTheme } from "@/context/Theme";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";

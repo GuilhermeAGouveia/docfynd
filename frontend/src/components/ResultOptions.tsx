@@ -2,6 +2,7 @@ import { IconButton, Rating } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import ShareIcon from '@mui/icons-material/Share';
 import { useTheme } from "@/context/Theme";
 
 interface ResultOptionsProps {
@@ -53,12 +54,28 @@ export default function ResultOptions({ show }: ResultOptionsProps) {
             initial="hidden"
             animate="visible"
             exit="hidden"
+            bgColor={theme?.colors.bg_secondary}
             custom={2}
           >
             <BookmarkBorderIcon sx={{
               color: theme?.colors.text,
+              width: "15px"
             }}/>
           </ResultOptionsButton>
+          <ResultOptionsButton
+          bgColor={theme?.colors.bg_secondary}
+            variants={variantButton}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            custom={2}
+          >
+            <ShareIcon sx={{
+              color: theme?.colors.text,
+              width: "15px"
+            }}/>
+          </ResultOptionsButton>
+          
         </ResultOptionsRoot>
       )}
     </AnimatePresence>
@@ -70,16 +87,22 @@ const ResultOptionsRoot = styled(motion.div)`
   width: 50px;
   height: auto;
   background-color: transparent;
+  gap: 5px;
   display: flex;
   justify-content: flex-stat;
   align-items: flex-start;
   flex-direction: column;
 `;
 
-const ResultOptionsButton = styled(motion(IconButton))`
+const ResultOptionsButton = styled(motion(IconButton))<{
+  bgColor?: string;
+}>`
   position: relative;
   top: 0;
   right: 0;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: ${({bgColor}) => bgColor};
+
 `;

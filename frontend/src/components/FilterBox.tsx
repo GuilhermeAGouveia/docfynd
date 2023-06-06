@@ -25,7 +25,7 @@ export default function FilterBox({ show }: FilterBoxProps) {
           initial={{
             opacity: 0,
             height: 0,
-            y: 100,
+            y: -100,
           }}
           animate={{
             opacity: 1,
@@ -35,7 +35,7 @@ export default function FilterBox({ show }: FilterBoxProps) {
           exit={{
             opacity: 0,
 
-            y: 100,
+            y: -100,
             height: 0,
           }}
         >

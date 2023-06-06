@@ -18,5 +18,4 @@ public class SearchController implements SearchApi {
         return CompletableFuture
                 .supplyAsync(() -> ResponseEntity.ok(List.of(result, result)));
     }
-
 }
