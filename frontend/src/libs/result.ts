@@ -1,6 +1,8 @@
 import randomWords from "random-words";
 import { Page, Result } from "./interfaces";
 
+import api from "../service/api"
+
 export function generateRandomPage(nResults: number): Page<Result> {
   const results: Result[] = [];
   for (let i = 0; i < nResults; i++) {
@@ -16,11 +18,24 @@ export function generateRandomPage(nResults: number): Page<Result> {
   return { data: results, total: 30, hasNext: true };
 }
 
-export async function getImoveisByFilterWithPage(
-  filterValues: any,
-  page: number
+// export async function getImoveisByFilterWithPage(
+//   filterValues: any,
+//   page: number
+// ): Promise<Page<Result>> {
+//   return new Promise((resolve) => {
+//     setTimeout(() => resolve(generateRandomPage(10)), 1000);
+//   });
+// }
+
+
+export async function searchWithPage(
+  query: string,
+  page: number,
+  filterValues?: any,
 ): Promise<Page<Result>> {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(generateRandomPage(10)), 1000);
-  });
+
+  const {data} = await api.get<Result[]>(`/search?query=${query}&page=${page}`);
+  console.log(data);
+  
+  return {data,  total: 100, hasNext: true};
 }

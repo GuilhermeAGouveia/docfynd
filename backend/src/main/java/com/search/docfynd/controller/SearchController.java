@@ -2,6 +2,7 @@ package com.search.docfynd.controller;
 
 import com.elasticsearch.search.api.facade.SearchApi;
 import com.elasticsearch.search.api.model.Result;
+import com.search.docfynd.service.SearchService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,11 +12,18 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 public class SearchController implements SearchApi {
 
+    private final SearchService searchService;
+
+    public SearchController(SearchService searchService) {
+        this.searchService = searchService;
+    }
+
+
     @Override
-    public CompletableFuture<ResponseEntity<List<Result>>> search(String query) {
-        var result = new Result().title("Some title").abs("dsjiodjsoi").url("some url");
+    public CompletableFuture<ResponseEntity<List<Result>>> search(String query, Integer page) {
+        var result = searchService.submitQuery(query, page);
 
         return CompletableFuture
-                .supplyAsync(() -> ResponseEntity.ok(List.of(result, result)));
+                .supplyAsync(() -> ResponseEntity.ok(result));
     }
 }

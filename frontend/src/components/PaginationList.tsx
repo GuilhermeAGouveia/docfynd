@@ -5,7 +5,7 @@ import { Pagination, CircularProgress, List } from "@mui/material";
 import { ListComponent } from "../libs/interfaces";
 import useDeviceDetect from "@/hook/useDetectDevice";
 import styled from "styled-components";
-import { getImoveisByFilterWithPage } from "@/libs/result";
+import { search } from "@/libs/result";
 import { useTheme } from "@/context/Theme";
 
 export default function PageButtonList({
@@ -25,7 +25,7 @@ export default function PageButtonList({
     document.getElementById("listRoot")?.scrollTo(0, 0);
     setIsLoadingItems(true);
     setPage((old) => ({ ...old, data: [] }));
-    const res = await getImoveisByFilterWithPage(
+    const res = await search(
       { ...filterValues, ...orderByOptions },
       page
     );
