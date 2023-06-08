@@ -1,6 +1,8 @@
+import { Search } from "@/context/Search";
+
 export interface Result {
   title: string;
-  content: string;
+  abs: string;
   keywords: string[];
   url: string;
   createdAt: string;
@@ -8,7 +10,7 @@ export interface Result {
 }
 
 export interface ListComponent {
-  initialPage: Page<Result>;
+  search: string;
   isLoadingInitialData: boolean;
   cardComponent: React.FC<any>;
   filterValues?: any;

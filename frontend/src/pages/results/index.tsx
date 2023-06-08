@@ -18,6 +18,7 @@ import { motion } from "framer-motion";
 export default function ResutlsPage() {
   const router = useRouter();
   const { search } = router.query;
+  console.log("sear", search);
   const { theme } = useTheme();
   const { isMobileView } = useDeviceDetect();
 
@@ -122,7 +123,7 @@ export default function ResutlsPage() {
         }}
       >
         <PageButtonList
-          initialPage={initialPage}
+          search={search as string}
           isLoadingInitialData={false}
           cardComponent={Result}
         />

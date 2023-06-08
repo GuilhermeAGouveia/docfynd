@@ -2,3 +2,6 @@ server:
   port: 8080
   servlet:
     context-path: /v1
+
+elastic:
+  password: PGzvl6tSI180uxQLHSk3KXrC

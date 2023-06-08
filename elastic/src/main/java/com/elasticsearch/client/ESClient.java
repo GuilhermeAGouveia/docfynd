@@ -19,7 +19,8 @@ import org.elasticsearch.client.RestClient;
 
 import java.io.IOException;
 
-public class ESClient {
+public class
+ESClient {
     private ElasticsearchClient elasticsearchClient;
 
     private final String query;
@@ -31,7 +32,7 @@ public class ESClient {
 
     private void createConnection() {
         String USER = "elastic";
-        String PWD = "guilherme123";
+        String PWD = "changeme";
 
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(USER, PWD));

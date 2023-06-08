@@ -2,6 +2,7 @@ version: "2.2"
 
 services:
   setup:
+    container_name: setup
     image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
@@ -57,6 +58,7 @@ services:
       retries: 120
 
   es01:
+    container_name: es01
     depends_on:
       setup:
         condition: service_healthy
@@ -100,6 +102,7 @@ services:
       retries: 120
 
   es02:
+    container_name: es02
     depends_on:
       - es01
     image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
@@ -139,6 +142,7 @@ services:
       retries: 120
       
   kibana:
+    container_name: kibana
     depends_on:
       es01:
         condition: service_healthy

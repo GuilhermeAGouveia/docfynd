@@ -77,7 +77,7 @@ export default function Result({ result }: ResultProps) {
             color: theme?.colors.text_secondary,
           }}
         >
-          {result.content}
+          {result.abs}
         </ResultContent>
       </ResultBox>
       {!isMobileView && (

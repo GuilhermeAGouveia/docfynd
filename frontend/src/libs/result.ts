@@ -8,7 +8,7 @@ export function generateRandomPage(nResults: number): Page<Result> {
   for (let i = 0; i < nResults; i++) {
     results.push({
       title: randomWords({ min: 3, max:7, join: " " }),
-      content: randomWords({ min: 30, max: 50, join: " " }),
+      abs: randomWords({ min: 30, max: 50, join: " " }),
       keywords: randomWords({ min: 3, max: 4, join: " " }).split(" "),
       url: `Url ${i}`,
       createdAt: new Date().toISOString(),

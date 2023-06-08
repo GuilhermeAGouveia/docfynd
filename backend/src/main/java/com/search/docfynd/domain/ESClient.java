@@ -16,6 +16,7 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.elasticsearch.client.RestClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -24,13 +25,16 @@ import java.io.IOException;
 public class ESClient {
     private ElasticsearchClient elasticsearchClient;
 
+    @Value("${elastic.password}")
+    private String elasticPassword;
+
     public ESClient() {
         createConnection();
     }
 
     private void createConnection() {
         String USER = "elastic";
-        String PWD = "guilherme123";
+        String PWD = "PGzvl6tSI180uxQLHSk3KXrC";
 
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(USER, PWD));
@@ -38,7 +42,7 @@ public class ESClient {
         SSLFactory sslFactory = SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
 
 
-        RestClient restClient = RestClient.builder(new HttpHost("localhost", 9200, "https"))
+        RestClient restClient = RestClient.builder(new HttpHost("docfynd.es.us-central1.gcp.cloud.es.io", 443, "https"))
                 .setHttpClientConfigCallback(
                         (HttpAsyncClientBuilder httpClientBuilder) ->
                                 httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider)

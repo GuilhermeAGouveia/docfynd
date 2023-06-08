@@ -14,7 +14,7 @@
     <name>search</name>
     <description>Using Java API client</description>
     <properties>
-        <java.version>19</java.version>
+        <java.version>17</java.version>
         <springdoc-openapi-ui.version>1.6.15</springdoc-openapi-ui.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
         <swagger-annotations.version>1.6.8</swagger-annotations.version>
@@ -122,6 +122,21 @@
         </resources>
         <plugins>
             <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.search.docfynd.DocfyndApplication</mainClass>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <version>${openapi-generator-maven-plugin.version}</version>
@@ -137,7 +152,7 @@
                             <apiPackage>${api.path}.api.facade</apiPackage>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
-                                <dateLibrary>java19</dateLibrary>
+                                <dateLibrary>java17</dateLibrary>
                                 <java8>true</java8>
                                 <async>true</async>
                                 <serializableModel>true</serializableModel>

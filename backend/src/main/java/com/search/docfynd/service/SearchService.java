@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.search.docfynd.domain.ESClient;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +26,7 @@ public class SearchService {
             String title = h.source().get("title").asText();
             String content = h.source().get("content").asText();
             String url = h.source().get("url").asText();
-            return new Result().abs(treatContent(content)).title(title).url(url);
+            return new Result().abs(treatContent(content)).title(title).url(url).keywords(List.of("banana", "maca", "laranja"));
         }).collect(Collectors.toList());
     }
 

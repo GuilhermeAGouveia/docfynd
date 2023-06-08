@@ -5,11 +5,11 @@ import { Pagination, CircularProgress, List } from "@mui/material";
 import { ListComponent } from "../libs/interfaces";
 import useDeviceDetect from "@/hook/useDetectDevice";
 import styled from "styled-components";
-import { search } from "@/libs/result";
+import { searchWithPage } from "@/libs/result";
 import { useTheme } from "@/context/Theme";
 
 export default function PageButtonList({
-  initialPage,
+  search,
   cardComponent: CardComponent,
   filterValues,
   orderByOptions,
@@ -18,42 +18,42 @@ export default function PageButtonList({
   const { theme } = useTheme();
   const [isLoadingItems, setIsLoadingItems] = useState(isLoadingInitialData);
   const [pageNumber, setPageNumber] = useState(1);
-  const [page, setPage] = useState<Page<Result>>(initialPage);
+  const [page, setPage] = useState<Page<Result>>({
+    data: [],
+    hasNext: false,
+    total: 0,
+  });
   const { isMobileView } = useDeviceDetect();
   async function onChangePage(page: number) {
     setPageNumber(page);
     document.getElementById("listRoot")?.scrollTo(0, 0);
     setIsLoadingItems(true);
-    setPage((old) => ({ ...old, data: [] }));
-    const res = await search(
-      { ...filterValues, ...orderByOptions },
-      page
-    );
+    const res = await searchWithPage(search, page);
     setPage(res);
     setIsLoadingItems(false);
   }
 
   useEffect(() => {
-    setPage(initialPage);
-  }, [initialPage]);
+    if (search) onChangePage(1);
+  }, [search]);
 
   return (
     <ListContainer isMobile={isMobileView}>
       {/* <ListCards imoveis={page.data} cardComponent={CardComponent} isLoading={isLoadingItems} /> */}
-      {useMemo(
-        () => (
-          <List
-            style={{
-              padding: "10px 0",
-            }}
-          >
-            {page.data.map((imovel) => (
-              <CardComponent key={imovel.url} result={imovel} />
-            ))}
-          </List>
-        ),
-        [pageNumber, isLoadingItems]
-      )}
+      {/* {useMemo(
+        () => ( */}
+      <List
+        style={{
+          padding: "10px 0",
+        }}
+      >
+        {page.data.map((imovel) => (
+          <CardComponent key={imovel.url} result={imovel} />
+        ))}
+      </List>
+      {/* ),
+        [pageNumber, isLoadingItems, page]
+      )} */}
       {isLoadingItems && (
         <LoadingCentralContainer>
           <CircularProgress
