@@ -15,6 +15,5 @@ container_start: ;
 	docker context use docfynd;
 	docker run -d -p 8080:8080 --name docker-spring docker.io/guilhermegouveia/docfynd-spring:latest;
 
-deploy: push container_drop container_start;
-	docker ps;
-	docker context use docfynd;
+deploy: ;
+	 mvn package azure-webapp:deploy;

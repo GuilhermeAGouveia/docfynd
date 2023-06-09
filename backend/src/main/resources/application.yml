@@ -1,7 +1,22 @@
 server:
-  port: 8080
+#  ssl:
+#    key-store: classpath:keystore/baeldung.p12
+#    key-store-password: guilherme
+#    key-store-type: PKCS12
+#    key-alias: baeldung
+#    key-password: guilherme
+  port: 80
   servlet:
     context-path: /v1
-
+#
+## The format used for the keystore. It could be set to JKS in case it is a JKS file
+#  server.ssl.key-store-type=PKCS12
+#  # The path to the keystore containing the certificate
+#  server.ssl.key-store=classpath:keystore/baeldung.p12
+#  # The password used to generate the certificate
+#  server.ssl.key-store-password=password
+#  # The alias mapped to the certificate
+#  server.ssl.key-alias=baeldung
 elastic:
   password: PGzvl6tSI180uxQLHSk3KXrC
+
