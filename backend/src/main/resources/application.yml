@@ -5,7 +5,7 @@ server:
 #    key-store-type: PKCS12
 #    key-alias: baeldung
 #    key-password: guilherme
-  port: 80
+  port: 8080
   servlet:
     context-path: /v1
 #

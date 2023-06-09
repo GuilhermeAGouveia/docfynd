@@ -1,9 +1,14 @@
 import { Search } from "@/context/Search";
 
+export interface Keyword {
+  text: string;
+  dbpedia_resource: string;
+}
+
 export interface Result {
   title: string;
   abs: string;
-  keywords: string[];
+  keywords: Keyword[];
   url: string;
   createdAt: string;
   updatedAt: string;

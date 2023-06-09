@@ -2,7 +2,8 @@ import { IconButton, Rating } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import ShareIcon from '@mui/icons-material/Share';
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import ShareIcon from "@mui/icons-material/Share";
 import { useTheme } from "@/context/Theme";
 
 interface ResultOptionsProps {
@@ -10,8 +11,7 @@ interface ResultOptionsProps {
 }
 
 export default function ResultOptions({ show }: ResultOptionsProps) {
-
-  const { theme } = useTheme()
+  const { theme } = useTheme();
   const variantButton = {
     hidden: {
       opacity: 0,
@@ -31,51 +31,63 @@ export default function ResultOptions({ show }: ResultOptionsProps) {
     }),
   };
 
+  const resultOptionsButtonProps = {
+    variants: variantButton,
+    initial: "hidden",
+    animate: "visible",
+    exit: "hidden",
+  };
+
   return (
     <AnimatePresence>
       {show && (
-        <ResultOptionsRoot
-    
-          layout
-        >
-          <ResultOptionsButton
-            variants={variantButton}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            custom={1}
-          >
-            <Rating name="half-rating" defaultValue={2.5} precision={0.5} style={{
-              alignItems: "flex-start",
-            }} />
+        <ResultOptionsRoot layout>
+          <ResultOptionsButton {...resultOptionsButtonProps} custom={1}>
+            <Rating
+              name="half-rating"
+              defaultValue={2.5}
+              precision={0.5}
+              style={{
+                alignItems: "flex-start",
+              }}
+            />
           </ResultOptionsButton>
           <ResultOptionsButton
-            variants={variantButton}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
+            {...resultOptionsButtonProps}
             bgColor={theme?.colors.bg_secondary}
             custom={2}
           >
-            <BookmarkBorderIcon sx={{
-              color: theme?.colors.text,
-              width: "15px"
-            }}/>
+            <BookmarkBorderIcon
+              sx={{
+                color: theme?.colors.text,
+                width: "15px",
+              }}
+            />
           </ResultOptionsButton>
           <ResultOptionsButton
-          bgColor={theme?.colors.bg_secondary}
-            variants={variantButton}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            custom={2}
+            {...resultOptionsButtonProps}
+            bgColor={theme?.colors.bg_secondary}
+            custom={3}
           >
-            <ShareIcon sx={{
-              color: theme?.colors.text,
-              width: "15px"
-            }}/>
+            <ShareIcon
+              sx={{
+                color: theme?.colors.text,
+                width: "15px",
+              }}
+            />
           </ResultOptionsButton>
-          
+          <ResultOptionsButton
+            {...resultOptionsButtonProps}
+            bgColor={theme?.colors.bg_secondary}
+            custom={4}
+          >
+            <OpenInNewIcon
+              sx={{
+                color: theme?.colors.text,
+                width: "15px",
+              }}
+            />
+          </ResultOptionsButton>
         </ResultOptionsRoot>
       )}
     </AnimatePresence>
@@ -103,6 +115,15 @@ const ResultOptionsButton = styled(motion(IconButton))<{
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: ${({bgColor}) => bgColor};
-
+  background: ${({ bgColor }) => bgColor};
 `;
+
+// variants={variantButton}
+//             initial="hidden"
+//             animate="visible"
+//             exit="hidden"
+//             bgColor={theme?.colors.bg_secondary}
+
+ResultOptionsButton.defaultProps = {
+  bgColor: "transparent",
+};

@@ -43,19 +43,29 @@ export default function Result({ result }: ResultProps) {
       >
         <KeyWordsBox>
           {result?.keywords.map((keyword, index) => (
-            <KeyWord
-              key={index}
-              animate={{
-                backgroundColor: mouseOver
-                  ? theme?.colors.bg
-                  : theme?.colors.bg_secondary,
-                color: theme?.colors.primary,
+            <Link
+              href={keyword.dbpedia_resource}
+              target="_blank"
+              style={{
+                textDecoration: "none",
               }}
-              variant="caption"
-              fontWeight={500}
+              key={keyword.dbpedia_resource}
             >
-              {keyword}
-            </KeyWord>
+              <KeyWord
+                hoverbg={theme?.colors.primary}
+                hovercolor={theme?.colors.bg_secondary}
+                animate={{
+                  backgroundColor: mouseOver
+                    ? theme?.colors.bg
+                    : theme?.colors.bg_secondary,
+                  color: theme?.colors.primary,
+                }}
+                variant="caption"
+                fontWeight={500}
+              >
+                {keyword.text}
+              </KeyWord>
+            </Link>
           ))}
         </KeyWordsBox>
         <Link href={result.url} target="_blank">
@@ -141,7 +151,10 @@ const KeyWordsBox = styled(motion.div)`
   gap: 10px;
 `;
 
-const KeyWord = styled(motion(Typography))`
+const KeyWord = styled(motion(Typography))<{
+  hoverbg?: string;
+  hovercolor?: string;
+}>`
   position: relative;
   width: auto;
   height: 24px;
@@ -151,4 +164,10 @@ const KeyWord = styled(motion(Typography))`
   justify-content: center;
   align-items: center;
   gap: 5px;
+
+  cursor: zoom-in;
+  &:hover {
+    background-color: ${(props) => props.hoverbg};
+    color: ${(props) => props.hovercolor};
+  }
 `;
