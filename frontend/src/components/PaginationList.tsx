@@ -50,6 +50,9 @@ export default function PageButtonList({
         <MetadataSearchContainer
           variant="caption"
           color={theme?.colors.text_secondary}
+          style={{
+            padding: isMobileView ? "0 10px" : "0",
+          }}
         >
           Aproximadamente {page.total} resultados em {10} segundos
         </MetadataSearchContainer>
