@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Result, Page } from "../libs/interfaces";
-import { Pagination, CircularProgress, List } from "@mui/material";
+import { Pagination, CircularProgress, List, Typography } from "@mui/material";
 // import { getImoveisByFilterWithPage } from "../../../lib/imovel";
 import { ListComponent } from "../libs/interfaces";
 import useDeviceDetect from "@/hook/useDetectDevice";
 import styled from "styled-components";
 import { searchWithPage } from "@/libs/result";
 import { useTheme } from "@/context/Theme";
+import ResultListSkeleton from "./ResultListSkeleton";
 
 export default function PageButtonList({
   search,
@@ -20,12 +21,18 @@ export default function PageButtonList({
   const [pageNumber, setPageNumber] = useState(1);
   const [page, setPage] = useState<Page<Result>>({
     data: [],
-    hasNext: false,
     total: 0,
+    hasNext: false,
   });
+
   const { isMobileView } = useDeviceDetect();
   async function onChangePage(page: number) {
     setPageNumber(page);
+    setPage({
+      data: [],
+      total: 0,
+      hasNext: false,
+    });
     document.getElementById("listRoot")?.scrollTo(0, 0);
     setIsLoadingItems(true);
     const res = await searchWithPage(search, page);
@@ -39,31 +46,40 @@ export default function PageButtonList({
 
   return (
     <ListContainer isMobile={isMobileView}>
-      {/* <ListCards imoveis={page.data} cardComponent={CardComponent} isLoading={isLoadingItems} /> */}
-      {/* {useMemo(
-        () => ( */}
-      <List
-        style={{
-          padding: "10px 0",
-        }}
-      >
-        {page.data.map((imovel) => (
-          <CardComponent key={imovel.url} result={imovel} />
-        ))}
-      </List>
-      {/* ),
-        [pageNumber, isLoadingItems, page]
-      )} */}
-      {isLoadingItems && (
-        <LoadingCentralContainer>
-          <CircularProgress
-            sx={{
-              color: theme?.colors.primary,
-            }}
-          />
-        </LoadingCentralContainer>
+      {!isLoadingItems && page.data.length > 0 && (
+        <MetadataSearchContainer
+          variant="caption"
+          color={theme?.colors.text_secondary}
+        >
+          Aproximadamente {page.total} resultados em {10} segundos
+        </MetadataSearchContainer>
       )}
-      {page.data.length && (
+      {isLoadingItems ? (
+        // <LoadingCentralContainer>
+        //   <CircularProgress
+        //     sx={{
+        //       color: theme?.colors.primary,
+        //     }}
+        //   />
+        // </LoadingCentralContainer>
+        <ResultListSkeleton />
+      ) : (
+        <List
+          style={{
+            padding: "10px 0",
+          }}
+        >
+          {page.data.map((imovel) => (
+            <CardComponent key={imovel.url} result={imovel} />
+          ))}
+          {page.data.length === 0 && (
+            <NoResultContainer variant="body1" color={theme?.colors.text}>
+              Nenhum resultado encontrado {":("}
+            </NoResultContainer>
+          )}
+        </List>
+      )}
+      {!!page.data.length && (
         <PageCentralContainer>
           <Pagination
             sx={{
@@ -121,6 +137,24 @@ export const LoadingCentralContainer = styled.div`
 export const PageCentralContainer = styled.div`
   position: relative;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const MetadataSearchContainer = styled(Typography)`
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const NoResultContainer = styled(Typography)`
+  position: relative;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

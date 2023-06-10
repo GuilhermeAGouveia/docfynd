@@ -5,13 +5,19 @@ import ToogleTheme from "@/components/ToogleTheme";
 import TopBar from "@/components/TopBar";
 import { useSearch } from "@/context/Search";
 import { useTheme } from "@/context/Theme";
+import { countAllDocs } from "@/libs/result";
 import { Button } from "@mui/material";
 import { motion } from "framer-motion";
+import { GetStaticProps } from "next";
 import router from "next/router";
 import { FormEvent, useMemo, useState } from "react";
 import styled from "styled-components";
 
-export default function SearchPage() {
+interface SearchPageProps {
+  countDocs: number;
+}
+
+export default function SearchPage({ countDocs }: SearchPageProps) {
   const { theme } = useTheme();
   const [showLucky, setShowLucky] = useState(0);
   const {
@@ -47,10 +53,19 @@ export default function SearchPage() {
           </Button>
         </ButtonBox>
       </SearchBody>
-      <DocCount />
+      <DocCount countDocs={countDocs}/>
     </SearchPageRoot>
   );
 }
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const countDocs = await countAllDocs();
+  return {
+    props: {
+      countDocs,
+    },
+    revalidate: 3600, // 1 hour
+  };
+};
 
 const SearchPageRoot = styled(motion.div)<{ bg?: string }>`
   position: relative;

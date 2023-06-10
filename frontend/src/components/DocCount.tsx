@@ -4,7 +4,7 @@ import styled from "styled-components";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
-export default function DocCount() {
+export default function DocCount({countDocs} : {countDocs: number}) {
     const {theme} = useTheme();
     return (
         <DocCountRoot>
@@ -16,9 +16,9 @@ export default function DocCount() {
                 color: "#CF39E8",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center"
+                justifyContent: "flex-start"
             }}>
-                1,200,000,000 documents
+                {countDocs} documents
             
             </Typography>
         </DocCountRoot>

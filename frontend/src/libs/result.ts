@@ -42,3 +42,9 @@ export async function searchWithPage(
   
   return {data,  total: 100, hasNext: true};
 }
+
+
+export async function countAllDocs(): Promise<number> {
+  const {data} = await api.get<number>(`/docs`);
+  return data;
+}
