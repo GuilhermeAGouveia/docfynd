@@ -37,6 +37,7 @@ export default function Result({ result }: ResultProps) {
           transition: {
             outlineOffset: {
               duration: 0.2,
+              delay: 0.2,
             },
           },
         }}
