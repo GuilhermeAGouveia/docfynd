@@ -6,6 +6,7 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  Typography,
 } from "@mui/material";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -28,21 +29,33 @@ export default function FavoriteResult() {
       onMouseLeave={() => setHover(false)}
     >
       <IconButton onMouseEnter={() => setHover(true)}>
-        <Badge badgeContent={favoriteResults.length} color="primary">
+        <Badge badgeContent={favoriteResults.length > 99 ? "99+" : favoriteResults.length} color="primary">
           <BookmarksIcon color="action" />
         </Badge>
       </IconButton>
-      <FavoriteResultList>
-        {hover && (
+      {hover && (
+        <FavoriteResultList bgColor={theme?.colors.bg_secondary}>
           <List
             sx={{
               width: "100%",
               maxWidth: 360,
               bgcolor: theme?.colors.bg_secondary,
               borderRadius: "5px",
+              position: "relative",
             }}
           >
-            {favoriteResults.length === 0 && <p>No favorite results</p>}
+            {favoriteResults.length === 0 && (
+              <Typography
+                sx={{
+                  color: theme?.colors.text,
+                  textAlign: "center",
+                  padding: "20px",
+                }}
+                variant="body2"
+              >
+                No favorite results
+              </Typography>
+            )}
             {favoriteResults.map((result) => (
               <ListItem
                 key={result?.url}
@@ -61,18 +74,25 @@ export default function FavoriteResult() {
                 }
               >
                 <ListItemText
+    
                   secondary={result?.abs.substring(0, 80) + " ..."}
+                  secondaryTypographyProps={{
+                    color: theme?.colors.text_secondary,
+                  }}
                   sx={{
                     color: theme?.colors.text,
                   }}
                 >
-                  <Link href={result?.url || ""}>{result?.title}</Link>
+                  <Link href={result?.url || ""} style={{
+                    color: theme?.colors.primary,
+
+                  }}>{result?.title}</Link>
                 </ListItemText>
               </ListItem>
             ))}
           </List>
-        )}
-      </FavoriteResultList>
+        </FavoriteResultList>
+      )}
     </FavoriteResultRoot>
   );
 }
@@ -84,11 +104,26 @@ const FavoriteResultRoot = styled.div`
   justify-content: flex-end;
 `;
 
-const FavoriteResultList = styled.div`
+const FavoriteResultList = styled.div<{
+  bgColor?: string;
+}>`
   position: absolute;
   min-width: 300px;
-  height: 100%;
   right: 0;
   z-index: 100;
   top: 40px;
+  max-height: 500px;
+  overflow-y: auto; 
+
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: ${({ bgColor }) => bgColor || "red"};
+    top: -5px;
+    right: 16px;
+    transform: rotate(45deg);
+  }
 `;

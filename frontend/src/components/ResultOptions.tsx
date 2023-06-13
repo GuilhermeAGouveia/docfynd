@@ -52,6 +52,11 @@ export default function ResultOptions({ show, result }: ResultOptionsProps) {
     else addFavoriteResult(result);
   };
 
+  const handleShare = (result: Result) => {
+    navigator.clipboard.writeText(result.url);
+    alert("Link copied to clipboard!");
+  };
+
   return (
     <AnimatePresence>
       {show && (
@@ -59,8 +64,11 @@ export default function ResultOptions({ show, result }: ResultOptionsProps) {
           <ResultOptionsButton {...resultOptionsButtonProps} custom={1}>
             <Rating
               name="half-rating"
-              defaultValue={2.5}
+              defaultValue={result?.rating || 2.5}
               precision={0.5}
+              onChange={(event, newValue) => {
+                result.rating = newValue as number;
+              }}
               style={{
                 alignItems: "flex-start",
               }}
@@ -92,6 +100,7 @@ export default function ResultOptions({ show, result }: ResultOptionsProps) {
             {...resultOptionsButtonProps}
             bgColor={theme?.colors.bg_secondary}
             custom={3}
+            onClick={() => handleShare(result)}
           >
             <ShareIcon
               sx={{
@@ -104,6 +113,7 @@ export default function ResultOptions({ show, result }: ResultOptionsProps) {
             {...resultOptionsButtonProps}
             bgColor={theme?.colors.bg_secondary}
             custom={4}
+            onClick={() => window.open(result?.url, "_blank")}
           >
             <OpenInNewIcon
               sx={{

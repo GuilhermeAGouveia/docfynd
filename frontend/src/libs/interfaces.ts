@@ -12,6 +12,7 @@ export interface Result {
   url: string;
   createdAt: string;
   updatedAt: string;
+  rating?: number;
 }
 
 export interface ListComponent {
