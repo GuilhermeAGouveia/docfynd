@@ -2,16 +2,25 @@ import { IconButton, Rating } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
+import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
+
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ShareIcon from "@mui/icons-material/Share";
 import { useTheme } from "@/context/Theme";
+import { Result } from "@/libs/interfaces";
+import { useResult } from "@/context/FavoriteResult";
 
 interface ResultOptionsProps {
   show: boolean;
+  result: Result;
 }
 
-export default function ResultOptions({ show }: ResultOptionsProps) {
+export default function ResultOptions({ show, result }: ResultOptionsProps) {
   const { theme } = useTheme();
+  const { addFavoriteResult, isResultFavorite, removeFavoriteResult } =
+    useResult();
+
   const variantButton = {
     hidden: {
       opacity: 0,
@@ -38,6 +47,11 @@ export default function ResultOptions({ show }: ResultOptionsProps) {
     exit: "hidden",
   };
 
+  const handleFavorite = (result: Result) => {
+    if (isResultFavorite(result)) removeFavoriteResult(result);
+    else addFavoriteResult(result);
+  };
+
   return (
     <AnimatePresence>
       {show && (
@@ -56,13 +70,23 @@ export default function ResultOptions({ show }: ResultOptionsProps) {
             {...resultOptionsButtonProps}
             bgColor={theme?.colors.bg_secondary}
             custom={2}
+            onClick={() => handleFavorite(result)}
           >
-            <BookmarkBorderIcon
-              sx={{
-                color: theme?.colors.text,
-                width: "15px",
-              }}
-            />
+            {!isResultFavorite(result) ? (
+              <BookmarkBorderIcon
+                sx={{
+                  color: theme?.colors.text,
+                  width: "15px",
+                }}
+              />
+            ) : (
+              <BookmarkAddedIcon
+                sx={{
+                  color: theme?.colors.text,
+                  width: "15px",
+                }}
+              />
+            )}
           </ResultOptionsButton>
           <ResultOptionsButton
             {...resultOptionsButtonProps}

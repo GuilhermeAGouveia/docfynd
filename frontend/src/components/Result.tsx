@@ -93,7 +93,7 @@ export default function Result({ result }: ResultProps) {
       </ResultBox>
       {!isMobileView && (
         <ResultOptionsBox>
-          <ResultOptions show={mouseOver}></ResultOptions>
+          <ResultOptions show={mouseOver} result={result}></ResultOptions>
         </ResultOptionsBox>
       )}
     </ResultRoot>

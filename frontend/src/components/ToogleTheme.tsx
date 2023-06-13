@@ -138,7 +138,8 @@ const ThemeContainer = styled.div<{ islight: boolean }>`
   display: flex;
 
   align-items: center;
-  width: 90px;
+  min-width: 90px;
+
   height: 40px;
   border-radius: 25px;
   background-color: transparent;

@@ -14,6 +14,7 @@ import Result from "@/components/Result";
 import PageButtonList from "@/components/PaginationList";
 import { generateRandomPage } from "@/libs/result";
 import { motion } from "framer-motion";
+import FavoriteResult from "@/components/FavoriteList";
 
 export default function ResutlsPage() {
   const router = useRouter();
@@ -50,8 +51,10 @@ export default function ResutlsPage() {
               height: "100%",
               display: "flex",
               alignItems: "center",
+              gap: "20px",
             }}
           >
+            <FavoriteResult />
             <ToogleTheme />
           </div>
         </TopBarResults>
