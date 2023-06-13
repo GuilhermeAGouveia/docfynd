@@ -45,7 +45,7 @@ export default function FavoriteResult() {
             {favoriteResults.length === 0 && <p>No favorite results</p>}
             {favoriteResults.map((result) => (
               <ListItem
-                key={result?.id}
+                key={result?.url}
                 secondaryAction={
                   <IconButton
                     edge="end"
