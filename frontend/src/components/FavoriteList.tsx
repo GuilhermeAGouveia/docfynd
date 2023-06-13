@@ -15,6 +15,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useTheme } from "@/context/Theme";
 import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function FavoriteResult() {
   const { favoriteResults, removeFavoriteResult } = useResult();
@@ -29,70 +30,94 @@ export default function FavoriteResult() {
       onMouseLeave={() => setHover(false)}
     >
       <IconButton onMouseEnter={() => setHover(true)}>
-        <Badge badgeContent={favoriteResults.length > 99 ? "99+" : favoriteResults.length} color="primary">
+        <Badge
+          badgeContent={
+            favoriteResults.length > 99 ? "99+" : favoriteResults.length
+          }
+          color="primary"
+        >
           <BookmarksIcon color="action" />
         </Badge>
       </IconButton>
-      {hover && (
-        <FavoriteResultList bgColor={theme?.colors.bg_secondary}>
-          <List
-            sx={{
-              width: "100%",
-              maxWidth: 360,
-              bgcolor: theme?.colors.bg_secondary,
-              borderRadius: "5px",
-              position: "relative",
+      <AnimatePresence>
+        {hover && (
+          <FavoriteResultList
+            bgColor={theme?.colors.bg_secondary}
+            initial={{
+              opacity: 0,
+              y: -30,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            exit={{
+              opacity: 0,
+              y: -30,
             }}
           >
-            {favoriteResults.length === 0 && (
-              <Typography
-                sx={{
-                  color: theme?.colors.text,
-                  textAlign: "center",
-                  padding: "20px",
-                }}
-                variant="body2"
-              >
-                No favorite results
-              </Typography>
-            )}
-            {favoriteResults.map((result) => (
-              <ListItem
-                key={result?.url}
-                secondaryAction={
-                  <IconButton
-                    edge="end"
-                    aria-label="delete"
-                    onClick={() => removeFavoriteResult(result)}
-                  >
-                    <DeleteIcon
-                      sx={{
-                        color: theme?.colors.text,
-                      }}
-                    />
-                  </IconButton>
-                }
-              >
-                <ListItemText
-    
-                  secondary={result?.abs.substring(0, 80) + " ..."}
-                  secondaryTypographyProps={{
-                    color: theme?.colors.text_secondary,
-                  }}
+            <List
+              sx={{
+                width: "100%",
+                maxWidth: 360,
+                bgcolor: theme?.colors.bg_secondary,
+                borderRadius: "5px",
+                position: "relative",
+              }}
+            >
+              {favoriteResults.length === 0 && (
+                <Typography
                   sx={{
                     color: theme?.colors.text,
+                    textAlign: "center",
+                    padding: "20px",
                   }}
+                  variant="body2"
                 >
-                  <Link href={result?.url || ""} style={{
-                    color: theme?.colors.primary,
-
-                  }}>{result?.title}</Link>
-                </ListItemText>
-              </ListItem>
-            ))}
-          </List>
-        </FavoriteResultList>
-      )}
+                  No favorite results
+                </Typography>
+              )}
+              {favoriteResults.map((result) => (
+                <ListItem
+                  key={result?.url}
+                  secondaryAction={
+                    <IconButton
+                      edge="end"
+                      aria-label="delete"
+                      onClick={() => removeFavoriteResult(result)}
+                    >
+                      <DeleteIcon
+                        sx={{
+                          color: theme?.colors.text,
+                        }}
+                      />
+                    </IconButton>
+                  }
+                >
+                  <ListItemText
+                    secondary={result?.abs.substring(0, 80) + " ..."}
+                    secondaryTypographyProps={{
+                      color: theme?.colors.text_secondary,
+                    }}
+                    sx={{
+                      color: theme?.colors.text,
+                    }}
+                  >
+                    <Link
+                      href={result?.url || ""}
+                      style={{
+                        color: theme?.colors.primary,
+                      }}
+                    >
+                      {result?.title}
+                    </Link>
+                  </ListItemText>
+                </ListItem>
+              ))}
+            </List>
+          </FavoriteResultList>
+        )}
+      </AnimatePresence>
     </FavoriteResultRoot>
   );
 }
@@ -104,7 +129,7 @@ const FavoriteResultRoot = styled.div`
   justify-content: flex-end;
 `;
 
-const FavoriteResultList = styled.div<{
+const FavoriteResultList = styled(motion.div)<{
   bgColor?: string;
 }>`
   position: absolute;
@@ -113,8 +138,7 @@ const FavoriteResultList = styled.div<{
   z-index: 100;
   top: 40px;
   max-height: 500px;
-  overflow-y: auto; 
-
+  overflow-y: auto;
 
   &::before {
     content: "";
