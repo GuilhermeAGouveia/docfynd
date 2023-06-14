@@ -27,30 +27,34 @@ public class WatsonNLU {
     }
 
     public List<Keyword> extractConcepts(String text) {
+        try {
+            ConceptsOptions concepts = new ConceptsOptions.Builder()
+                    .limit(3)
+                    .build();
 
-        ConceptsOptions concepts= new ConceptsOptions.Builder()
-                .limit(3)
-                .build();
+            Features features = new Features.Builder()
+                    .concepts(concepts)
+                    .build();
 
-        Features features = new Features.Builder()
-                .concepts(concepts)
-                .build();
+            AnalyzeOptions parameters = new AnalyzeOptions.Builder()
+                    .text(text)
+                    .features(features)
+                    .build();
 
-        AnalyzeOptions parameters = new AnalyzeOptions.Builder()
-                .text(text)
-                .features(features)
-                .build();
-
-        AnalysisResults response = naturalLanguageUnderstanding
-                .analyze(parameters)
-                .execute()
-                .getResult();
-        return response.getConcepts().stream().map(c -> {
-            var keyword = new Keyword();
-            keyword.text(c.getText());
-            keyword.dbpediaResource(c.getDbpediaResource());
-            return keyword;
-        }).collect(Collectors.toList());
+            AnalysisResults response = naturalLanguageUnderstanding
+                    .analyze(parameters)
+                    .execute()
+                    .getResult();
+            return response.getConcepts().stream().map(c -> {
+                var keyword = new Keyword();
+                keyword.text(c.getText());
+                keyword.dbpediaResource(c.getDbpediaResource());
+                return keyword;
+            }).collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return List.of();
     }   
 
 

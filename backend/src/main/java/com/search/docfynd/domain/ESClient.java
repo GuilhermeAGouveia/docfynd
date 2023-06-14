@@ -109,10 +109,9 @@ public class ESClient {
             response = elasticsearchClient.search(s -> s.index("wikipedia").from(0).size(10).query(boolQuery), ObjectNode.class);
             return response;
         } catch (IOException e) {
-
+            System.out.println(e.getStackTrace());
+            return null;
         }
-
-        return null;
     }
 
     public long countDocs() {
