@@ -19,4 +19,10 @@ server:
 #  server.ssl.key-alias=baeldung
 elastic:
   password: PGzvl6tSI180uxQLHSk3KXrC
+  username: elastic
+  host: "docfynd.es.us-central1.gcp.cloud.es.io"
+
+openai:
+  service-url: "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/9b895e6e-b3fb-4e8c-8871-faf09b502ff2"
+  api-key: "1hIEMLga1OvjEUX8dNjEWYfjKWHbevV3s7vDQsXoFQbP"
 

@@ -7,6 +7,7 @@ import com.ibm.watson.natural_language_understanding.v1.model.AnalysisResults;
 import com.ibm.watson.natural_language_understanding.v1.model.AnalyzeOptions;
 import com.ibm.watson.natural_language_understanding.v1.model.ConceptsOptions;
 import com.ibm.watson.natural_language_understanding.v1.model.Features;
+import com.search.docfynd.configuration.OpenAIEnv;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,15 +16,17 @@ import java.util.stream.Collectors;
 @Component
 public class WatsonNLU {
     private NaturalLanguageUnderstanding naturalLanguageUnderstanding;
+    private final OpenAIEnv openAIEnv;
 
-    public WatsonNLU() {
+    public WatsonNLU(OpenAIEnv openAIEnv) {
+        this.openAIEnv = openAIEnv;
         createConnection();
     }
 
     private void createConnection() {
-        IamAuthenticator authenticator = new IamAuthenticator("1hIEMLga1OvjEUX8dNjEWYfjKWHbevV3s7vDQsXoFQbP");
+        IamAuthenticator authenticator = new IamAuthenticator(openAIEnv.getApiKey());
         naturalLanguageUnderstanding = new NaturalLanguageUnderstanding("2022-04-07", authenticator);
-        naturalLanguageUnderstanding.setServiceUrl("https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/9b895e6e-b3fb-4e8c-8871-faf09b502ff2");
+        naturalLanguageUnderstanding.setServiceUrl(openAIEnv.getServiceUrl());
     }
 
     public List<Keyword> extractConcepts(String text) {
@@ -55,7 +58,5 @@ public class WatsonNLU {
             e.printStackTrace();
         }
         return List.of();
-    }   
-
-
+    }
 }
