@@ -19,7 +19,7 @@ export function generateRandomPage(nResults: number): Page<Result> {
       updatedAt: new Date().toISOString(),
     });
   }
-  return { data: results, total: 30, hasNext: true };
+  return { data: results, total: 30, hasNext: true, took: 0 };
 }
 
 // export async function getImoveisByFilterWithPage(
@@ -38,10 +38,10 @@ export async function searchWithPage(
   filterValues?: any,
 ): Promise<Page<Result>> {
 
-  const {data} = await api.get<Result[]>(`/search?query=${query}&page=${page}`);
-  console.log(data);
+  const {data: pageData} = await api.get<Page<Result>>(`/search?query=${query}&page=${page}&limit=10`);
+  console.log(pageData);
   
-  return {data,  total: 100, hasNext: true};
+  return {"data": pageData.data, "total": pageData.total, hasNext: true, took: pageData.took};
 }
 
 

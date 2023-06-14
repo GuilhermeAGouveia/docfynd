@@ -23,6 +23,7 @@ export default function PageButtonList({
     data: [],
     total: 0,
     hasNext: false,
+    took: 0,
   });
 
   const { isMobileView } = useDeviceDetect();
@@ -32,6 +33,7 @@ export default function PageButtonList({
       data: [],
       total: 0,
       hasNext: false,
+      took: 0,
     });
     document.getElementById("listRoot")?.scrollTo(0, 0);
     setIsLoadingItems(true);
@@ -54,7 +56,7 @@ export default function PageButtonList({
             padding: isMobileView ? "0 10px" : "0",
           }}
         >
-          Aproximadamente {page.total} resultados em {10} segundos
+          {page.total} resultados em aproximadamente {page.took} segundos
         </MetadataSearchContainer>
       )}
       {isLoadingItems ? (

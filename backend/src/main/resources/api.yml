@@ -54,9 +54,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Result"
+                $ref: "#/components/schemas/Page"
         500:
           description: Unexpected error
           content:
@@ -72,6 +70,17 @@ components:
           type: string
         dbpedia_resource:
           type: string
+    Page:
+      type: object
+      properties:
+        total:
+          type: integer
+        took:
+          type: integer
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Result"
     Result:
       type: object
       properties:

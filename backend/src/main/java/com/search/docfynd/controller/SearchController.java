@@ -1,6 +1,7 @@
 package com.search.docfynd.controller;
 
 import com.elasticsearch.search.api.facade.SearchApi;
+import com.elasticsearch.search.api.model.Page;
 import com.elasticsearch.search.api.model.Result;
 import com.search.docfynd.service.SearchService;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class SearchController implements SearchApi {
 
 
     @Override
-    public CompletableFuture<ResponseEntity<List<Result>>> search(String query, Integer page, Integer limit) {
+    public CompletableFuture<ResponseEntity<Page>> search(String query, Integer page, Integer limit) {
         var result = searchService.submitQuery(query, page);
 
         return CompletableFuture

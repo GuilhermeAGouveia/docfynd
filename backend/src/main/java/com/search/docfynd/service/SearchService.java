@@ -2,6 +2,7 @@ package com.search.docfynd.service;
 
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.elasticsearch.search.api.model.Keyword;
+import com.elasticsearch.search.api.model.Page;
 import com.elasticsearch.search.api.model.Result;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.search.docfynd.domain.ESClient;
@@ -9,7 +10,6 @@ import com.search.docfynd.nlu.WatsonNLU;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class SearchService {
@@ -21,11 +21,11 @@ public class SearchService {
         this.watsonNLU = watsonNLU;
     }
 
-    public List<Result> submitQuery(String query, Integer page) {
+    public Page submitQuery(String query, Integer page) {
         // PaginatedList
-        var searchResponse = esClient.search(query);
+        var searchResponse = esClient.search(query, page);
         List<Hit<ObjectNode>> hits = searchResponse.hits().hits();
-        return hits.stream().map(h -> {
+        var results = hits.stream().map(h -> {
             String title = h.source().get("title").asText();
             title = treatContent(title);
             String content = h.source().get("content").asText();
@@ -35,7 +35,9 @@ public class SearchService {
             highlight = treatHightlight(highlight);
             List<Keyword> keywords = watsonNLU.extractConcepts(content);
             return new Result().abs(content).title(title).url(url).keywords(keywords).highlightAbs(highlight);
-        }).collect(Collectors.toList());
+        }).toList();
+
+        return new Page().data(results).total((int) searchResponse.hits().total().value()).took((int) searchResponse.took());
     }
 
     private String treatContent(String content) {
