@@ -9,6 +9,7 @@ export function generateRandomPage(nResults: number): Page<Result> {
     results.push({
       title: randomWords({ min: 3, max:7, join: " " }),
       abs: randomWords({ min: 30, max: 50, join: " " }),
+      highlight_abs: randomWords({ min: 30, max: 50, join: " " }),
       keywords: randomWords({ min: 3, max: 4, join: " " }).split(" ").map((word) => ({
         text: word,
         dbpedia_resource: `http://dbpedia.org/resource/${word}`,
