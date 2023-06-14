@@ -27,5 +27,6 @@ export interface ListComponent {
 export interface Page<T> {
   data: T[];
   total: number;
+  took: number;
   hasNext?: boolean;
 }
