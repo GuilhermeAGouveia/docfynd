@@ -51,7 +51,7 @@ public class WatsonNLU {
             keyword.dbpediaResource(c.getDbpediaResource());
             return keyword;
         }).collect(Collectors.toList());
-    }
+    }   
 
 
 }

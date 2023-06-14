@@ -1,6 +1,8 @@
 package com.search.docfynd.domain;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.MatchPhraseQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
@@ -20,6 +22,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Component
 public class ESClient {
@@ -32,6 +38,31 @@ public class ESClient {
         createConnection();
     }
 
+    public static Optional<Map<String, List<String>>> splitOptionalAndObrigatory(String input) {
+        Map terms = new HashMap<String, List<String>>();
+        Pattern pattern = Pattern.compile("\"(.*?)\"");
+        Matcher matcher = pattern.matcher(input);
+
+        List extractedObrigatoryTerms = new ArrayList<String>();
+        while (matcher.find()) {
+            extractedObrigatoryTerms.add(matcher.group().replace("\"", ""));
+        }
+
+        if (extractedObrigatoryTerms.size() == 0) {
+            return Optional.empty();
+        }
+
+        terms.put("obrigatory", extractedObrigatoryTerms);
+
+
+        List words = Arrays.stream(input.split("\"(.*?)\"")).filter(s -> s != "").collect(Collectors.toList());
+
+
+        terms.put("optional", words);
+
+        return Optional.of(terms);
+    }
+
     private void createConnection() {
         String USER = "elastic";
         String PWD = "PGzvl6tSI180uxQLHSk3KXrC";
@@ -42,35 +73,55 @@ public class ESClient {
         SSLFactory sslFactory = SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
 
 
-        RestClient restClient = RestClient.builder(new HttpHost("docfynd.es.us-central1.gcp.cloud.es.io", 443, "https"))
-                .setHttpClientConfigCallback(
-                        (HttpAsyncClientBuilder httpClientBuilder) ->
-                                httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider)
-                                        .setSSLContext(sslFactory.getSslContext())
-                                        .setSSLHostnameVerifier(sslFactory.getHostnameVerifier())
-                )
-                .build();
+        RestClient restClient = RestClient.builder(new HttpHost("docfynd.es.us-central1.gcp.cloud.es.io", 443, "https")).setHttpClientConfigCallback((HttpAsyncClientBuilder httpClientBuilder) -> httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider).setSSLContext(sslFactory.getSslContext()).setSSLHostnameVerifier(sslFactory.getHostnameVerifier())).build();
 
-        ElasticsearchTransport transport = new RestClientTransport(
-                restClient,
-                new JacksonJsonpMapper()
-        );
+        ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
 
         elasticsearchClient = new ElasticsearchClient(transport);
     }
 
-    public SearchResponse search(String query) {
-        try {
-            Query mathQuery = MatchQuery.of(
-                    q -> q.field("content").query(query))._toQuery();
+    private Query buildWithoutObrigatoryTermsQuery(String query) {
+        Query mathQuery = MatchQuery.of(q -> q.field("content").query(query))._toQuery();
+        Query mathPhraseContent = MatchPhraseQuery.of(q -> q.field("content").query(query).boost(5.1f))._toQuery();
+        Query mathPhraseTitle = MatchPhraseQuery.of(q -> q.field("title").query(query).boost(10f))._toQuery();
+        Query boolQuery = BoolQuery.of(b -> b.must(List.of(mathQuery)).should(List.of(mathPhraseContent, mathPhraseTitle)))._toQuery();
 
+        return boolQuery;
+    }
+
+    private Query buildWithObrigatoryTermsQuery(Map<String, List<String>> obrigatoryAndOptionalTerms) {
+        List<Query> obrigatoryTermsMathQueries = obrigatoryAndOptionalTerms.get("obrigatory").stream().map(term -> MatchPhraseQuery.of(q -> q.field("content").query(term))._toQuery()).collect(Collectors.toList());
+        String optionalTerms = obrigatoryAndOptionalTerms.get("optional").stream().collect(Collectors.joining(" "));
+        Query optionalTermsMathQuery = MatchQuery.of(q -> q.field("content").query(optionalTerms))._toQuery();
+        // Por default a query realizará um AND entre todos os termos obrigatórios e um OR entre os termos opcionais, é importante ressaltar que mesmo que nenhum dos termos opcionais seja encontrado, a query retornará resultados
+        Query boolQuery = BoolQuery.of(b -> b.must(obrigatoryTermsMathQueries).should(optionalTermsMathQuery))._toQuery();
+        return boolQuery;
+    }
+
+    public SearchResponse search(String query) {
+
+        var splitedOrigatoryAndOptionalTerms = splitOptionalAndObrigatory(query);
+
+        try {
+            Query boolQuery;
+            boolQuery = splitedOrigatoryAndOptionalTerms.isEmpty() ? buildWithoutObrigatoryTermsQuery(query) : buildWithObrigatoryTermsQuery(splitedOrigatoryAndOptionalTerms.get());
             SearchResponse<ObjectNode> response;
-            response = elasticsearchClient.search(s -> s.index("wikipedia").from(0).size(10).query(mathQuery), ObjectNode.class);
+            response = elasticsearchClient.search(s -> s.index("wikipedia").from(0).size(10).query(boolQuery), ObjectNode.class);
             return response;
         } catch (IOException e) {
 
         }
 
         return null;
+    }
+
+    public long countDocs() {
+        try {
+            var countDocs = elasticsearchClient.count(c -> c.index("wikipedia"));
+            return countDocs.count();
+        } catch (IOException e) {
+            System.out.println(e.getStackTrace());
+            return 0;
+        }
     }
 }

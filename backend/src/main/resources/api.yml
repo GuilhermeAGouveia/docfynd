@@ -5,6 +5,27 @@ info:
   description: Initial example to submit Elasticsearch queries
 
 paths:
+  /docs:
+    get:
+      summary: "Count docs in Docfynd database"
+      operationId: countDocs
+      tags:
+        - countDocs
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: number
+
+        500:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   /search:
     get:
       summary: "Submits a query to Elasticsearch"
