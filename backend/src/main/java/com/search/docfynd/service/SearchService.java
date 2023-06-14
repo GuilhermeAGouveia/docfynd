@@ -31,8 +31,10 @@ public class SearchService {
             String content = h.source().get("content").asText();
             content = treatContent(content);
             String url = h.source().get("url").asText();
+            String highlight = h.highlight().get("content").get(0);
+            highlight = treatHightlight(highlight);
             List<Keyword> keywords = watsonNLU.extractConcepts(content);
-            return new Result().abs(content).title(title).url(url).keywords(keywords);
+            return new Result().abs(content).title(title).url(url).keywords(keywords).highlightAbs(highlight);
         }).collect(Collectors.toList());
     }
 
@@ -43,4 +45,12 @@ public class SearchService {
         content = content.replaceAll("^\\s+", "");
         return content;
     }
+    private String treatHightlight(String content) {
+        content = content.replaceAll("</?(som|math)\\d*>", "");
+        //content = content.replaceAll("[^A-Za-z\\s]+", "");
+        content = content.replaceAll("\\s+", " ");
+        content = content.replaceAll("^\\s+", "");
+        return content;
+    }
+
 }

@@ -81,6 +81,8 @@ components:
           type: string
         abs:
           type: string
+        highlight_abs:
+          type: string
         keywords:
           type: array
           items:

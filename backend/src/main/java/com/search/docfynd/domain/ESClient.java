@@ -6,6 +6,8 @@ import co.elastic.clients.elasticsearch._types.query_dsl.MatchPhraseQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Highlight;
+import co.elastic.clients.elasticsearch.core.search.HighlightField;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
@@ -104,7 +106,11 @@ public class ESClient {
             Query boolQuery;
             boolQuery = splitedOrigatoryAndOptionalTerms.isEmpty() ? buildWithoutObrigatoryTermsQuery(query) : buildWithObrigatoryTermsQuery(splitedOrigatoryAndOptionalTerms.get());
             SearchResponse<ObjectNode> response;
-            response = elasticsearchClient.search(s -> s.index("wikipedia").from(0).size(10).query(boolQuery), ObjectNode.class);
+
+            HighlightField highlightField = HighlightField.of(h -> h.highlightQuery(boolQuery));
+            Highlight highlight = Highlight.of(h -> h.fields("content", highlightField).numberOfFragments(0).preTags("<strong>").postTags("</strong>"));
+
+            response = elasticsearchClient.search(s -> s.index("wikipedia").from(0).size(10).query(boolQuery).highlight(highlight), ObjectNode.class);
             return response;
         } catch (IOException e) {
             System.out.println(e.getStackTrace());

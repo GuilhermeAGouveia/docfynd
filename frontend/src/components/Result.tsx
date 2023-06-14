@@ -87,8 +87,11 @@ export default function Result({ result }: ResultProps) {
           sx={{
             color: theme?.colors.text_secondary,
           }}
+          dangerouslySetInnerHTML={{
+            __html: result.highlight_abs,
+          }}
+          themeContext={theme}
         >
-          {result.abs}
         </ResultContent>
       </ResultBox>
       {!isMobileView && (
@@ -113,7 +116,14 @@ const ResultRoot = styled(motion.div)`
 
 const ResultTitle = styled(Typography)``;
 
-const ResultContent = styled(Typography)``;
+const ResultContent = styled(Typography)<{
+  themeContext?: any;
+}>`
+  & > strong {
+    text-decoration: underline dotted;
+    color: ${(props) => props.themeContext?.colors.secondary};
+  }
+`;
 
 const ResultOptionsBox = styled(motion.div)`
   position: relative;

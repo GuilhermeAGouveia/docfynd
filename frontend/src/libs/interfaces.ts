@@ -10,6 +10,7 @@ export interface Result {
   abs: string;
   keywords: Keyword[];
   url: string;
+  highlight_abs: string;
   createdAt: string;
   updatedAt: string;
   rating?: number;
