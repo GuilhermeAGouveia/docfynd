@@ -29,9 +29,12 @@ export default function SearchBox({ searched, isResultPage }: SearchBoxProps) {
 
   return (
     <SearchInputBox
+      onMouseLeave={() => setFocus(false)}
+      onMouseEnter={() => setFocus(true)}
       onSubmit={(e: FormEvent) => {
         e.preventDefault();
         onSearch();
+        setFocus(false);
       }}
       style={{
         backgroundColor: theme?.colors.bg,
@@ -52,7 +55,7 @@ export default function SearchBox({ searched, isResultPage }: SearchBoxProps) {
       <SearchBar
         isResultPage={!!isResultPage}
         onFocusInputText={() => setFocus(true)}
-        onBlurInputText={() => setFocus(false)}
+        onBlurInputText={() => {}}
       />
       <HistoryList show={focus} filter={search.query} />
     </SearchInputBox>
