@@ -94,4 +94,5 @@ const ButtonBox = styled.div`
   flex-direction: row;
   gap: 20px;
   width: 100%;
+  z-index: 1;
 `;
