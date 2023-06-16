@@ -17,11 +17,17 @@ export interface Result {
 }
 
 export interface ListComponent {
+  style?: React.CSSProperties;
   search: string;
   isLoadingInitialData: boolean;
   cardComponent: React.FC<any>;
   filterValues?: any;
   orderByOptions?: any;
+  getMorePages: (
+    query: string,
+    page: number,
+    filterValues?: any
+  ) => Promise<Page<Result>>;
 }
 
 export interface Page<T> {

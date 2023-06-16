@@ -15,6 +15,8 @@ export default function PageButtonList({
   filterValues,
   orderByOptions,
   isLoadingInitialData,
+  getMorePages,
+  style,
 }: ListComponent) {
   const { theme } = useTheme();
   const [isLoadingItems, setIsLoadingItems] = useState(isLoadingInitialData);
@@ -37,7 +39,7 @@ export default function PageButtonList({
     });
     document.getElementById("listRoot")?.scrollTo(0, 0);
     setIsLoadingItems(true);
-    const res = await searchWithPage(search, page);
+    const res = await getMorePages(search, page);
     setPage(res);
     setIsLoadingItems(false);
   }
@@ -47,7 +49,7 @@ export default function PageButtonList({
   }, [search]);
 
   return (
-    <ListContainer isMobile={isMobileView}>
+    <ListContainer isMobile={isMobileView} style={style}>
       {!isLoadingItems && page.data.length > 0 && (
         <MetadataSearchContainer
           variant="caption"

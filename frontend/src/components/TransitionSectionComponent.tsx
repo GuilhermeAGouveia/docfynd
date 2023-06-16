@@ -1,5 +1,4 @@
 import { useTheme } from "@/context/Theme";
-import zIndex from "@mui/material/styles/zIndex";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -32,7 +31,7 @@ export default function TransitionSectionComponent({
             top: "-20px",
           }}
           animate={{
-            height: [0, 100, window.innerHeight],
+            height: [0, 100, 80, window.innerHeight],
             top: "-20px",
           }}
           exit={{
@@ -41,9 +40,10 @@ export default function TransitionSectionComponent({
           }}
           transition={{
             height: {
-              times: [0, 0.5, 1],
+              times: [0, 0.2, 0.3, 1],
               stiffness: 700,
               damping: 30,
+              duration: 1,
             },
           }}
           style={{
