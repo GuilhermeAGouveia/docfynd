@@ -28,11 +28,11 @@ export default function TransitionSectionComponent({
         <TransitionCircle
           initial={{
             height: 0,
-            top: "-20px",
+            top: "150px",
           }}
           animate={{
             height: [0, 100, 80, window.innerHeight],
-            top: "-20px",
+            top: "150px",
           }}
           exit={{
             top: window.innerHeight,
@@ -64,5 +64,7 @@ export default function TransitionSectionComponent({
 }
 
 const TransitionCircle = styled(motion.div)`
-  position: absolute;
+  position: fixed;
+  width: 100vw;
+  left: 0;
 `;

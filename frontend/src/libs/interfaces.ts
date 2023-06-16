@@ -17,6 +17,7 @@ export interface Result {
 }
 
 export interface ListComponent {
+  id: string;
   style?: React.CSSProperties;
   search: string;
   isLoadingInitialData: boolean;

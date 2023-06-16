@@ -10,6 +10,7 @@ import { useTheme } from "@/context/Theme";
 import ResultListSkeleton from "./ResultListSkeleton";
 
 export default function PageButtonList({
+  
   search,
   cardComponent: CardComponent,
   filterValues,
@@ -17,6 +18,7 @@ export default function PageButtonList({
   isLoadingInitialData,
   getMorePages,
   style,
+  id,
 }: ListComponent) {
   const { theme } = useTheme();
   const [isLoadingItems, setIsLoadingItems] = useState(isLoadingInitialData);
@@ -49,7 +51,7 @@ export default function PageButtonList({
   }, [search]);
 
   return (
-    <ListContainer isMobile={isMobileView} style={style}>
+    <ListContainer isMobile={isMobileView} style={style} id={id}>
       {!isLoadingItems && page.data.length > 0 && (
         <MetadataSearchContainer
           variant="caption"
