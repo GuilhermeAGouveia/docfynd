@@ -93,8 +93,8 @@ const SelectOption = ({
           width: "0px",
         }}
         animate={{
-          left: lineProps.left - 0.25 * lineProps.width + "px", //lineProps.left - 0.25 * lineProps.width + "px",
-          width: 1.5 * lineProps.width + "px",
+          left: lineProps.left - 10 + "px", //lineProps.left - 0.25 * lineProps.width + "px",
+          width: lineProps.width + 20 + "px",
           backgroundColor: sx.lineColor,
         }}
       />
