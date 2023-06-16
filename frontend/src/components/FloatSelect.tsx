@@ -88,9 +88,6 @@ const SelectOption = ({
         </Option>
       ))}
       <LineSelect
-        style={{
-          backgroundColor: sx.lineColor,
-        }}
         initial={{
           left: "0px",
           width: "0px",
@@ -98,6 +95,7 @@ const SelectOption = ({
         animate={{
           left: lineProps.left - 0.25 * lineProps.width + "px", //lineProps.left - 0.25 * lineProps.width + "px",
           width: 1.5 * lineProps.width + "px",
+          backgroundColor: sx.lineColor,
         }}
       />
     </SelectOptionContainer>

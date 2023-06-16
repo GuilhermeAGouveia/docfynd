@@ -15,6 +15,7 @@ import PageButtonList from "@/components/PaginationList";
 import { generateRandomPage } from "@/libs/result";
 import { motion } from "framer-motion";
 import FavoriteResult from "@/components/FavoriteList";
+import SectionController from "@/components/SectionController";
 
 export default function ResutlsPage() {
   const router = useRouter();
@@ -24,8 +25,15 @@ export default function ResutlsPage() {
   const { isMobileView } = useDeviceDetect();
 
   const [activeFilter, setActiveFilter] = useState(true);
+  const [searchSection, setSearchSection] = useState(0);
 
-  const initialPage = generateRandomPage(10);
+  // const initialPage = generateRandomPage(10);
+
+  const sectionTranslate = [
+    "docfynd",
+    "searchonmath",
+    "chatgpt"
+  ]
 
   return (
     <ResultPageRoot
@@ -70,25 +78,25 @@ export default function ResutlsPage() {
               content: {
                 label: "Todos",
               },
-              onClick: (num) => console.log(num),
+              onClick: (num) => setSearchSection(num),
             },
             {
               content: {
-                label: "Formulas",
+                label: "SearchOnMath",
               },
-              onClick: (num) => console.log(num),
+              onClick: (num) => setSearchSection(num),
             },
             {
               content: {
-                label: "Imagens",
+                label: "ChatGPT",
               },
-              onClick: (num) => console.log(num),
+              onClick: (num) => setSearchSection(num),
             },
           ]}
           sx={{
-            fgColor: theme?.colors.primary,
+            fgColor: theme?.colors.sections[sectionTranslate[searchSection] as "docfynd" | "searchonmath" | "chatgpt"].primary,
             bgColor: "transparent",
-            lineColor: theme?.colors.primary,
+            lineColor: theme?.colors.sections[sectionTranslate[searchSection] as "docfynd" | "searchonmath" | "chatgpt"].primary,
           }}
         ></SelectOption>
         {!isMobileView && (
@@ -125,11 +133,8 @@ export default function ResutlsPage() {
           width: isMobileView ? "100%" : "70%",
         }}
       >
-        <PageButtonList
-          search={search as string}
-          isLoadingInitialData={false}
-          cardComponent={Result}
-        />
+        
+        <SectionController section={searchSection} search={search as string}/>
       </ResultsBox>
     </ResultPageRoot>
   );

@@ -14,6 +14,12 @@ interface ThemeMain {
     text_secondary: string;
     primary: string;
     secondary: string;
+    sections: {
+      [key in "docfynd" | "searchonmath" | "chatgpt" ]: {
+        primary: string;
+        secondary: string;
+      };
+    }
   };
   theme_name: string;
 }
@@ -27,6 +33,20 @@ const themes = {
       text_secondary: "#242424",
       primary: "#CF39E8",
       secondary: "#DA3D3D",
+      sections: {
+        docfynd: {
+          primary: "#CF39E8",
+          secondary: "#DA3D3D",
+        },
+        searchonmath: {
+          primary: "#CF39E8",
+          secondary: "#DA3D3D",
+        },
+        chatgpt: {
+          primary: "#CF39E8",
+          secondary: "#DA3D3D",
+        }
+      }
 
     },
     theme_name: "light",
@@ -39,6 +59,20 @@ const themes = {
       text_secondary: "#cacaca",
       primary: "#CF39E8",
       secondary: "#DA3D3D",
+      sections: {
+        docfynd: {
+          primary: "#CF39E8",
+          secondary: "#DA3D3D",
+        },
+        searchonmath: {
+          primary: "#3eb972",
+          secondary: "#446dac",
+        },
+        chatgpt: {
+          primary: "#ff8bff",
+          secondary: "#DA3D3D",
+        }
+      }
     },
     theme_name: "dark",
   },
