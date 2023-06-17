@@ -59,7 +59,12 @@ export default function Result({ result }: ResultProps) {
                   backgroundColor: mouseOver
                     ? theme?.colors.bg
                     : theme?.colors.bg_secondary,
-                  color: theme?.colors.primary,
+                  color: theme?.colors.section.primary,
+                  transition: {
+                    color: {
+                      delay: 0.4,
+                    },
+                  },
                 }}
                 variant="caption"
                 fontWeight={500}
@@ -75,7 +80,7 @@ export default function Result({ result }: ResultProps) {
             sx={{
               color: theme?.colors.text,
               "&:hover": {
-                color: theme?.colors.secondary,
+                color: theme?.colors.section.secondary,
               },
             }}
           >

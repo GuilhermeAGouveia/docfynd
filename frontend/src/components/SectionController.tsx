@@ -27,7 +27,7 @@ export default function SectionController({
   return (
     <SectionControllerRoot style={{
       left: -section * 100 + "%",
-      transitionDelay: "1s",
+      transitionDelay: ".4s",
       
     }}>
       <TransitionSectionComponent listener={section} />
@@ -41,7 +41,7 @@ export default function SectionController({
           position: "relative",
           zIndex: section === 0 ? 0 : -100,
           opacity: section === 0 ? 1 : 0,
-          transitionDelay: "1s",
+          transitionDelay: ".4s",
 
           top: 0,
           left: 0,
@@ -59,7 +59,7 @@ export default function SectionController({
           left: 0,
           zIndex: section === 1 ? 0 : -100,
           opacity: section === 1 ? 1 : 0,
-          transitionDelay: "1s",
+          transitionDelay: ".4s",
           
         }}
       />

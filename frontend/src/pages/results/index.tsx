@@ -21,19 +21,13 @@ export default function ResutlsPage() {
   const router = useRouter();
   const { search } = router.query;
   console.log("sear", search);
-  const { theme } = useTheme();
+  const { theme, toogleSectionTheme } = useTheme();
   const { isMobileView } = useDeviceDetect();
 
   const [activeFilter, setActiveFilter] = useState(true);
   const [searchSection, setSearchSection] = useState(0);
 
   // const initialPage = generateRandomPage(10);
-
-  const sectionTranslate = [
-    "docfynd",
-    "searchonmath",
-    "chatgpt"
-  ]
 
   return (
     <ResultPageRoot
@@ -78,25 +72,34 @@ export default function ResutlsPage() {
               content: {
                 label: "Todos",
               },
-              onClick: (num) => setSearchSection(num),
+              onClick: (num) => {
+                setSearchSection(num);
+                toogleSectionTheme("docfynd");
+              },
             },
             {
               content: {
                 label: "SearchOnMath",
               },
-              onClick: (num) => setSearchSection(num),
+              onClick: (num) => {
+                setSearchSection(num);
+                toogleSectionTheme("searchonmath");
+              },
             },
             {
               content: {
                 label: "ChatGPT",
               },
-              onClick: (num) => setSearchSection(num),
+              onClick: (num) => {
+                setSearchSection(num);
+                toogleSectionTheme("chatgpt");
+              },
             },
           ]}
           sx={{
-            fgColor: theme?.colors.sections[sectionTranslate[searchSection] as "docfynd" | "searchonmath" | "chatgpt"].primary,
+            fgColor: theme?.colors.section.primary,
             bgColor: "transparent",
-            lineColor: theme?.colors.sections[sectionTranslate[searchSection] as "docfynd" | "searchonmath" | "chatgpt"].primary,
+            lineColor: theme?.colors.section.primary,
           }}
         ></SelectOption>
         {!isMobileView && (
@@ -113,14 +116,18 @@ export default function ResutlsPage() {
             <Typography
               variant="body2"
               sx={{
-                color: !activeFilter ? theme?.colors.primary : theme?.colors.text_secondary,
+                color: !activeFilter
+                  ? theme?.colors.primary
+                  : theme?.colors.text_secondary,
               }}
             >
               Filtros
             </Typography>
             <FilterListIcon
               sx={{
-                color: !activeFilter ? theme?.colors.primary : theme?.colors.text_secondary,
+                color: !activeFilter
+                  ? theme?.colors.primary
+                  : theme?.colors.text_secondary,
               }}
             />
           </ToggleButton>
@@ -133,8 +140,7 @@ export default function ResutlsPage() {
           width: isMobileView ? "100%" : "70%",
         }}
       >
-        
-        <SectionController section={searchSection} search={search as string}/>
+        <SectionController section={searchSection} search={search as string} />
       </ResultsBox>
     </ResultPageRoot>
   );

@@ -96,11 +96,11 @@ export default function PageButtonList({
                 color: theme?.colors.text,
               },
               "& .MuiPaginationItem-root.Mui-selected": {
-                backgroundColor: theme?.colors.primary,
+                backgroundColor: theme?.colors.section.primary,
                 color: theme?.colors.text,
               },
               "& .MuiPaginationItem-root.Mui-selected:hover": {
-                backgroundColor: theme?.colors.primary,
+                backgroundColor: theme?.colors.section.primary,
                 color: theme?.colors.text,
               },
             }}

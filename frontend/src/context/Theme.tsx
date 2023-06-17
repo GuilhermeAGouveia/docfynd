@@ -6,6 +6,11 @@ import {
   useState,
 } from "react";
 
+interface SectionTheme {
+  primary: string;
+  secondary: string;
+}
+
 interface ThemeMain {
   colors: {
     bg: string;
@@ -14,15 +19,25 @@ interface ThemeMain {
     text_secondary: string;
     primary: string;
     secondary: string;
-    sections: {
-      [key in "docfynd" | "searchonmath" | "chatgpt" ]: {
-        primary: string;
-        secondary: string;
-      };
-    }
+    section: SectionTheme;
   };
   theme_name: string;
 }
+
+const sectionThemes = {
+  docfynd: {
+    primary: "#CF39E8",
+    secondary: "#DA3D3D",
+  },
+  searchonmath: {
+    primary: "#3eb972",
+    secondary: "#446dac",
+  },
+  chatgpt: {
+    primary: "#ff8bff",
+    secondary: "#DA3D3D",
+  },
+};
 
 const themes = {
   light: {
@@ -33,21 +48,7 @@ const themes = {
       text_secondary: "#242424",
       primary: "#CF39E8",
       secondary: "#DA3D3D",
-      sections: {
-        docfynd: {
-          primary: "#CF39E8",
-          secondary: "#DA3D3D",
-        },
-        searchonmath: {
-          primary: "#CF39E8",
-          secondary: "#DA3D3D",
-        },
-        chatgpt: {
-          primary: "#CF39E8",
-          secondary: "#DA3D3D",
-        }
-      }
-
+      section: sectionThemes.docfynd,
     },
     theme_name: "light",
   },
@@ -55,24 +56,11 @@ const themes = {
     colors: {
       bg: "#292929",
       bg_secondary: "#1f1f1f",
-      text: "#fff", 
+      text: "#fff",
       text_secondary: "#cacaca",
       primary: "#CF39E8",
       secondary: "#DA3D3D",
-      sections: {
-        docfynd: {
-          primary: "#CF39E8",
-          secondary: "#DA3D3D",
-        },
-        searchonmath: {
-          primary: "#3eb972",
-          secondary: "#446dac",
-        },
-        chatgpt: {
-          primary: "#ff8bff",
-          secondary: "#DA3D3D",
-        }
-      }
+      section: sectionThemes.docfynd,
     },
     theme_name: "dark",
   },
@@ -81,6 +69,7 @@ const themes = {
 interface ThemeValue {
   theme: ThemeMain;
   toogleTheme: () => void;
+  toogleSectionTheme: (section: keyof typeof sectionThemes) => void;
 }
 
 const Theme = createContext({} as ThemeValue);
@@ -88,16 +77,32 @@ const Theme = createContext({} as ThemeValue);
 export default Theme;
 
 export function ThemeProvider({ children }: any) {
-  const [mainTheme, setMainTheme] = useState<keyof typeof themes>("dark");
+  const [mainTheme, setMainTheme] = useState(themes.dark);
   const toogleTheme = () => {
-    setMainTheme((old) => (old === "light" ? "dark" : "light"));
+    setMainTheme((old) => {
+      let newTheme = old.theme_name === "light" ? themes.dark : themes.light;
+      newTheme.colors.section = old.colors.section;
+      return newTheme;
+    });
   };
+
+  const toogleSectionTheme = useCallback(
+    (section: keyof typeof sectionThemes) => {
+      setMainTheme((old) => {
+        const newTheme = { ...old };
+        newTheme.colors.section = sectionThemes[section];
+        return newTheme;
+      });
+    },
+    []
+  );
 
   return (
     <Theme.Provider
       value={{
-        theme: themes[mainTheme],
+        theme: mainTheme,
         toogleTheme,
+        toogleSectionTheme,
       }}
     >
       {children}

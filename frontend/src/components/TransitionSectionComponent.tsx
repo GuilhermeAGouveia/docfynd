@@ -16,11 +16,11 @@ export default function TransitionSectionComponent({
   useEffect(() => {
     setShow(true);
 
-    let timeOut = setTimeout(() => setShow(false), 1000);
+    let timeOut = setTimeout(() => setShow(false), 500);
     return () => clearTimeout(timeOut);
   }, [listener]);
 
-  const sectionTranslate = ["docfynd", "searchonmath", "chatgpt"];
+  
 
   return (
     <AnimatePresence>
@@ -31,7 +31,7 @@ export default function TransitionSectionComponent({
             top: "150px",
           }}
           animate={{
-            height: [0, 100, 80, window.innerHeight],
+            height: window.innerHeight,
             top: "150px",
           }}
           exit={{
@@ -40,20 +40,15 @@ export default function TransitionSectionComponent({
           }}
           transition={{
             height: {
-              times: [0, 0.2, 0.3, 1],
+              type: "spring",
               stiffness: 700,
               damping: 30,
-              duration: 1,
+              duration: 0.3,
             },
           }}
           style={{
             background:
-              theme?.colors.sections[
-                sectionTranslate[listener] as
-                  | "docfynd"
-                  | "searchonmath"
-                  | "chatgpt"
-              ].primary,
+              theme?.colors.section.primary,
             zIndex: 1000,
             width: "100%",
           }}
