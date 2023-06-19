@@ -45,7 +45,7 @@ export default function Result({ result }: ResultProps) {
         <KeyWordsBox>
           {result?.keywords.map((keyword, index) => (
             <Link
-              href={keyword.dbpedia_resource}
+              href={keyword?.dbpedia_resource || "#"}
               target="_blank"
               style={{
                 textDecoration: "none",

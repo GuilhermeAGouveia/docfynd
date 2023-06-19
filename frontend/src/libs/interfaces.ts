@@ -2,7 +2,7 @@ import { Search } from "@/context/Search";
 
 export interface Keyword {
   text: string;
-  dbpedia_resource: string;
+  dbpedia_resource?: string;
 }
 
 export interface Result {

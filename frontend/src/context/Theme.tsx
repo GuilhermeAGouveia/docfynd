@@ -35,7 +35,7 @@ const sectionThemes = {
   },
   chatgpt: {
     primary: "#ff8bff",
-    secondary: "#DA3D3D",
+    secondary: "#1f4600",
   },
 };
 

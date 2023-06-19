@@ -4,6 +4,7 @@ import Result from "./Result";
 import TransitionSectionComponent from "./TransitionSectionComponent";
 import { searchOnSearchOnMath, searchWithPage } from "@/libs/result";
 import { RefObject, createRef, useEffect, useRef, useState } from "react";
+import ChatGPT from "./ChatGPT";
 
 interface SectionControllerProps {
   section: number;
@@ -63,12 +64,21 @@ export default function SectionController({
           
         }}
       />
+
+      <ChatGPT search={search}  style={{
+          position: "relative",
+          left: 0,
+          zIndex: section === 2 ? 0 : -100,
+          opacity: section === 2 ? 1 : 0,
+          transitionDelay: ".4s",
+          
+        }}/>
     </SectionControllerRoot>
   );
 }
 
 const SectionControllerRoot = styled("div")`
   position: relative;
-  width: 200%;
+  width: 300%;
   display: flex;
 `;
