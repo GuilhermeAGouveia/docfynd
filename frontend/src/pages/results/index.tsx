@@ -16,6 +16,7 @@ import { generateRandomPage } from "@/libs/result";
 import { motion } from "framer-motion";
 import FavoriteResult from "@/components/FavoriteList";
 import SectionController from "@/components/SectionController";
+import { FilterFields } from "@/libs/interfaces";
 
 export default function ResutlsPage() {
   const router = useRouter();
@@ -26,8 +27,17 @@ export default function ResutlsPage() {
 
   const [activeFilter, setActiveFilter] = useState(true);
   const [searchSection, setSearchSection] = useState(0);
+  const [filter, setFilter] = useState<FilterFields>({
+    sortBy: "relevance",
+    orderBy: "asc",
+    sinceYear: 1902,
+  });
 
   // const initialPage = generateRandomPage(10);
+
+  const onFilter = (data: any) => {
+    setFilter(data);
+  };
 
   return (
     <ResultPageRoot
@@ -133,14 +143,14 @@ export default function ResutlsPage() {
           </ToggleButton>
         )}
       </SelectAndFilterBox>
-      <FilterBox show={!activeFilter} />
+      <FilterBox show={!activeFilter} onFilter={onFilter} filterFields={filter} />
       <ResultsBox
         style={{
           padding: isMobileView ? "0 5px" : "0 10rem",
           width: isMobileView ? "100%" : "70%",
         }}
       >
-        <SectionController section={searchSection} search={search as string} />
+        <SectionController section={searchSection} search={search as string} filterFields={filter}/>
       </ResultsBox>
     </ResultPageRoot>
   );

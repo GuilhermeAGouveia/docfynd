@@ -1,5 +1,5 @@
 import randomWords from "random-words";
-import { Page, Result } from "./interfaces";
+import { FilterFields, Page, Result } from "./interfaces";
 
 import api from "../service/api";
 
@@ -36,7 +36,7 @@ export function generateRandomPage(nResults: number): Page<Result> {
 export async function searchWithPage(
   query: string,
   page: number,
-  filterValues?: any
+  filterValues?: FilterFields
 ): Promise<Page<Result>> {
   const { data: pageData } = await api.get<Page<Result>>(
     `/search?query=${query}&page=${page}&limit=10`

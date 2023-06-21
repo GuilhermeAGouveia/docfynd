@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Result, Page } from "../libs/interfaces";
 import { Pagination, CircularProgress, List, Typography } from "@mui/material";
 // import { getImoveisByFilterWithPage } from "../../../lib/imovel";
@@ -10,7 +10,6 @@ import { useTheme } from "@/context/Theme";
 import ResultListSkeleton from "./ResultListSkeleton";
 
 export default function PageButtonList({
-  
   search,
   cardComponent: CardComponent,
   filterValues,
@@ -31,24 +30,27 @@ export default function PageButtonList({
   });
 
   const { isMobileView } = useDeviceDetect();
-  async function onChangePage(page: number) {
-    setPageNumber(page);
-    setPage({
-      data: [],
-      total: 0,
-      hasNext: false,
-      took: 0,
-    });
-    document.getElementById("listRoot")?.scrollTo(0, 0);
-    setIsLoadingItems(true);
-    const res = await getMorePages(search, page);
-    setPage(res);
-    setIsLoadingItems(false);
-  }
+  const onChangePage = useCallback(
+    async function (page: number) {
+      setPageNumber(page);
+      setPage({
+        data: [],
+        total: 0,
+        hasNext: false,
+        took: 0,
+      });
+      document.getElementById("listRoot")?.scrollTo(0, 0);
+      setIsLoadingItems(true);
+      const res = await getMorePages(search, page, filterValues);
+      setPage(res);
+      setIsLoadingItems(false);
+    },
+    [search, filterValues]
+  );
 
   useEffect(() => {
     if (search) onChangePage(1);
-  }, [search]);
+  }, [search, filterValues]);
 
   return (
     <ListContainer isMobile={isMobileView} style={style} id={id}>

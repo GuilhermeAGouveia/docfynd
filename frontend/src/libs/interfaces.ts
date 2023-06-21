@@ -22,7 +22,7 @@ export interface ListComponent {
   search: string;
   isLoadingInitialData: boolean;
   cardComponent: React.FC<any>;
-  filterValues?: any;
+  filterValues?: FilterFields;
   orderByOptions?: any;
   getMorePages: (
     query: string,
@@ -37,3 +37,11 @@ export interface Page<T> {
   took: number;
   hasNext?: boolean;
 }
+
+export interface FilterFields {
+  sortBy: "relevance" | "date" | "access";
+  orderBy: "asc" | "desc";
+  sinceYear: number;
+}
+
+//{sortBy: 'relevance', order: 'left', sinceYear: 2023}
