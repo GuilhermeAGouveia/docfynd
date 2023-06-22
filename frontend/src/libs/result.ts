@@ -38,10 +38,17 @@ export async function searchWithPage(
   page: number,
   filterValues?: FilterFields
 ): Promise<Page<Result>> {
-  const { data: pageData } = await api.get<Page<Result>>(
-    `/search?query=${query}&page=${page}&limit=10`
-  );
-  console.log(pageData);
+  let response;
+  if (!filterValues)
+    response = await api.get<Page<Result>>(
+      `/search?query=${query}&page=${page}&limit=10`
+    );
+  else
+    response = await api.post<Page<Result>>(
+      `/search?query=${query}&page=${page}&limit=10`,
+      filterValues
+    );
+  const { data: pageData } = response;
   return {
     data: pageData.data,
     total: pageData.total,

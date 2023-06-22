@@ -30,6 +30,21 @@ export default function HistoryList({ show, filter }: HistoryProps) {
     day: "numeric",
   });
 
+  const variantListItems = {
+    hidden: {
+      opacity: 0,
+      y: 20,
+    },
+    visible: (custom: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: custom * 0.05,
+        duration: 0.2,
+      },
+    }),
+  };
+
   return (
     <AnimatePresence>
       {(show || mouseOverItem) && (
@@ -53,57 +68,56 @@ export default function HistoryList({ show, filter }: HistoryProps) {
               overflow: "hidden",
             }}
           >
-            {historyNotRerender
-              .filter((history_item) =>
-                history_item.query.toLowerCase().includes(filter.toLowerCase())
-              )
-              .slice(-5)
-              .reverse()
-              .map((history_item, index) => (
-                <ListItem
-
-                  secondaryAction={
-                    (index + 1) === mouseOverItem && (
-                      <OpenInNewIcon
-                        sx={{
-                          color: "#CF39E8",
-                          width: 20,
-                        }}
-                      />
-                    )
-                  }
-                  onClick={() => onSearch(history_item)}
-                  key={history_item.query + history_item.searched_at}
-                  onMouseOver={() => setMouseOverItem(index + 1)} // [1
-                  onMouseLeave={() => setMouseOverItem(null)} // [1
-                  sx={{
-                    height: "45px",
-                    width: "100%",
-                    borderRadius: "3px",
-                    cursor: "pointer",
-
-                    "&:hover": {
-                      bgcolor: "rgba(255, 255, 255, 0.1)",
-                    },
-                  }}
-                >
-                  <ListItemAvatar
-                    sx={{
-                      marginLeft: "-16px",
-                    }}
+            <AnimatePresence>
+              {historyNotRerender
+                .filter((history_item) =>
+                  history_item.query
+                    .toLowerCase()
+                    .includes(filter.toLowerCase())
+                )
+                .slice(-5)
+                .reverse()
+                .map((history_item, index) => (
+                  <ListItemMotion
+                    layout
+                    variants={variantListItems}
+                    custom={index + 1}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    secondaryAction={
+                      index + 1 === mouseOverItem && (
+                        <OpenInNewIcon
+                          sx={{
+                            color: "#CF39E8",
+                            width: 20,
+                          }}
+                        />
+                      )
+                    }
+                    onClick={() => onSearch(history_item)}
+                    key={history_item.query + history_item.searched_at}
+                    onMouseOver={() => setMouseOverItem(index + 1)} // [1
+                    onMouseLeave={() => setMouseOverItem(null)} // [1
                   >
-                    <Avatar sx={{ background: "transparent" }}>
-                      <HistoryIcon
-                        sx={{
-                          color: "#CF39E8",
-                          width: 20,
-                        }}
-                      />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary={history_item.query} />
-                </ListItem>
-              ))}
+                    <ListItemAvatar
+                      sx={{
+                        marginLeft: "-16px",
+                      }}
+                    >
+                      <Avatar sx={{ background: "transparent" }}>
+                        <HistoryIcon
+                          sx={{
+                            color: "#CF39E8",
+                            width: 20,
+                          }}
+                        />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={history_item.query} />
+                  </ListItemMotion>
+                ))}
+            </AnimatePresence>
           </List>
         </HistoryListBox>
       )}
@@ -114,4 +128,16 @@ export default function HistoryList({ show, filter }: HistoryProps) {
 const HistoryListBox = styled(motion.div)`
   position: relative;
   overflow: hidden;
+`;
+
+const ListItemMotion = styled(motion(ListItem))`
+  overflow: hidden;
+  height: 45px;
+  width: 100%;
+  border-radius: 3px;
+  cursor: "pointer";
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
 `;

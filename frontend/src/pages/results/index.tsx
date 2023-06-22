@@ -117,7 +117,7 @@ export default function ResutlsPage() {
             sx={{
               height: "40px",
             }}
-            value="check"
+            value={activeFilter}
             selected={activeFilter}
             onChange={() => {
               setActiveFilter(!activeFilter);
