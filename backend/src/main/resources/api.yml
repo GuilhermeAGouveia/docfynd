@@ -27,6 +27,47 @@ paths:
                 $ref: "#/components/schemas/Error"
 
   /search:
+    post:
+      summary: "Submits a query with filters to Elasticsearch"
+      operationId: searchWithFilter
+      tags:
+        - search
+      parameters:
+        - name: query
+          in: query
+          description: Query to be submitted
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Query to be submitted
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Query to be submitted
+          schema:
+            type: integer
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Filter'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Page"
+        500:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     get:
       summary: "Submits a query to Elasticsearch"
       operationId: search
@@ -63,6 +104,17 @@ paths:
                 $ref: "#/components/schemas/Error"
 components:
   schemas:
+    Filter:
+      type: object
+      properties:
+        orderBy:
+          type: string
+          enum: [asc, desc]
+        sortBy:
+          type: string
+          enum: [relevance, date, access]
+        sinceYear:
+          type: integer
     Keyword:
       type: object
       properties:
@@ -92,10 +144,16 @@ components:
           type: string
         highlight_abs:
           type: string
+        createdAt:
+          type: string
+          pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
+          example: "2020-02-28"
         keywords:
           type: array
           items:
             $ref: "#/components/schemas/Keyword"
+        reading_time:
+          type: integer
     Error:
       type: object
       required:

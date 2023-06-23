@@ -1,6 +1,8 @@
 package com.search.docfynd.service;
 
+import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
+import com.elasticsearch.search.api.model.Filter;
 import com.elasticsearch.search.api.model.Keyword;
 import com.elasticsearch.search.api.model.Page;
 import com.elasticsearch.search.api.model.Result;
@@ -9,7 +11,9 @@ import com.search.docfynd.domain.ESClient;
 import com.search.docfynd.nlu.WatsonNLU;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SearchService {
@@ -21,9 +25,9 @@ public class SearchService {
         this.watsonNLU = watsonNLU;
     }
 
-    public Page submitQuery(String query, Integer page) {
+    public Page submitQuery(String query, Integer page, Optional<Filter> filterOptional) {
         // PaginatedList
-        var searchResponse = esClient.search(query, page);
+        var searchResponse = filterOptional.isEmpty() ? esClient.search(query, page) : esClient.search(query, page, filterOptional.get());
         List<Hit<ObjectNode>> hits = searchResponse.hits().hits();
         var results = hits.stream().map(h -> {
             String title = h.source().get("title").asText();
@@ -33,8 +37,10 @@ public class SearchService {
             String url = h.source().get("url").asText();
             String highlight = h.highlight().get("content").get(0);
             highlight = treatHightlight(highlight);
+            String createdAt = h.source().get("dt_creation").asText();
             List<Keyword> keywords = watsonNLU.extractConcepts(content);
-            return new Result().abs(content).title(title).url(url).keywords(keywords).highlightAbs(highlight);
+            int readingTime = h.source().get("reading_time").asInt();
+            return new Result().abs(content).title(title).url(url).keywords(keywords).highlightAbs(highlight).createdAt(createdAt).readingTime(readingTime);
         }).toList();
 
         return new Page().data(results).total((int) searchResponse.hits().total().value()).took((int) searchResponse.took());
