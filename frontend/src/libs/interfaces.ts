@@ -14,6 +14,7 @@ export interface Result {
   createdAt: string;
   updatedAt: string;
   rating?: number;
+  reading_time?: number;
 }
 
 export interface ListComponent {

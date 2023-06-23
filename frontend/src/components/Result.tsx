@@ -1,4 +1,11 @@
-import { Avatar, Badge, Chip, Rating, Typography } from "@mui/material";
+import {
+  Avatar,
+  Badge,
+  Chip,
+  Rating,
+  Typography,
+  keyframes,
+} from "@mui/material";
 import { color, motion } from "framer-motion";
 import Link from "next/link";
 import styled from "styled-components";
@@ -11,6 +18,7 @@ import { Result } from "@/libs/interfaces";
 import { useTheme } from "@/context/Theme";
 import useDeviceDetect from "@/hook/useDetectDevice";
 import { random } from "lodash";
+import Keyword from "./Keyword";
 
 interface ResultProps {
   result: Result;
@@ -55,33 +63,7 @@ export default function Result({ result }: ResultProps) {
       >
         <KeyWordsBox>
           {result?.keywords.map((keyword, index) => (
-            <Link
-              href={keyword?.dbpedia_resource || "#"}
-              target="_blank"
-              style={{
-                textDecoration: "none",
-              }}
-              key={keyword.dbpedia_resource}
-            >
-              <Badge
-                badgeContent={index + 1}
-                sx={{
-                  color: theme?.colors.section.secondary,
-                }}
-              >
-                <Chip
-                  size="small"
-                  label={keyword.text}
-                  sx={{
-                    color: theme?.colors.section.primary,
-                    backgroundColor: theme?.colors.bg_secondary,
-                    padding: "4px",
-                    height: 28,
-                    cursor: "pointer",
-                  }}
-                />
-              </Badge>
-            </Link>
+            <Keyword key={index} index={index} keyword={keyword} />
           ))}
         </KeyWordsBox>
         <Link href={result.url} target="_blank">
@@ -109,49 +91,61 @@ export default function Result({ result }: ResultProps) {
           themeContext={theme}
         ></ResultContent>
         {useMemo(
-          () => (
-            <Metadata>
-              <Chip
-                size="small"
-                variant="outlined"
-                icon={<PublishedWithChangesIcon />}
-                label={`Published in ${formatter.format(
-                  new Date(result.createdAt)
-                )}`}
+          () =>
+            !isMobileView ? (
+              <Metadata>
+                <Chip
+                  size="small"
+                  variant="outlined"
+                  icon={<PublishedWithChangesIcon />}
+                  label={`Published in ${formatter.format(
+                    new Date(result.createdAt)
+                  )}`}
+                  sx={{
+                    color: theme?.colors.text,
+                    borderColor: theme?.colors.section.primary,
+                    padding: "4px",
+                    height: 28,
+                  }}
+                />
+                <Chip
+                  size="small"
+                  icon={<AdsClickIcon />}
+                  label={`More than ${random(100, 1000)} clicks`}
+                  variant="outlined"
+                  sx={{
+                    color: theme?.colors.text,
+                    borderColor: theme?.colors.section.primary,
+                    padding: "4px",
+                    height: 28,
+                  }}
+                />
+                {result.reading_time && (
+                  <Chip
+                    size="small"
+                    icon={<LocalLibraryIcon />}
+                    label={`Reading time of ${result.reading_time} min`}
+                    variant="outlined"
+                    sx={{
+                      color: theme?.colors.text,
+                      borderColor: theme?.colors.section.primary,
+                      padding: "4px",
+                      height: 28,
+                    }}
+                  />
+                )}
+              </Metadata>
+            ) : (
+              <Typography
+                variant="caption"
                 sx={{
                   color: theme?.colors.text,
-                  borderColor: theme?.colors.section.primary,
-                  padding: "4px",
-                  height: 28,
                 }}
-              />
-              <Chip
-                size="small"
-                icon={<AdsClickIcon />}
-                label={`More than ${random(100, 1000)} clicks`}
-                variant="outlined"
-                sx={{
-                  color: theme?.colors.text,
-                  borderColor: theme?.colors.section.primary,
-                  padding: "4px",
-                  height: 28,
-                }}
-              />
-              <Chip
-                size="small"
-                icon={<LocalLibraryIcon />}
-                label="Reading time of 5 min"
-                variant="outlined"
-                sx={{
-                  color: theme?.colors.text,
-                  borderColor: theme?.colors.section.primary,
-                  padding: "4px",
-                  height: 28,
-                }}
-              />
-            </Metadata>
-          ),
-          [theme]
+              >
+                Published in {formatter.format(new Date(result.createdAt))}
+              </Typography>
+            ),
+          [theme, isMobileView]
         )}
       </ResultBox>
       {!isMobileView && (
@@ -207,7 +201,6 @@ const ResultBox = styled(motion.div)<{
   gap: 10px;
 
   border: 1px solid rgba(0, 0, 0, 0);
-
 `;
 
 const KeyWordsBox = styled(motion.div)`
