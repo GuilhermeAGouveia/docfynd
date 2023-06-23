@@ -24,6 +24,7 @@ import styled from "styled-components";
 import { DateCalendarClassKey } from "@mui/x-date-pickers";
 import { FilterFields } from "@/libs/interfaces";
 import dayjs from "dayjs";
+import { filter } from "lodash";
 
 interface FilterBoxProps {
   show: boolean;
@@ -123,9 +124,10 @@ export default function FilterBox({ show, onFilter, filterFields }: FilterBoxPro
                   ref={rest.ref}
                   value={rest.value}
                   exclusive
+                  
                   aria-label="field order"
                   onChange={(e, newOrder) => {
-                    onChange(newOrder);
+                    onChange(newOrder || filterFields.orderBy);
                   }}
                 >
                   <ToggleButton

@@ -4,10 +4,14 @@ import { ThemeProvider } from "../context/Theme";
 import GlobalStyle from "../styles/Global";
 import { SearchProvider } from "@/context/Search";
 import { ResultProvider } from "@/context/FavoriteResult";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
+      <Head>
+        <title>Docfynd</title>
+      </Head>
       <GlobalStyle />
       <ResultProvider>
         <SearchProvider>
