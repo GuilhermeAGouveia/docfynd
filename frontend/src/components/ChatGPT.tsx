@@ -62,7 +62,7 @@ export default function ChatGPT({ search, style }: ChatGPTPros) {
     const fetchResults = async () => {
       const response = await openai.createCompletion({
         model: "text-davinci-003",
-        prompt: `Bring two useful links about Albert Einstein in an array in json format, each array object must contain the following properties: title, abs (abstract), keywords (string array) and url. Use a maximum of 300 tokens.`,
+        prompt: `Bring two useful links about ${search} in an array in json format, each array object must contain the following properties: title, abs (abstract), keywords (string array) and url. Use a maximum of 300 tokens.`,
         temperature: 0.9,
         max_tokens: 500,
         top_p: 1,

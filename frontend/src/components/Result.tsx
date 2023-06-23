@@ -1,12 +1,16 @@
-import { Rating, Typography } from "@mui/material";
+import { Avatar, Badge, Chip, Rating, Typography } from "@mui/material";
 import { color, motion } from "framer-motion";
 import Link from "next/link";
 import styled from "styled-components";
 import ResultOptions from "./ResultOptions";
-import { useState } from "react";
+import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
+import AdsClickIcon from "@mui/icons-material/AdsClick";
+import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
+import { useMemo, useState } from "react";
 import { Result } from "@/libs/interfaces";
 import { useTheme } from "@/context/Theme";
 import useDeviceDetect from "@/hook/useDetectDevice";
+import { random } from "lodash";
 
 interface ResultProps {
   result: Result;
@@ -16,6 +20,13 @@ export default function Result({ result }: ResultProps) {
   const { theme } = useTheme();
   const [mouseOver, setMouseOver] = useState(false);
   const { isMobileView } = useDeviceDetect();
+
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+
   return (
     <ResultRoot
       onMouseEnter={() => setMouseOver(true)}
@@ -52,25 +63,24 @@ export default function Result({ result }: ResultProps) {
               }}
               key={keyword.dbpedia_resource}
             >
-              <KeyWord
-                hoverbg={theme?.colors.primary}
-                hovercolor={theme?.colors.bg_secondary}
-                animate={{
-                  backgroundColor: mouseOver
-                    ? theme?.colors.bg
-                    : theme?.colors.bg_secondary,
-                  color: theme?.colors.section.primary,
-                  transition: {
-                    color: {
-                      delay: 0.4,
-                    },
-                  },
+              <Badge
+                badgeContent={index + 1}
+                sx={{
+                  color: theme?.colors.section.secondary,
                 }}
-                variant="caption"
-                fontWeight={500}
               >
-                {keyword.text}
-              </KeyWord>
+                <Chip
+                  size="small"
+                  label={keyword.text}
+                  sx={{
+                    color: theme?.colors.section.primary,
+                    backgroundColor: theme?.colors.bg_secondary,
+                    padding: "4px",
+                    height: 28,
+                    cursor: "pointer",
+                  }}
+                />
+              </Badge>
             </Link>
           ))}
         </KeyWordsBox>
@@ -87,6 +97,7 @@ export default function Result({ result }: ResultProps) {
             {result.title}
           </ResultTitle>
         </Link>
+
         <ResultContent
           variant="body2"
           sx={{
@@ -96,8 +107,52 @@ export default function Result({ result }: ResultProps) {
             __html: result.highlight_abs,
           }}
           themeContext={theme}
-        >
-        </ResultContent>
+        ></ResultContent>
+        {useMemo(
+          () => (
+            <Metadata>
+              <Chip
+                size="small"
+                variant="outlined"
+                icon={<PublishedWithChangesIcon />}
+                label={`Published in ${formatter.format(
+                  new Date(result.createdAt)
+                )}`}
+                sx={{
+                  color: theme?.colors.text,
+                  borderColor: theme?.colors.section.primary,
+                  padding: "4px",
+                  height: 28,
+                }}
+              />
+              <Chip
+                size="small"
+                icon={<AdsClickIcon />}
+                label={`More than ${random(100, 1000)} clicks`}
+                variant="outlined"
+                sx={{
+                  color: theme?.colors.text,
+                  borderColor: theme?.colors.section.primary,
+                  padding: "4px",
+                  height: 28,
+                }}
+              />
+              <Chip
+                size="small"
+                icon={<LocalLibraryIcon />}
+                label="Reading time of 5 min"
+                variant="outlined"
+                sx={{
+                  color: theme?.colors.text,
+                  borderColor: theme?.colors.section.primary,
+                  padding: "4px",
+                  height: 28,
+                }}
+              />
+            </Metadata>
+          ),
+          [theme]
+        )}
       </ResultBox>
       {!isMobileView && (
         <ResultOptionsBox>
@@ -153,7 +208,6 @@ const ResultBox = styled(motion.div)<{
 
   border: 1px solid rgba(0, 0, 0, 0);
 
-  cursor: pointer;
 `;
 
 const KeyWordsBox = styled(motion.div)`
@@ -186,4 +240,15 @@ const KeyWord = styled(motion(Typography))<{
     background-color: ${(props) => props.hoverbg};
     color: ${(props) => props.hovercolor};
   }
+`;
+
+const Metadata = styled(motion.div)`
+  position: relative;
+  width: 100%;
+  height: 20px;
+  margin: 10px 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
 `;

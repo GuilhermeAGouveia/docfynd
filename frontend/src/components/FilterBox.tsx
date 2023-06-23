@@ -70,8 +70,6 @@ export default function FilterBox({ show, onFilter, filterFields }: FilterBoxPro
           }}
           exit={{
             opacity: 0,
-
-            y: -100,
             height: 0,
           }}
         >
@@ -85,13 +83,13 @@ export default function FilterBox({ show, onFilter, filterFields }: FilterBoxPro
                 },
               }}
             >
-              Ordenar por
+              Sort By
             </InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={filterFields.sortBy}
-              label="Ordenar por"
+              label="Sort By"
               sx={{
                 width: "120px",
                 color: theme.colors.text,
@@ -107,9 +105,9 @@ export default function FilterBox({ show, onFilter, filterFields }: FilterBoxPro
               variant="outlined"
               {...register("sortBy")}
             >
-              <MenuItem value={"relevance"}>Relevancia</MenuItem>
+              <MenuItem value={"relevance"}>Relevance</MenuItem>
               <MenuItem value={"date"}>Date</MenuItem>
-              <MenuItem value={"access"}>Acessos</MenuItem>
+              <MenuItem value={"access"}>Access</MenuItem>
             </Select>
           </FormControl>
 
@@ -141,7 +139,7 @@ export default function FilterBox({ show, onFilter, filterFields }: FilterBoxPro
                     }}
                   >
                     <Typography sx={{ color: theme.colors.text }}>
-                      Crescente
+                      Ascendent
                     </Typography>
                   </ToggleButton>
                   <ToggleButton
@@ -155,7 +153,7 @@ export default function FilterBox({ show, onFilter, filterFields }: FilterBoxPro
                     }}
                   >
                     <Typography sx={{ color: theme.colors.text }}>
-                      Decresente
+                      Descendent
                     </Typography>
                   </ToggleButton>
                 </ToggleButtonGroup>
@@ -171,8 +169,9 @@ export default function FilterBox({ show, onFilter, filterFields }: FilterBoxPro
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   views={["year"]}
+                  maxDate={dayjs()}
                   value={dayjs(`${value}-01-01`)}
-                  label="A partir de"
+                  label="Since of"
                   onYearChange={(date: any) => {
                     console.log(date.$y);
                     onChange(date.$y);

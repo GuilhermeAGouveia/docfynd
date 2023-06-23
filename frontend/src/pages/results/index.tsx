@@ -29,7 +29,7 @@ export default function ResutlsPage() {
   const [searchSection, setSearchSection] = useState(0);
   const [filter, setFilter] = useState<FilterFields>({
     sortBy: "relevance",
-    orderBy: "asc",
+    orderBy: "desc",
     sinceYear: 1902,
   });
 
