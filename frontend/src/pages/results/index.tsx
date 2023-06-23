@@ -17,6 +17,7 @@ import { motion } from "framer-motion";
 import FavoriteResult from "@/components/FavoriteList";
 import SectionController from "@/components/SectionController";
 import { FilterFields } from "@/libs/interfaces";
+import EasterEgg from "@/components/EasterEgg";
 
 export default function ResutlsPage() {
   const router = useRouter();
@@ -143,15 +144,25 @@ export default function ResutlsPage() {
           </ToggleButton>
         )}
       </SelectAndFilterBox>
-      <FilterBox show={!activeFilter} onFilter={onFilter} filterFields={filter} />
-      <ResultsBox
-        style={{
-          padding: isMobileView ? "0 5px" : "0 10rem",
-          width: isMobileView ? "100%" : "70%",
-        }}
-      >
-        <SectionController section={searchSection} search={search as string} filterFields={filter}/>
-      </ResultsBox>
+      <FilterBox
+        show={!activeFilter}
+        onFilter={onFilter}
+        filterFields={filter}
+      />
+      <EasterEgg search={search as string}>
+        <ResultsBox
+          style={{
+            padding: isMobileView ? "0 5px" : "0 10rem",
+            width: isMobileView ? "100%" : "70%",
+          }}
+        >
+          <SectionController  
+            section={searchSection}
+            search={search as string}
+            filterFields={filter}
+          />
+        </ResultsBox>
+      </EasterEgg>
     </ResultPageRoot>
   );
 }
