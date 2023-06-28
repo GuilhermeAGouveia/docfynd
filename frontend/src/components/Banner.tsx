@@ -42,12 +42,11 @@ export default function Banner({ message }: BannerProps) {
         <InfoIcon />
       </Icon>
       <Typography
+        variant="body2"
         sx={{
-            position: "relative",
+   
           color: theme?.colors.text_secondary,
-          margin: "auto 0",
-          display: "flex",
-          alignItems: "center",
+
           
         }}
       >
@@ -96,7 +95,7 @@ const BannerBox = styled.div`
   border-radius: 5px;
   padding: 10px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 20px;
   margin: 10px 0;
