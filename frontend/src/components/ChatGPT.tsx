@@ -7,13 +7,15 @@ import styled, { CSSProperties } from "styled-components";
 import ModelTrainingIcon from "@mui/icons-material/ModelTraining";
 import Result from "./Result";
 import { Result as IResult } from "@/libs/interfaces";
+import Banner, { Message } from "./Banner";
 
 interface ChatGPTPros {
   search: string;
   style: CSSProperties;
+  info?: Message;
 }
 
-export default function ChatGPT({ search, style }: ChatGPTPros) {
+export default function ChatGPT({ search, style, info }: ChatGPTPros) {
   const { theme } = useTheme();
   const [completion, setCompletion] = useState("");
   const [results, setResults] = useState<IResult[]>([]);
@@ -42,17 +44,17 @@ export default function ChatGPT({ search, style }: ChatGPTPros) {
   useEffect(() => {
     const fetchCompletion = async () => {
       try {
-      const response = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: `Tell me what you know about: ${search}`,
-        temperature: 0.9,
-        max_tokens: 200,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0.6,
-      });
-      console.log(completion);
-      setCompletion(response.data.choices[0].text);
+        const response = await openai.createCompletion({
+          model: "text-davinci-003",
+          prompt: `Tell me what you know about: ${search}`,
+          temperature: 0.9,
+          max_tokens: 200,
+          top_p: 1,
+          frequency_penalty: 0,
+          presence_penalty: 0.6,
+        });
+        console.log(completion);
+        setCompletion(response.data.choices[0].text);
       } catch (error) {
         setCompletion("Não foi possível completar a pesquisa.");
         console.log(error);
@@ -89,7 +91,6 @@ export default function ChatGPT({ search, style }: ChatGPTPros) {
       } catch (error) {
         console.log(error);
       }
-
     }
   }, [search]);
 
@@ -99,6 +100,7 @@ export default function ChatGPT({ search, style }: ChatGPTPros) {
         ...style,
       }}
     >
+      {info && <Banner message={info} />}
       <MetaInfoChatGPT>
         <Tooltip title="Modelo">
           <Chip
@@ -148,7 +150,7 @@ export default function ChatGPT({ search, style }: ChatGPTPros) {
           {completion}
         </Typography>
       </TextBox>
-      
+
       <List
         style={{
           padding: "10px 0",

@@ -8,6 +8,8 @@ import styled from "styled-components";
 import { searchWithPage } from "@/libs/result";
 import { useTheme } from "@/context/Theme";
 import ResultListSkeleton from "./ResultListSkeleton";
+import Banner from "./Banner";
+import { info } from "console";
 
 export default function PageButtonList({
   search,
@@ -17,6 +19,7 @@ export default function PageButtonList({
   isLoadingInitialData,
   getMorePages,
   style,
+  info,
   id,
 }: ListComponent) {
   const { theme } = useTheme();
@@ -65,6 +68,7 @@ export default function PageButtonList({
           {page.total} resultados em aproximadamente {page.took} segundos
         </MetadataSearchContainer>
       )}
+      {info && <Banner message={info} />}
       {isLoadingItems ? (
         // <LoadingCentralContainer>
         //   <CircularProgress

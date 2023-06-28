@@ -1,3 +1,4 @@
+import { Message } from "@/components/Banner";
 import { Search } from "@/context/Search";
 
 export interface Keyword {
@@ -22,6 +23,7 @@ export interface ListComponent {
   style?: React.CSSProperties;
   search: string;
   isLoadingInitialData: boolean;
+  info?: Message;
   cardComponent: React.FC<any>;
   filterValues?: FilterFields;
   orderByOptions?: any;

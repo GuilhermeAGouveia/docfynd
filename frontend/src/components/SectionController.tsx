@@ -22,13 +22,21 @@ export default function SectionController({
 
   const [height, setHeight] = useState(0);
 
+  const chatGptMessage = {
+    "ptBr": "Infelizmente, o limite de uso gratuito da API da OpenAI para o modelo GPT é pequeno, para não atingir esse limite rapidamente, essa funcionalidade está temporariamente suspensa e será reativada durante a apresentação do trabalho.",
+    "enUs": "Unfortunately, the limit of free use of the OpenAI API for the GPT model is small, in order not to reach this limit quickly, this functionality is temporarily suspended and will be reactivated during the presentation of the work."
+  }
+
+  const searchOnMathMessage = {
+    "ptBr": "A integração com o SearchOnMath está em andamento. Esperamos poder contar com seus resultados aqui em breve. Os resultados exibidos abaixo são fictícios, para fins de avaliação de UI/UX.",
+    "enUs": "Integration with SearchOnMath is in progress. We hope to be able to count on your results here soon. The results displayed below are fictitious, for the purpose of UI/UX evaluation."
+  }
+
   useEffect(() => {
     setHeight(
       document?.getElementById(sectionsTranslate[section])?.offsetHeight || 100
     );
   }, [section]);
-
-
 
   return (
     <SectionControllerRoot
@@ -60,6 +68,7 @@ export default function SectionController({
         id="searchonmath"
         getMorePages={searchOnSearchOnMath}
         search={search}
+        info={searchOnMathMessage}
         isLoadingInitialData={false}
         cardComponent={Result}
         style={{
@@ -73,6 +82,7 @@ export default function SectionController({
 
       <ChatGPT
         search={search}
+        info={chatGptMessage}
         style={{
           position: "relative",
           left: 0,

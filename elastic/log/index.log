@@ -1,1 +1,1 @@
-{"error":{"root_cause":[{"type":"resource_already_exists_exception","reason":"index [wikipedia/8o6SHi-vTiawsPi_YkSTMg] already exists","index_uuid":"8o6SHi-vTiawsPi_YkSTMg","index":"wikipedia"}],"type":"resource_already_exists_exception","reason":"index [wikipedia/8o6SHi-vTiawsPi_YkSTMg] already exists","index_uuid":"8o6SHi-vTiawsPi_YkSTMg","index":"wikipedia"},"status":400}
+{"acknowledged":true,"shards_acknowledged":true,"index":"wikipedia"}
