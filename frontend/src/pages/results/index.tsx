@@ -18,6 +18,7 @@ import FavoriteResult from "@/components/FavoriteList";
 import SectionController from "@/components/SectionController";
 import { FilterFields } from "@/libs/interfaces";
 import EasterEgg from "@/components/EasterEgg";
+import EasterEggsBanner from "@/components/EasterEggsBanner";
 
 export default function ResutlsPage() {
   const router = useRouter();
@@ -162,6 +163,7 @@ export default function ResutlsPage() {
             filterFields={filter}
           />
         </ResultsBox>
+        <EasterEggsBanner search={search as string} />
       </EasterEgg>
     </ResultPageRoot>
   );

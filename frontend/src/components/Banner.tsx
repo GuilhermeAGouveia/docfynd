@@ -39,15 +39,16 @@ export default function Banner({ message }: BannerProps) {
       }}
     >
       <Icon>
-        <InfoIcon />
+        <InfoIcon
+          sx={{
+            color: theme?.colors.text,
+          }}
+        />
       </Icon>
       <Typography
         variant="body2"
         sx={{
-   
           color: theme?.colors.text_secondary,
-
-          
         }}
       >
         {message[language]}
@@ -60,6 +61,7 @@ export default function Banner({ message }: BannerProps) {
       >
         <ToggleButton
           value="enUs"
+          size="small"
           aria-label="module"
           sx={{
             "&.Mui-selected": {
@@ -72,6 +74,7 @@ export default function Banner({ message }: BannerProps) {
           EN
         </ToggleButton>
         <ToggleButton
+          size="small"
           value="ptBr"
           aria-label="list"
           sx={{

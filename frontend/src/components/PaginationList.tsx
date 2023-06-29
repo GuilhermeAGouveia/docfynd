@@ -57,6 +57,7 @@ export default function PageButtonList({
 
   return (
     <ListContainer isMobile={isMobileView} style={style} id={id}>
+      {info && <Banner message={info} />}
       {!isLoadingItems && page.data.length > 0 && (
         <MetadataSearchContainer
           variant="caption"
@@ -68,7 +69,7 @@ export default function PageButtonList({
           {page.total} resultados em aproximadamente {page.took} segundos
         </MetadataSearchContainer>
       )}
-      {info && <Banner message={info} />}
+
       {isLoadingItems ? (
         // <LoadingCentralContainer>
         //   <CircularProgress

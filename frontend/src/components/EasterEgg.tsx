@@ -53,4 +53,6 @@ export default function EasterEgg({
 
 const EasterEggBox = styled(motion.div)`
   position: relative;
+  display: flex;
+  align-items: flex-start;
 `;
