@@ -8,10 +8,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 export type EasterEggsI = "skew" | "rotate" | "tremelique";
 
-
-
-export default function EasterEggsBanner({search}: {search: string}) {
-
+export default function EasterEggsBanner({ search }: { search: string }) {
   const { onSearch } = useSearch();
   const { theme } = useTheme();
 
@@ -21,14 +18,20 @@ export default function EasterEggsBanner({search}: {search: string}) {
 
   const renderEasterEggButton = (easterEggI: EasterEggsI) => (
     <Chip
+      key={easterEggI}
       label={easterEggI}
       onClick={() => handleEasterEgg(easterEggI)}
-      icon={easterEggI === search ? <CheckCircleIcon sx={{color: "#CF39E8"}}/> : <AdjustIcon />}
+      icon={
+        easterEggI === search ? (
+          <CheckCircleIcon sx={{ color: "#CF39E8" }} />
+        ) : (
+          <AdjustIcon />
+        )
+      }
       variant={easterEggI === search ? "outlined" : "filled"}
       sx={{
         color: theme?.colors.text_secondary,
         backgroundColor: theme?.colors.bg_secondary,
-        
       }}
     />
   );
