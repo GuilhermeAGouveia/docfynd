@@ -7,6 +7,7 @@ import {
   motion,
 } from "framer-motion";
 import styled from "styled-components";
+import DigitalSnow from "./DigitalSnow";
 
 export default function EasterEgg({
   children,
@@ -28,27 +29,35 @@ export default function EasterEgg({
       marginTop: 80,
       transition: {
         delay: 2,
-      }
+      },
     },
     rotate: {
       rotate: 360,
       transition: {
-        duration: 5 ,
+        duration: 5,
         delay: 2,
       },
     },
     tremelique: {
-        x: [0, 50, -50, 50, -50, 0],
-        transition: {
-            duration: 1,
-            delay: 2,
-            stiffness: 100,
-            damping: 10,
-            repeat: 3,
-        },
-    }
+      x: [0, 50, -50, 50, -50, 0],
+      transition: {
+        duration: 1,
+        delay: 2,
+        stiffness: 100,
+        damping: 10,
+        repeat: 3,
+      },
+    },
   };
-  return <EasterEggBox animate={effects[search]}>{children}</EasterEggBox>;
+
+  const ComponentEffects = {
+    snow: <DigitalSnow />,
+  };
+  return (
+    <EasterEggBox animate={effects[search]}>
+      {children} {ComponentEffects[search as keyof typeof ComponentEffects]}
+    </EasterEggBox>
+  );
 }
 
 const EasterEggBox = styled(motion.div)`

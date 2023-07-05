@@ -6,7 +6,7 @@ import styled from "styled-components";
 import AdjustIcon from "@mui/icons-material/Adjust";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-export type EasterEggsI = "skew" | "rotate" | "tremelique";
+export type EasterEggsI = "skew" | "rotate" | "tremelique" | "snow";
 
 export default function EasterEggsBanner({ search }: { search: string }) {
   const { onSearch } = useSearch();
@@ -49,6 +49,7 @@ export default function EasterEggsBanner({ search }: { search: string }) {
       {renderEasterEggButton("skew")}
       {renderEasterEggButton("rotate")}
       {renderEasterEggButton("tremelique")}
+      {renderEasterEggButton("snow")}
     </EasterEggsBannerBox>
   );
 }
