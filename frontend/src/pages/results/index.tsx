@@ -157,13 +157,13 @@ export default function ResutlsPage() {
             width: isMobileView ? "100%" : "70%",
           }}
         >
-          <SectionController  
+          <SectionController
             section={searchSection}
             search={search as string}
             filterFields={filter}
           />
         </ResultsBox>
-        <EasterEggsBanner search={search as string} />
+        {!isMobileView && <EasterEggsBanner search={search as string} />}
       </EasterEgg>
     </ResultPageRoot>
   );
@@ -197,9 +197,12 @@ const SelectAndFilterBox = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
-const ResultsBox = styled(motion.div)`
+const ResultsBox = styled(motion.div)<{
+  isMobileView?: boolean;
+}>`
   position: relative;
   display: flex;
+  min-width: 70%;
   height: auto;
   align-items: flex-start;
   justify-content: flex-start;

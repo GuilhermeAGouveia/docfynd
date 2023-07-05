@@ -16,6 +16,7 @@ export default function ResultListSkeleton() {
         <Skeleton
           key={"ResultListSkeleton" + i}
           variant="rounded"
+          width={"100%"}
           height={220}
           sx={{
             margin: "10px",
