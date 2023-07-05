@@ -1,14 +1,12 @@
 import {
   AnimationControls,
-  CustomValueType,
-  MotionStyle,
   TargetAndTransition,
   VariantLabels,
   motion,
 } from "framer-motion";
 import styled from "styled-components";
 import DigitalSnow from "./DigitalSnow";
-
+import stemmer from "@stdlib/nlp-porter-stemmer";
 export default function EasterEgg({
   children,
   search,
@@ -16,48 +14,98 @@ export default function EasterEgg({
   children: React.ReactNode;
   search: string;
 }) {
-  const effects: {
-    [key: string]:
-      | boolean
-      | AnimationControls
-      | TargetAndTransition
-      | VariantLabels
-      | undefined;
-  } = {
-    skew: {
-      rotate: 5,
-      marginTop: 80,
-      transition: {
-        delay: 2,
-      },
-    },
-    rotate: {
-      rotate: 360,
-      transition: {
-        duration: 5,
-        delay: 2,
-      },
-    },
-    tremelique: {
-      x: [0, 50, -50, 50, -50, 0],
-      transition: {
-        duration: 1,
-        delay: 2,
-        stiffness: 100,
-        damping: 10,
-        repeat: 3,
-      },
-    },
-  };
+  console.log("search", search);
+  class Effects {
+    effects: {
+      [key: string]: {
+        type: "styles" | "component";
+        value:
+          | boolean
+          | AnimationControls
+          | TargetAndTransition
+          | VariantLabels
+          | React.ReactNode
+          | undefined;
+      };
+    };
+    constructor() {
+      this.effects = {};
+    }
+    setEffect(
+      key: string,
+      type: "styles" | "component",
+      value:
+        | boolean
+        | AnimationControls
+        | TargetAndTransition
+        | VariantLabels
+        | React.ReactNode
+        | undefined
+    ) {
+      this.effects[stemmer(key)] = {
+        type,
+        value,
+      };
+    }
 
-  const ComponentEffects = {
-    snow: <DigitalSnow />,
-  };
-  return (
-    <EasterEggBox animate={effects[search]}>
-      {children} {ComponentEffects[search as keyof typeof ComponentEffects]}
-    </EasterEggBox>
-  );
+    getEffect(key: string = "") {
+      let words = key.split(" ");
+      let easterEgg = words.find((word) => this.effects[stemmer(word)]);
+      console.log("easterEgg", easterEgg);
+      return this.effects[stemmer(easterEgg || "")];
+    }
+  }
+
+  const effects = new Effects();
+
+  effects.setEffect("skew", "styles", {
+    rotate: 5,
+    marginTop: 80,
+    transition: {
+      delay: 2,
+    },
+  });
+
+  effects.setEffect("rotate", "styles", {
+    rotate: 360,
+    transition: {
+      duration: 5,
+      delay: 2,
+    },
+  });
+
+  effects.setEffect("tremelique", "styles", {
+    x: [0, 50, -50, 50, -50, 0],
+    transition: {
+      duration: 1,
+      delay: 2,
+      stiffness: 100,
+      damping: 10,
+      repeat: 3,
+    },
+  });
+
+  effects.setEffect("snow", "component", <DigitalSnow />);
+
+  const effectValue = effects.getEffect(search as string);
+
+  switch (effectValue?.type) {
+    case "styles":
+      return (
+        <EasterEggBox animate={effectValue.value as any}>
+          {children}
+        </EasterEggBox>
+      );
+    case "component":
+      return (
+        <EasterEggBox>
+          {effectValue.value as React.ReactNode}
+          {children}
+        </EasterEggBox>
+      );
+    default:
+      return <>{children}</>;
+  }
 }
 
 const EasterEggBox = styled(motion.div)`

@@ -85,6 +85,7 @@ const DigitalSnowRoot = styled.div`
   position: fixed;
   width: 100%;
   top: -20px;
+  z-index: 999;
 `;
 
 const Snowflake = styled(motion.div)`
