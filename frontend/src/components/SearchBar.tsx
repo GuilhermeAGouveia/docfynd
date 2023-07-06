@@ -123,7 +123,7 @@ const SearchInputBar = styled(motion.div)<{
 }>`
   position: relative;
   width: ${(props) => (props.isresultpage ? "700px" : "600px")};
-  height: 45px;
+  height: 40px;
   border-radius: 25px;
   border: none;
   display: flex;

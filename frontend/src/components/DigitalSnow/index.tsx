@@ -30,20 +30,47 @@ export default function DigitalSnow({
 
   return (
     <DigitalSnowRoot>
-      {new Array(snowflakes).fill(0).map((e, index) => {
-        let width = randomInt(4, 7) + "px";
-        return (
-          <Snowflake
-            key={"snow" + index}
+      {new Array(Math.round(clientScreen.width / 20))
+        .fill(0)
+        .map((e, index) => {
+          let width = randomInt(4, 7) + "px";
+          return (
+            <Snowflake
+              key={"snow" + index}
+              style={{
+                top: "-20px",
+                left: randomInt(0, clientScreen.width) + "px",
+                background: `rgba(255,255,255,${randomInt(5, 10) / 10})`,
+                width: width,
+                height: width,
+              }}
+              animate={{
+                y: ["-20px", clientScreen.height + 70 + "px"],
+                transition: {
+                  duration: randomInt(5, 10),
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  ease: "linear",
+                  delay: randomInt(0, 10),
+                },
+              }}
+            />
+          );
+        })}
+      {new Array(Math.round(clientScreen.width / 50))
+        .fill(0)
+        .map((e, index) => (
+          <Floke
+            src={flock}
+            alt="flock"
+            key={"flock" + index}
             style={{
               top: "-20px",
               left: randomInt(0, clientScreen.width) + "px",
-              background: `rgba(255,255,255,${randomInt(5, 10) / 10})`,
-              width: width,
-              height: width,
             }}
             animate={{
               y: ["-20px", clientScreen.height + 70 + "px"],
+              rotate: [0, 360],
               transition: {
                 duration: randomInt(5, 10),
                 repeat: Infinity,
@@ -53,30 +80,7 @@ export default function DigitalSnow({
               },
             }}
           />
-        );
-      })}
-      {new Array(flakes).fill(0).map((e, index) => (
-        <Floke
-          src={flock}
-          alt="flock"
-          key={"flock" + index}
-          style={{
-            top: "-20px",
-            left: randomInt(0, clientScreen.width) + "px",
-          }}
-          animate={{
-            y: ["-20px", clientScreen.height + 70 + "px"],
-            rotate: [0, 360],
-            transition: {
-              duration: randomInt(5, 10),
-              repeat: Infinity,
-              repeatType: "loop",
-              ease: "linear",
-              delay: randomInt(0, 10),
-            },
-          }}
-        />
-      ))}
+        ))}
     </DigitalSnowRoot>
   );
 }
