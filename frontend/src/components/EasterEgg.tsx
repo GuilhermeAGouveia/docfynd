@@ -104,7 +104,7 @@ export default function EasterEgg({
         </EasterEggBox>
       );
     default:
-      return <>{children}</>;
+      return <EasterEggBox>{children}</EasterEggBox>;
   }
 }
 
