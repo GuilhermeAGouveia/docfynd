@@ -26,8 +26,6 @@ export default function DocCount({countDocs} : {countDocs: number}) {
 }
 
 const DocCountRoot = styled.div`
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    padding: 20px 50px;
+    position: relative;
+
 `;

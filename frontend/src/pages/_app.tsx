@@ -5,6 +5,9 @@ import GlobalStyle from "../styles/Global";
 import { SearchProvider } from "@/context/Search";
 import { ResultProvider } from "@/context/FavoriteResult";
 import Head from "next/head";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -13,13 +16,15 @@ function MyApp({ Component, pageProps }: AppProps) {
         <title>Docfynd</title>
       </Head>
       <GlobalStyle />
-      <ResultProvider>
-        <SearchProvider>
-          <ThemeProvider>
-            <Component {...pageProps} />
-          </ThemeProvider>
-        </SearchProvider>
-      </ResultProvider>
+      <QueryClientProvider client={queryClient}>
+        <ResultProvider>
+          <SearchProvider>
+            <ThemeProvider>
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </SearchProvider>
+        </ResultProvider>
+      </QueryClientProvider>
     </>
   );
 }
