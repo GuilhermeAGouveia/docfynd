@@ -10,7 +10,7 @@ import useDeviceDetect from "@/hook/useDetectDevice";
 
 const fetchWeather = async (lat: number, lon: number) => {
   const response = await axios.get(
-    `http://api.weatherapi.com/v1/current.json?key=fa2bb82c0e784e8ebed192112231307&q=${lat},${lon}&aqi=no`
+    `https://api.weatherapi.com/v1/current.json?key=fa2bb82c0e784e8ebed192112231307&q=${lat},${lon}&aqi=no`
   );
 
   return response.data;
