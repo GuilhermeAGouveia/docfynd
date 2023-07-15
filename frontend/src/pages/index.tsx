@@ -1,9 +1,8 @@
 import DocCount from "@/components/DocCount";
 import LuckyBox from "@/components/ImLucky";
 import SearchBox from "@/components/SearchBox";
-import ToogleTheme from "@/components/ToogleTheme";
 import TopBar from "@/components/TopBar";
-import Weather from "@/components/Weather";
+import Weather from "@/components/Weather/Weather";
 import { useSearch } from "@/context/Search";
 import { useTheme } from "@/context/Theme";
 import useDeviceDetect from "@/hook/useDetectDevice";

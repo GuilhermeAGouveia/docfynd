@@ -1,30 +1,27 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import Image from "next/image";
-import LoadingWrapper from "./LoadingWrapper";
+import LoadingWrapper from "../LoadingWrapper";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Typography } from "@mui/material";
 import { useTheme } from "@/context/Theme";
 import useDeviceDetect from "@/hook/useDetectDevice";
+import WeatherLottieHandler from "./WeatherImageHandler";
 
 const fetchWeather = async (lat: number, lon: number) => {
   const response = await axios.get(
-    `https://api.weatherapi.com/v1/current.json?key=fa2bb82c0e784e8ebed192112231307&q=${lat},${lon}&aqi=no`
+    `https://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_API_KEY}&q=${lat},${lon}&aqi=no`
   );
 
   return response.data;
 };
 
 export default function Weather() {
-  const queryClient = useQueryClient();
-
-  const { isMobileView } = useDeviceDetect();
 
   const [coords, setCoords] = useState({ lat: 0, lon: 0 });
   const { theme } = useTheme();
 
-  const { data, isLoading } = useQuery(["weather1", coords], () =>
+  const { data, isLoading } = useQuery(["weather", coords], () =>
     fetchWeather(coords.lat, coords.lon)
   );
   console.log("data", data);
@@ -37,12 +34,6 @@ export default function Weather() {
       });
     });
   }, []);
-
-  useEffect(() => {
-    return () => {
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
-    };
-  }, []);
   return (
     <WeatherRoot>
       <LoadingWrapper
@@ -53,12 +44,13 @@ export default function Weather() {
           borderRadius: 1,
         }}
       >
-        <WeatherRoot style={{ flexDirection: "row", gap: 10 }}>
-          <img
-            src={data?.current?.condition.icon}
-            alt="clima"
-            width={50}
-            height={50}
+        <WeatherRoot
+          style={{ flexDirection: "row", gap: 10, overflow: "visible" }}
+        >
+          <WeatherLottieHandler
+            weatherCode={data?.current?.condition?.code}
+            optionalImg={data?.current?.condition?.icon}
+            isDay={!!data?.current?.is_day}
           />
           <Typography
             sx={{
