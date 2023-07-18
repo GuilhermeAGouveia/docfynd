@@ -49,7 +49,7 @@ export function SearchProvider({ children }: any) {
     if (!searchWord) searchWord = search;
 
     addSearch(searchWord);
-    console.log(searchWord);
+     (searchWord);
     router.push({
       pathname: "/results",
       query: { search: searchWord.query },

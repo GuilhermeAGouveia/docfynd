@@ -175,7 +175,7 @@ export default function FilterBox({ show, onFilter, filterFields }: FilterBoxPro
                   value={dayjs(`${value}-01-01`)}
                   label="Since of"
                   onYearChange={(date: any) => {
-                    console.log(date.$y);
+                     (date.$y);
                     onChange(date.$y);
                   }}
                   onChange={(date: any) => {

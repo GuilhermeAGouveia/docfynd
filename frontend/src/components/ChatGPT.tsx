@@ -53,11 +53,11 @@ export default function ChatGPT({ search, style, info }: ChatGPTPros) {
           frequency_penalty: 0,
           presence_penalty: 0.6,
         });
-        console.log(completion);
+         (completion);
         setCompletion(response.data.choices[0].text);
       } catch (error) {
         setCompletion("Não foi possível completar a pesquisa.");
-        console.log(error);
+         (error);
       }
     };
 
@@ -71,8 +71,8 @@ export default function ChatGPT({ search, style, info }: ChatGPTPros) {
         frequency_penalty: 0,
         presence_penalty: 0.6,
       });
-      console.log(response.data.choices[0]);
-      console.log(JSON.parse(response.data.choices[0].text));
+       (response.data.choices[0]);
+       (JSON.parse(response.data.choices[0].text));
       try {
         setResults(
           adapterChatGptResultToResult(
@@ -80,7 +80,7 @@ export default function ChatGPT({ search, style, info }: ChatGPTPros) {
           )
         );
       } catch (error) {
-        console.log(error);
+         (error);
       }
     };
 
@@ -89,7 +89,7 @@ export default function ChatGPT({ search, style, info }: ChatGPTPros) {
         fetchCompletion();
         fetchResults();
       } catch (error) {
-        console.log(error);
+         (error);
       }
     }
   }, [search]);

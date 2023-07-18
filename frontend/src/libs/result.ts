@@ -82,7 +82,7 @@ export async function searchOnSearchOnMath(
         },
       }
     );
-    console.log(pageData);
+     (pageData);
     return {
       data: pageData.result
         .filter((resultSoM) => !resultSoM.blur)
@@ -100,7 +100,7 @@ export async function searchOnSearchOnMath(
       took: pageData.searchTime,
     };
   } catch (e) {
-    console.log(e);
+     (e);
     // return {
     //   data: [],
     //   total: 0,

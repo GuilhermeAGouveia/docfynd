@@ -24,7 +24,7 @@ export default function Weather() {
   const { data, isLoading } = useQuery(["weather", coords], () =>
     fetchWeather(coords.lat, coords.lon)
   );
-  console.log("data", data);
+   ("data", data);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {

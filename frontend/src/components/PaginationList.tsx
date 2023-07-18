@@ -9,56 +9,34 @@ import { searchWithPage } from "@/libs/result";
 import { useTheme } from "@/context/Theme";
 import ResultListSkeleton from "./ResultListSkeleton";
 import Banner from "./Banner";
-import { info } from "console";
+import { useQuery } from "@tanstack/react-query";
 
 export default function PageButtonList({
   search,
   cardComponent: CardComponent,
   filterValues,
-  orderByOptions,
-  isLoadingInitialData,
   getMorePages,
   style,
   info,
   id,
 }: ListComponent) {
   const { theme } = useTheme();
-  const [isLoadingItems, setIsLoadingItems] = useState(isLoadingInitialData);
   const [pageNumber, setPageNumber] = useState(1);
-  const [page, setPage] = useState<Page<Result>>({
-    data: [],
-    total: 0,
-    hasNext: false,
-    took: 0,
-  });
 
-  const { isMobileView } = useDeviceDetect();
-  const onChangePage = useCallback(
-    async function (page: number) {
-      setPageNumber(page);
-      setPage({
-        data: [],
-        total: 0,
-        hasNext: false,
-        took: 0,
-      });
-      document.getElementById("listRoot")?.scrollTo(0, 0);
-      setIsLoadingItems(true);
-      const res = await getMorePages(search, page, filterValues);
-      setPage(res);
-      setIsLoadingItems(false);
-    },
-    [search, filterValues]
+  const { data: page, isLoading } = useQuery(
+    ["search", search, pageNumber, filterValues],
+    () => getMorePages(search, pageNumber, filterValues)
   );
 
   useEffect(() => {
-    if (search) onChangePage(1);
-  }, [search, filterValues]);
+    window.scrollTo(0, 0);
+  }, [page]);
+  const { isMobileView } = useDeviceDetect();
 
   return (
     <ListContainer isMobile={isMobileView} style={style} id={id}>
       {info && <Banner message={info} />}
-      {!isLoadingItems && page.data.length > 0 && (
+      {!isLoading && (page?.data.length || 0) > 0 && (
         <MetadataSearchContainer
           variant="caption"
           color={theme?.colors.text_secondary}
@@ -66,18 +44,11 @@ export default function PageButtonList({
             padding: isMobileView ? "0 10px" : "0",
           }}
         >
-          {page.total} resultados em aproximadamente {page.took} segundos
+          {page?.total} resultados em aproximadamente {page?.took} segundos
         </MetadataSearchContainer>
       )}
 
-      {isLoadingItems ? (
-        // <LoadingCentralContainer>
-        //   <CircularProgress
-        //     sx={{
-        //       color: theme?.colors.primary,
-        //     }}
-        //   />
-        // </LoadingCentralContainer>
+      {isLoading ? (
         <ResultListSkeleton />
       ) : (
         <List
@@ -85,17 +56,17 @@ export default function PageButtonList({
             padding: "10px 0",
           }}
         >
-          {page.data.map((imovel) => (
+          {page?.data.map((imovel) => (
             <CardComponent key={imovel.url} result={imovel} />
           ))}
-          {page.data.length === 0 && (
+          {page?.data.length === 0 && !isLoading && (
             <NoResultContainer variant="body1" color={theme?.colors.text}>
               Nenhum resultado encontrado {":("}
             </NoResultContainer>
           )}
         </List>
       )}
-      {!!page.data.length && (
+      {!!page?.data.length && (
         <PageCentralContainer>
           <Pagination
             sx={{
@@ -111,8 +82,8 @@ export default function PageButtonList({
                 color: theme?.colors.text,
               },
             }}
-            count={Math.ceil(page.total / 10)}
-            onChange={(e, page) => onChangePage(page)}
+            count={Math.ceil(page?.total / 10)}
+            onChange={(e, page) => setPageNumber(page)}
             style={{
               margin: "20px 0",
             }}
