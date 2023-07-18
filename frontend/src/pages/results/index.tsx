@@ -23,7 +23,6 @@ import EasterEggsBanner from "@/components/EasterEggsBanner";
 export default function ResutlsPage() {
   const router = useRouter();
   const { search } = router.query;
-   ("sear", search);
   const { theme, toogleSectionTheme } = useTheme();
   const { isMobileView } = useDeviceDetect();
 
