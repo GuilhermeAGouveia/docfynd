@@ -14,7 +14,6 @@ export default function EasterEgg({
   children: React.ReactNode;
   search: string;
 }) {
-   ("search", search);
   class Effects {
     effects: {
       [key: string]: {
@@ -51,7 +50,6 @@ export default function EasterEgg({
     getEffect(key: string = "") {
       let words = key.split(" ");
       let easterEgg = words.find((word) => this.effects[stemmer(word)]);
-       ("easterEgg", easterEgg);
       return this.effects[stemmer(easterEgg || "")];
     }
   }

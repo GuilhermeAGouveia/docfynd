@@ -71,7 +71,6 @@ export default function ChatGPT({ search, style, info }: ChatGPTPros) {
         frequency_penalty: 0,
         presence_penalty: 0.6,
       });
-       (response.data.choices[0]);
        (JSON.parse(response.data.choices[0].text));
       try {
         setResults(
