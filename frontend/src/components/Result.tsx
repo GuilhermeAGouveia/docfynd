@@ -50,7 +50,7 @@ export default function Result({ result }: ResultProps) {
             ? theme?.colors.bg_secondary
             : theme?.colors.bg,
           outline: mouseOver
-            ? "1px solid rgba(0, 0, 0, 0.5)"
+            ? "1px solid " + theme?.colors.section.primary
             : "1px solid rgba(0, 0, 0, 0)",
           outlineOffset: mouseOver ? "5px" : "0px",
           transition: {

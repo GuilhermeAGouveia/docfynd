@@ -82,7 +82,6 @@ export default function SectionController({
 
       <ChatGPT
         search={search}
-        info={chatGptMessage}
         style={{
           position: "relative",
           left: 0,

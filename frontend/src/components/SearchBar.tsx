@@ -66,6 +66,9 @@ export default function SearchBar({
               boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
             }
       }
+      style={{
+        backgroundColor: theme?.colors.bg_secondary,
+      }}
       isresultpage={isResultPage}
     >
       <motion.svg

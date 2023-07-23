@@ -54,8 +54,8 @@ const themes = {
   },
   dark: {
     colors: {
-      bg: "#292929",
-      bg_secondary: "#1f1f1f",
+      bg: "#202020",
+      bg_secondary: "#242424",
       text: "#fff",
       text_secondary: "#cacaca",
       primary: "#CF39E8",
