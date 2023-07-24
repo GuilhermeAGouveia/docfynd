@@ -81,7 +81,7 @@ export default function ResutlsPage() {
           buttons={[
             {
               content: {
-                label: "Todos",
+                label: "Wikipedia",
               },
               onClick: (num) => {
                 setSearchSection(num);
